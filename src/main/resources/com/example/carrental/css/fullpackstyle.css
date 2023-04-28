@@ -1,0 +1,72 @@
+.linear-grad {
+    -fx-background-color: linear-gradient(to bottom left, #B2DFDB, #00897B);
+}
+
+.button1 {
+
+    /*-fx-text-fill: #FFFFFF;*/
+}
+
+.button1:hover {
+    -fx-text-fill: #B2DFDB;
+}
+
+.button1:pressed {
+    -fx-text-fill: #E0F2F1;
+}
+
+
+.button2 {
+    -fx-background-color: #26A69A;
+    -fx-background-radius: 5;
+    -fx-border-color: #26A69A;
+    -fx-border-radius: 5;
+}
+
+.button2:hover {
+    -fx-background-color: #80CBC4;
+}
+
+.button2:pressed {
+    -fx-background-color: #80CBC4;
+    -fx-border-radius: 20;
+}
+
+.car-card {
+    -fx-background-radius: 20;
+    -fx-background-color: #E0F2F1;
+
+}
+
+.car-card-name {
+    -fx-background-color: #80CBC4;
+    -fx-background-radius: 20;
+
+}
+.tab-pane {
+    -fx-background-color: white;
+    -fx-tab-min-height: 32;
+}
+
+.tab-pane .tab-header-area {
+    -fx-background-color: #34495e;
+    -fx-background-radius: 4 4 0 0;
+}
+
+.tab-pane .tab-header-area .tab:selected {
+    -fx-background-color: white;
+    -fx-text-fill: #34495e;
+}
+
+.tab-pane .tab-header-area .tab {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #34495e transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab-header-area .tab:hover {
+    -fx-background-color: #4a69bd;
+}
