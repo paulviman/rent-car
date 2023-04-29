@@ -131,7 +131,7 @@
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="332.0">
                                  <children>
                                     <CardPane fx:id="cardPane" layoutY="48.0" prefHeight="495.0" prefWidth="738.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
-                                    <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="495.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <ToolBar prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <items>
                                           <TextField fx:id="searchTextFieldCar" />
                                         <Button fx:id="btnCarSearch" mnemonicParsing="false" onAction="#actionBtnCarSearch" text="Search" />
@@ -316,10 +316,10 @@
                                  <children>
                                     <Label layoutX="113.0" layoutY="82.0" prefHeight="114.0" prefWidth="265.0" style="-fx-background-color: #ffff;" text="Clients" />
                                     <CardPane fx:id="cardPaneClients" layoutY="48.0" prefHeight="497.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-                                    <ToolBar layoutX="2.0" layoutY="-5.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.bottomAnchor="495.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <ToolBar layoutX="2.0" layoutY="-5.0" maxHeight="25.0" minHeight="50.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <items>
                                           <TextField fx:id="searchClient" />
-                                        <Button fx:id="btnSearchClient" mnemonicParsing="false" prefHeight="42.0" prefWidth="48.0" text="Search" />
+                                        <Button fx:id="btnSearchClient" mnemonicParsing="false" text="Search" />
                                           <ComboBox fx:id="filter1" onAction="#actionFilter" prefWidth="150.0" promptText="Filter..." />
                                       </items>
                                     </ToolBar>
