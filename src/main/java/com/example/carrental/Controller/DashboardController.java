@@ -8,12 +8,15 @@ import com.example.carrental.Model.User;
 import com.example.carrental.Services.DatabaseService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import com.gluonhq.charm.glisten.control.CardPane;
 import javafx.stage.Stage;
@@ -21,10 +24,7 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class DashboardController {
     User user = new User();
@@ -100,12 +100,76 @@ public class DashboardController {
     private ComboBox filter1;
     @FXML
     private CardPane cardPaneRent;
+    @FXML
+    private TextField searchTextFieldCar1;
+    @FXML
+    private Button btnCarSearch1;
+    @FXML
+    private ComboBox filter2;
+    @FXML
+    private BorderPane paneCarRent;
+    @FXML
+    private BorderPane paneDateRent;
+    @FXML
+    private DatePicker pickUpDateLabel;
+    @FXML
+    private DatePicker returnDateLabel;
+    @FXML
+    private TextField pickUpAddressLabel;
+    @FXML
+    private TextField returnAddressLabel;
+    @FXML
+    private Button btnNextToSelectCar;
+    @FXML
+    private BorderPane paneClientRent;
+    @FXML
+    private Button btnBackToSelectCar;
+    @FXML
+    private Button btnSaveRent;
+    @FXML
+    private TableView carTabelForSelect;
+    @FXML
+    private CardPane paneCardCarSelected;
 
 
     @FXML
     public void initialize() {
         panelDashboard.toFront();
+
+        cars = cardController.populateListCarFromDB();
+
+        setTableCarsForRent();
+
         filter.getItems().addAll("Price Ascending", "Price Descending", "Transmission manual");
+    }
+
+    public void setTableCarsForRent() {
+        TableColumn<Car, String> brandCol = new TableColumn<>("Brand");
+        brandCol.setCellValueFactory(new PropertyValueFactory<>("brand"));
+
+        TableColumn<Car, String> modelCol = new TableColumn<>("Model");
+        modelCol.setCellValueFactory(new PropertyValueFactory<>("model"));
+
+        TableColumn<Car, String> priceCol = new TableColumn<>("Price per day");
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("pricePerDay"));
+
+        TableColumn<Car, String> transCol = new TableColumn<>("Transmission");
+        transCol.setCellValueFactory(new PropertyValueFactory<>("transmission"));
+
+        TableColumn<Car, String> regCol = new TableColumn<>("Registration number");
+        regCol.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
+
+        TableColumn<Car, String> fuelCol = new TableColumn<>("Fuel Type");
+        fuelCol.setCellValueFactory(new PropertyValueFactory<>("fuelType"));
+
+        TableColumn<Car, String> seatCol = new TableColumn<>("Seats");
+        seatCol.setCellValueFactory(new PropertyValueFactory<>("seats"));
+
+        TableColumn<Car, String> yearCol = new TableColumn<>("Year");
+        yearCol.setCellValueFactory(new PropertyValueFactory<>("year"));
+
+
+        carTabelForSelect.getColumns().addAll(brandCol, modelCol, priceCol,transCol,regCol,fuelCol,seatCol,yearCol);
     }
 
     private void addListCarToCard(ArrayList<Car> carsDisplay) {
@@ -151,7 +215,7 @@ public class DashboardController {
 
     @FXML
     public void actionBtnCars(ActionEvent actionEvent) {
-        cars = cardController.populateListCarFromDB();
+
         addListCarToCard(cars);
 
         panelCars.toFront();
@@ -164,6 +228,7 @@ public class DashboardController {
         addListRentToCard(rents);
 
         panelRent.toFront();
+        paneDateRent.toFront();
     }
 
     @FXML
@@ -309,5 +374,46 @@ public class DashboardController {
         }
 
         addListClientToCard(searchResults);
+    }
+
+    Rent newRent = new Rent();
+
+    @Deprecated
+    public void actionBtnNextToSelectClient(ActionEvent actionEvent) {
+
+
+    }
+
+    @FXML
+    public void actionBtnNextToSelectCar(ActionEvent actionEvent) {
+
+        System.out.println(pickUpDateLabel.getValue());
+        newRent.setStartDateRent(pickUpDateLabel.getValue());
+        newRent.setEndDaterRent(returnDateLabel.getValue());
+        newRent.setPickUpAddress(pickUpAddressLabel.getText());
+        newRent.setReturnAddress(returnAddressLabel.getText());
+
+
+        carTabelForSelect.setItems(FXCollections.observableArrayList(cars));
+
+
+        paneCarRent.toFront();
+    }
+
+    @FXML
+    public void actionBtnBackToSelectCar(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void actionBtnSaveRent(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void onMouseClickedTabel(Event event) {
+        Car car = (Car) carTabelForSelect.getSelectionModel().getSelectedItem();
+        newRent.setCarId(car.getId());
+
+        Node cardNode = cardController.createCardNode(car);
+        paneCardCarSelected.getItems().add(cardNode);
     }
 }

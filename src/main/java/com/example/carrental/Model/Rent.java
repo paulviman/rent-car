@@ -1,13 +1,14 @@
 package com.example.carrental.Model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Rent {
     private int id;
     private int clientId;
     private int carId;
-    private Date startDateRent;
-    private Date endDaterRent;
+    private LocalDate startDateRent;
+    private LocalDate endDaterRent;
     private String pickUpAddress;
     private String returnAddress;
     private int totalPrice;
@@ -36,19 +37,19 @@ public class Rent {
         this.carId = carId;
     }
 
-    public Date getStartDateRent() {
+    public LocalDate getStartDateRent() {
         return startDateRent;
     }
 
-    public void setStartDateRent(Date startDateRent) {
+    public void setStartDateRent(LocalDate startDateRent) {
         this.startDateRent = startDateRent;
     }
 
-    public Date getEndDaterRent() {
+    public LocalDate getEndDaterRent() {
         return endDaterRent;
     }
 
-    public void setEndDaterRent(Date endDaterRent) {
+    public void setEndDaterRent(LocalDate endDaterRent) {
         this.endDaterRent = endDaterRent;
     }
 

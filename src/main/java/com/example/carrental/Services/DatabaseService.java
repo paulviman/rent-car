@@ -128,8 +128,8 @@ public class DatabaseService {
                 rent.setId(resultSet.getInt("id"));
                 rent.setClientId(resultSet.getInt("client_id"));
                 rent.setCarId(resultSet.getInt("car_id"));
-                rent.setStartDateRent(resultSet.getDate("start_date_rent"));
-                rent.setEndDaterRent(resultSet.getDate("end_date_rent"));
+                rent.setStartDateRent(resultSet.getDate("start_date_rent").toLocalDate());
+                rent.setEndDaterRent(resultSet.getDate("end_date_rent").toLocalDate());
                 rent.setPickUpAddress(resultSet.getString("pick_up_address"));
                 rent.setReturnAddress(resultSet.getString("return_address"));
                 rent.setTotalPrice(resultSet.getInt("total_price"));

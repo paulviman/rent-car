@@ -11,4 +11,5 @@ module com.example.carrental {
     exports com.example.carrental;
     exports com.example.carrental.Controller;
     opens com.example.carrental.Controller to javafx.fxml;
+    opens com.example.carrental.Model;
 }
