@@ -3,6 +3,7 @@ package com.example.carrental.Controller;
 import com.example.carrental.Main;
 import com.example.carrental.Model.Car;
 import com.example.carrental.Model.Client;
+import com.example.carrental.Model.Rent;
 import com.example.carrental.Model.User;
 import com.example.carrental.Services.DatabaseService;
 import javafx.collections.FXCollections;
@@ -46,9 +47,11 @@ public class DashboardController {
     @FXML
     private TabPane panelClients;
     ArrayList<Car> cars = new ArrayList<>();
+    ArrayList<Rent> rents = new ArrayList<>();
     ArrayList<Client> clients = new ArrayList<>();
     private CarCardController cardController = new CarCardController();
     private ClientController clientsController = new ClientController();
+    private RentController rentController = new RentController();
     @FXML
     private CardPane cardPane;
     @FXML
@@ -95,12 +98,14 @@ public class DashboardController {
     private Button btnSearchClient;
     @FXML
     private ComboBox filter1;
+    @FXML
+    private CardPane cardPaneRent;
 
 
     @FXML
     public void initialize() {
         panelDashboard.toFront();
-        filter.getItems().addAll("Price Ascending", "Price Descending","Transmission manual");
+        filter.getItems().addAll("Price Ascending", "Price Descending", "Transmission manual");
     }
 
     private void addListCarToCard(ArrayList<Car> carsDisplay) {
@@ -114,6 +119,15 @@ public class DashboardController {
             cardPane.getItems().add(cardNode);
         }
         // cardPane.getItems().add(cardContainer);
+    }
+
+    private void addListRentToCard(ArrayList<Rent> rentDisplay) {
+        cardPaneRent.getItems().clear();
+
+        for (Rent rent : rentDisplay) {
+            Node cardNode = rentController.createCardNode(rent);
+            cardPaneRent.getItems().add(cardNode);
+        }
     }
 
     private void addListClientToCard(ArrayList<Client> clientsDisplay) {
@@ -145,6 +159,10 @@ public class DashboardController {
 
     @FXML
     public void actionBtnRent(ActionEvent actionEvent) {
+
+        rents = rentController.populateListRentFromDB();
+        addListRentToCard(rents);
+
         panelRent.toFront();
     }
 
@@ -275,5 +293,21 @@ public class DashboardController {
         addClientName.setText(null);
         addClientEmail.setText(null);
         addClientPhone.setText(null);
+    }
+
+    @Deprecated
+    public void actionBtnSearchClient(ActionEvent actionEvent) {
+        String searchText = searchClient.getText().toLowerCase();
+
+        ArrayList<Client> searchResults = new ArrayList<>();
+
+        for (Client client : clients) {
+            if (client.getName().toLowerCase().contains(searchText) ||
+                    client.getEmail().toLowerCase().contains(searchText)) {
+                searchResults.add(client);
+            }
+        }
+
+        addListClientToCard(searchResults);
     }
 }

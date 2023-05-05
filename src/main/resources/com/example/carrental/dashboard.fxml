@@ -106,44 +106,26 @@
             <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <FlowPane fx:id="panelDashboard" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" />
-                  <TabPane fx:id="panelRent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab text="Untitled Tab 1">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="195.0" layoutY="129.0" prefHeight="124.0" prefWidth="162.0" text="Rent" />
-                                 </children>
-                              </AnchorPane>
-                        </content>
-                      </Tab>
-                      <Tab text="Untitled Tab 2">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </Tab>
-                    </tabs>
-                  </TabPane>
                   <TabPane fx:id="panelCars" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab text="Cars">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="332.0">
+                     <tabs>
+                        <Tab text="Cars">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="332.0">
                                  <children>
                                     <CardPane fx:id="cardPane" layoutY="48.0" prefHeight="495.0" prefWidth="738.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
                                     <ToolBar prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <items>
+                                       <items>
                                           <TextField fx:id="searchTextFieldCar" />
-                                        <Button fx:id="btnCarSearch" mnemonicParsing="false" onAction="#actionBtnCarSearch" text="Search" />
+                                          <Button fx:id="btnCarSearch" mnemonicParsing="false" onAction="#actionBtnCarSearch" text="Search" />
                                           <ComboBox fx:id="filter" onAction="#actionFilter" prefWidth="150.0" promptText="Filter..." />
-                                      </items>
+                                       </items>
                                     </ToolBar>
                                  </children></AnchorPane>
-                        </content>
-                      </Tab>
-                      <Tab text="Add Car">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           </content>
+                        </Tab>
+                        <Tab text="Add Car">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <VBox prefHeight="542.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
@@ -304,32 +286,31 @@
                                        </children>
                                     </VBox>
                                  </children></AnchorPane>
-                        </content>
-                      </Tab>
-                    </tabs>
+                           </content>
+                        </Tab>
+                     </tabs>
                   </TabPane>
                   <TabPane fx:id="panelClients" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab text="Clients">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <tabs>
+                        <Tab text="Clients">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <Label layoutX="113.0" layoutY="82.0" prefHeight="114.0" prefWidth="265.0" style="-fx-background-color: #ffff;" text="Clients" />
-                                    <CardPane fx:id="cardPaneClients" layoutY="48.0" prefHeight="497.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                                    <CardPane fx:id="cardPaneClients" layoutY="48.0" prefHeight="497.0" prefWidth="738.0" styleClass="card-pane" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
                                     <ToolBar layoutX="2.0" layoutY="-5.0" maxHeight="25.0" minHeight="50.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <items>
+                                       <items>
                                           <TextField fx:id="searchClient" />
-                                        <Button fx:id="btnSearchClient" mnemonicParsing="false" text="Search" />
+                                          <Button fx:id="btnSearchClient" mnemonicParsing="false" text="Search" />
                                           <ComboBox fx:id="filter1" onAction="#actionFilter" prefWidth="150.0" promptText="Filter..." />
-                                      </items>
+                                       </items>
                                     </ToolBar>
                                  </children>
                               </AnchorPane>
-                        </content>
-                      </Tab>
-                      <Tab text="Add Client">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           </content>
+                        </Tab>
+                        <Tab text="Add Client">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <VBox alignment="CENTER" layoutY="-2.0" prefHeight="395.0" prefWidth="738.0" spacing="25.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
@@ -369,9 +350,32 @@
                                        </children>
                                     </HBox>
                                  </children></AnchorPane>
-                        </content>
-                      </Tab>
-                    </tabs>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </TabPane>
+                  <TabPane fx:id="panelRent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" tabClosingPolicy="UNAVAILABLE">
+                     <tabs>
+                        <Tab text="Rents">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <CardPane fx:id="cardPaneRent" prefHeight="531.0" prefWidth="713.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
+                                    <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <Button mnemonicParsing="false" text="Button" />
+                                      </items>
+                                    </ToolBar>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Create new rent">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                        </Tab>
+                     </tabs>
                   </TabPane>
                </children>
             </StackPane>

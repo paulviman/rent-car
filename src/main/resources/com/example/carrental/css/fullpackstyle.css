@@ -70,3 +70,14 @@
 .tab-pane .tab-header-area .tab:hover {
     -fx-background-color: #4a69bd;
 }
+
+.card-pane{
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+    -fx-wrap-text: true;
+    -fx-wrap-alignment: CENTER;
+    -fx-pref-tile-width: 200;
+    -fx-pref-tile-height: 250;
+}
