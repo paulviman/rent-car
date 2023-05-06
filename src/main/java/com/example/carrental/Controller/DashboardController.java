@@ -22,8 +22,8 @@ import com.gluonhq.charm.glisten.control.CardPane;
 import javafx.stage.Stage;
 
 
-import javax.swing.*;
 import java.io.IOException;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class DashboardController {
@@ -101,12 +101,6 @@ public class DashboardController {
     @FXML
     private CardPane cardPaneRent;
     @FXML
-    private TextField searchTextFieldCar1;
-    @FXML
-    private Button btnCarSearch1;
-    @FXML
-    private ComboBox filter2;
-    @FXML
     private BorderPane paneCarRent;
     @FXML
     private BorderPane paneDateRent;
@@ -130,6 +124,18 @@ public class DashboardController {
     private TableView carTabelForSelect;
     @FXML
     private CardPane paneCardCarSelected;
+    @FXML
+    private Button btnBackToDetaileRent;
+    @FXML
+    private Button btnNextToSelectClient;
+    @FXML
+    private TableView clientTabelForSelect;
+    @FXML
+    private CardPane paneCardClientSelected;
+    @FXML
+    private TextField searchTextFieldClient;
+    @FXML
+    private Button btnClientSearch;
 
 
     @FXML
@@ -137,8 +143,13 @@ public class DashboardController {
         panelDashboard.toFront();
 
         cars = cardController.populateListCarFromDB();
+        clients = clientsController.populateListClientsFromDB();
+
+        carTabelForSelect.setItems(FXCollections.observableArrayList(cars));
+        clientTabelForSelect.setItems(FXCollections.observableArrayList(clients));
 
         setTableCarsForRent();
+        setTableClientsForRent();
 
         filter.getItems().addAll("Price Ascending", "Price Descending", "Transmission manual");
     }
@@ -169,7 +180,21 @@ public class DashboardController {
         yearCol.setCellValueFactory(new PropertyValueFactory<>("year"));
 
 
-        carTabelForSelect.getColumns().addAll(brandCol, modelCol, priceCol,transCol,regCol,fuelCol,seatCol,yearCol);
+        carTabelForSelect.getColumns().addAll(brandCol, modelCol, priceCol, transCol, regCol, fuelCol, seatCol, yearCol);
+    }
+
+    public void setTableClientsForRent() {
+        TableColumn<Client, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Client, String> emailCol = new TableColumn<>("Email");
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        TableColumn<Client, String> phoneCol = new TableColumn<>("Phone");
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+
+
+        clientTabelForSelect.getColumns().addAll(nameCol, emailCol, phoneCol);
     }
 
     private void addListCarToCard(ArrayList<Car> carsDisplay) {
@@ -233,7 +258,7 @@ public class DashboardController {
 
     @FXML
     public void actionBtnClients(ActionEvent actionEvent) {
-        clients = clientsController.populateListClientsFromDB();
+
         addListClientToCard(clients);
 
         panelClients.toFront();
@@ -378,42 +403,112 @@ public class DashboardController {
 
     Rent newRent = new Rent();
 
-    @Deprecated
-    public void actionBtnNextToSelectClient(ActionEvent actionEvent) {
-
-
-    }
+//    @Deprecated
+//    public void actionBtnNextToSelectClient(ActionEvent actionEvent) {
+//
+//
+//
+//    }
 
     @FXML
     public void actionBtnNextToSelectCar(ActionEvent actionEvent) {
 
+        //aici sa pun verificarile sa nu fie goale
         System.out.println(pickUpDateLabel.getValue());
-        newRent.setStartDateRent(pickUpDateLabel.getValue());
-        newRent.setEndDaterRent(returnDateLabel.getValue());
-        newRent.setPickUpAddress(pickUpAddressLabel.getText());
-        newRent.setReturnAddress(returnAddressLabel.getText());
+
+        if ((pickUpDateLabel.getValue() == null) || (returnDateLabel.getValue() == null)
+                || (pickUpAddressLabel.getText().isEmpty()) || (returnAddressLabel.getText().isEmpty())) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Eroare");
+            alert.setHeaderText("Campuri necompletate");
+            alert.setContentText("Va rog sa completati toate campurile inainte de a continua!");
+
+            alert.showAndWait();
+
+        } else {
+            System.out.println(pickUpDateLabel.getValue());
+            newRent.setStartDateRent(pickUpDateLabel.getValue());
+            newRent.setEndDaterRent(returnDateLabel.getValue());
+            newRent.setPickUpAddress(pickUpAddressLabel.getText());
+            newRent.setReturnAddress(returnAddressLabel.getText());
 
 
-        carTabelForSelect.setItems(FXCollections.observableArrayList(cars));
+            paneCarRent.toFront();
+        }
 
-
-        paneCarRent.toFront();
     }
 
     @FXML
     public void actionBtnBackToSelectCar(ActionEvent actionEvent) {
+        paneCarRent.toFront();
     }
 
     @FXML
     public void actionBtnSaveRent(ActionEvent actionEvent) {
+
+        databaseService.saveRent(newRent);
     }
+
+    Optional<Car> selectedCar;
+    Optional<Client> selectedClient;
 
     @FXML
     public void onMouseClickedTabel(Event event) {
-        Car car = (Car) carTabelForSelect.getSelectionModel().getSelectedItem();
-        newRent.setCarId(car.getId());
+        Node node = (Node) event.getSource();
+        System.out.println(node);
 
-        Node cardNode = cardController.createCardNode(car);
-        paneCardCarSelected.getItems().add(cardNode);
+
+        if (node.getId().equals(carTabelForSelect.getId())) {
+            System.out.println("am accesat tabelul maisni");
+            Car car = (Car) carTabelForSelect.getSelectionModel().getSelectedItem();
+            newRent.setCarId(car.getId());
+
+            selectedCar = cars.stream().filter(car1 -> car1.getId() == car.getId()).findFirst();
+
+            paneCardCarSelected.getItems().clear();
+            Node cardNode = cardController.createCardNode(car);
+            paneCardCarSelected.getItems().add(cardNode);
+        } else if (node.getId().equals(clientTabelForSelect.getId())) {
+
+            System.out.println("am accesat tabelul clientiiii");
+            Client client = (Client) clientTabelForSelect.getSelectionModel().getSelectedItem();
+            newRent.setClientId(client.getId());
+
+            selectedClient = clients.stream().filter(client1 -> client1.getId() == client.getId()).findFirst();
+
+            paneCardClientSelected.getItems().clear();
+            Node cardNode = clientsController.createCardClientNode(client);
+            paneCardClientSelected.getItems().add(cardNode);
+        }
+    }
+
+    @FXML
+    public void actionBtnBackToDetaileRent(ActionEvent actionEvent) {
+        selectedCar = null;
+        paneDateRent.toFront();
+    }
+
+    @FXML
+    public void actionBtnNextToSelectClient(ActionEvent actionEvent) {
+        if (selectedCar == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Eroare");
+            alert.setHeaderText("Nu ati selectat nicio masina");
+            alert.setContentText("Va rog sa selectati masina dorita inainte de a continua!");
+
+            alert.showAndWait();
+        } else {
+            System.out.println(selectedCar);
+//            //calculez cate zile este inchiriata masina
+//            long days = ChronoUnit.DAYS.between(newRent.getStartDateRent().toInstant(), newRent.getEndDaterRent().toInstant());
+//            //calculez pretul total pe zile
+//            long total_price = days * selectedCar.getPricePerDay();
+           paneClientRent.toFront();
+        }
+    }
+
+    @FXML
+    public void actionBtnClientSearch(ActionEvent actionEvent) {
     }
 }

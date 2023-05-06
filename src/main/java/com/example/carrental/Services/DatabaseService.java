@@ -7,6 +7,7 @@ import com.example.carrental.Model.Rent;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DatabaseService {
     final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
@@ -232,5 +233,40 @@ public class DatabaseService {
             throw new RuntimeException(e);
         }
         return car;
+    }
+
+    public boolean saveRent(Rent newRent) {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("insert into rent (client_id, car_id, start_date_rent, end_date_rent, pick_up_address, return_address, total_price)\n" +
+                    "values (?, ?, ?, ?, ?, ?, ?);");
+
+            statement.setInt(1, newRent.getClientId());
+            statement.setInt(2, newRent.getCarId());
+            statement.setDate(3, java.sql.Date.valueOf(newRent.getStartDateRent()));
+            statement.setDate(4, java.sql.Date.valueOf(newRent.getEndDaterRent()));
+            statement.setString(5, newRent.getPickUpAddress());
+            statement.setString(6, newRent.getReturnAddress());
+            statement.setInt(7, 7);
+
+
+            int rowInserted = statement.executeUpdate();
+            if (rowInserted > 0) {
+                System.out.println("Am adaugat cu succes rent");
+                return true;
+                // afiseaza mesaj de succes
+//                JOptionPane.showMessageDialog(addCarPanel, "The car has been added successfully!");
+//                dispose();
+            } else {
+                // afiseaza mesaj de eroare
+//                JOptionPane.showMessageDialog(addCarPanel, "Error adding the car to the database !");
+                System.out.println("Nu am putut adauga rent");
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
 }
