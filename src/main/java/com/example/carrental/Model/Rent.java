@@ -11,7 +11,7 @@ public class Rent {
     private LocalDate endDaterRent;
     private String pickUpAddress;
     private String returnAddress;
-    private int totalPrice;
+    private float totalPrice;
 
     public int getId() {
         return id;
@@ -69,7 +69,7 @@ public class Rent {
         this.returnAddress = returnAddress;
     }
 
-    public int getTotalPrice() {
+    public float getTotalPrice() {
         return totalPrice;
     }
 

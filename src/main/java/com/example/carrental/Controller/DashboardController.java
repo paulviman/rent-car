@@ -7,6 +7,7 @@ import com.example.carrental.Model.Rent;
 import com.example.carrental.Model.User;
 import com.example.carrental.Services.DatabaseService;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -133,9 +134,53 @@ public class DashboardController {
     @FXML
     private CardPane paneCardClientSelected;
     @FXML
-    private TextField searchTextFieldClient;
+    private TextField searchTextFieldCarForRent;
     @FXML
-    private Button btnClientSearch;
+    private Button btnCarSearchForRent;
+    @FXML
+    private Button btnClientSearchForRent;
+    @FXML
+    private TextField searchTextFieldClientForRent;
+    @FXML
+    private Button btnNextToSave;
+    @FXML
+    private Button btnBackToSelectClient;
+    @FXML
+    private BorderPane paneSaveRent;
+    @FXML
+    private Label startDateToSave;
+    @FXML
+    private Label returnDateToSave;
+    @FXML
+    private Label pickUpAddressToSave;
+    @FXML
+    private Label returnAddressToSave;
+    @FXML
+    private Label totalPriceToSave;
+    @FXML
+    private Label brandToSave;
+    @FXML
+    private Label modelToSave;
+    @FXML
+    private Label regNumbToSave;
+    @FXML
+    private Label yearToSave;
+    @FXML
+    private Label seatsToSave;
+    @FXML
+    private Label transmissionToSave;
+    @FXML
+    private Label fuelTypeToSave;
+    @FXML
+    private Label engineCapacityToSave;
+    @FXML
+    private Label pricePerDayToSave;
+    @FXML
+    private Label nameToSave;
+    @FXML
+    private Label emailToSave;
+    @FXML
+    private Label phoneToSave;
 
 
     @FXML
@@ -448,6 +493,14 @@ public class DashboardController {
     public void actionBtnSaveRent(ActionEvent actionEvent) {
 
         databaseService.saveRent(newRent);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Ok");
+        alert.setHeaderText("Inchirierea a fost salvata!");
+        alert.setContentText("Inchiriere efectuata cu succes");
+
+        alert.showAndWait();
+
     }
 
     Optional<Car> selectedCar;
@@ -504,11 +557,106 @@ public class DashboardController {
 //            long days = ChronoUnit.DAYS.between(newRent.getStartDateRent().toInstant(), newRent.getEndDaterRent().toInstant());
 //            //calculez pretul total pe zile
 //            long total_price = days * selectedCar.getPricePerDay();
-           paneClientRent.toFront();
+            paneClientRent.toFront();
         }
     }
 
     @FXML
-    public void actionBtnClientSearch(ActionEvent actionEvent) {
+    public void actionBtnCarSearchForRent(ActionEvent actionEvent) {
+
+        String searchText = searchTextFieldCarForRent.getText().toLowerCase();
+
+        ArrayList<Car> searchResults = new ArrayList<>();
+
+        for (Car car : cars) {
+            if (car.getBrand().toLowerCase().contains(searchText) ||
+                    car.getRegistrationNumber().toLowerCase().contains(searchText)) {
+                searchResults.add(car);
+            }
+        }
+        System.out.println("dimensiunea cautarilor:" + searchResults.size());
+
+        //addListCarToCard(searchResults);
+//        ObservableList<Car> observableSearchResults = FXCollections.observableArrayList(searchResults);
+//        carTabelForSelect.setItems(observableSearchResults);
+        carTabelForSelect.getItems().setAll(searchResults);
+        //setTableCarsForRent();
+    }
+
+    @FXML
+    public void actionBtnClientSearchForRent(ActionEvent actionEvent) {
+        String searchText = searchTextFieldClientForRent.getText().toLowerCase();
+
+        ArrayList<Client> searchResults = new ArrayList<>();
+
+        for (Client client : clients) {
+            if (client.getName().toLowerCase().contains(searchText) ||
+                    client.getEmail().toLowerCase().contains(searchText)) {
+                searchResults.add(client);
+            }
+        }
+        System.out.println("dimensiunea cautarilor:" + searchResults.size());
+
+        //addListCarToCard(searchResults);
+//        ObservableList<Car> observableSearchResults = FXCollections.observableArrayList(searchResults);
+//        carTabelForSelect.setItems(observableSearchResults);
+        clientTabelForSelect.getItems().setAll(searchResults);
+        //setTableCarsForRent();
+    }
+
+    @FXML
+    public void actionBtnNextToSave(ActionEvent actionEvent) {
+
+        setLabelsToSave();
+
+        paneSaveRent.toFront();
+    }
+
+    private void setLabelsToSave() {
+        Car carToSave = new Car();
+        Client clientToSave = new Client();
+        for (Car car : cars) {
+            if (car.getId() == newRent.getCarId()) {
+                carToSave = car;
+                break;
+            }
+        }
+        for (Client client : clients) {
+            if (client.getId() == newRent.getClientId()) {
+                clientToSave = client;
+                break;
+            }
+        }
+
+        //calculez cate zile este inchiriata masina
+        long days = ChronoUnit.DAYS.between(newRent.getStartDateRent(), newRent.getEndDaterRent());
+        //calculez pretul total pe zile
+        long total_price = days * carToSave.getPricePerDay();
+        newRent.setTotalPrice((int) total_price);
+
+        startDateToSave.setText(newRent.getStartDateRent().toString());
+        returnDateToSave.setText(newRent.getEndDaterRent().toString());
+        pickUpAddressToSave.setText(newRent.getPickUpAddress());
+        returnAddressToSave.setText(newRent.getReturnAddress());
+        totalPriceToSave.setText(String.valueOf(newRent.getTotalPrice()));
+
+        brandToSave.setText(carToSave.getBrand());
+        modelToSave.setText(carToSave.getModel());
+        regNumbToSave.setText(carToSave.getRegistrationNumber());
+        yearToSave.setText(String.valueOf(carToSave.getYear()));
+        seatsToSave.setText(String.valueOf(carToSave.getSeats()));
+        transmissionToSave.setText(carToSave.getTransmission());
+        fuelTypeToSave.setText(carToSave.getFuelType());
+        engineCapacityToSave.setText(String.valueOf(carToSave.getEngineCapacity()));
+        pricePerDayToSave.setText(String.valueOf(carToSave.getPricePerDay()));
+
+        nameToSave.setText(clientToSave.getName());
+        emailToSave.setText(clientToSave.getEmail());
+        phoneToSave.setText(String.valueOf(clientToSave.getPhone()));
+    }
+
+    @FXML
+    public void actionBtnBackToSelectClient(ActionEvent actionEvent) {
+        paneClientRent.toFront();
     }
 }
