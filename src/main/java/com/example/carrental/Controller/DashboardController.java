@@ -5,7 +5,9 @@ import com.example.carrental.Model.Car;
 import com.example.carrental.Model.Client;
 import com.example.carrental.Model.Rent;
 import com.example.carrental.Model.User;
+import com.example.carrental.Services.AlertService;
 import com.example.carrental.Services.DatabaseService;
+import com.example.carrental.Services.ValidationService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -181,6 +183,8 @@ public class DashboardController {
     private Label emailToSave;
     @FXML
     private Label phoneToSave;
+    AlertService alertService = new AlertService();
+    private ValidationService validationService = new ValidationService();
 
 
     @FXML
@@ -368,37 +372,91 @@ public class DashboardController {
     public void actionBtnAddCar(ActionEvent actionEvent) {
         Car car = new Car();
 
-        if (addCarBrand.getText().isEmpty() || addCarModel.getText().isEmpty() ||
-                addCarRegNumb.getText().isEmpty() || addCarYear.getText().isEmpty() ||
-                addCarPrice.getText().isEmpty() || addCarSeats.getText().isEmpty() ||
-                addCarTransmission.getText().isEmpty() || addCarFuelType.getText().isEmpty() ||
-                addCarEngineCapacity.getText().isEmpty()) {
+        String brand = addCarBrand.getText();
+        String model = addCarModel.getText();
+        String regNumb = addCarRegNumb.getText();
+        String year = addCarYear.getText();
+        String priceDay = addCarPrice.getText();
+        String seats = addCarSeats.getText();
+        String transmission = addCarTransmission.getText();
+        String fuelType = addCarFuelType.getText();
+        String engineCapacity = addCarEngineCapacity.getText();
 
-            //Fereastra cu mesaj de eroare
-
-//            JOptionPane.showMessageDialog(addCarPanel,
-//                    "Please enter all fields",
-//                    "Try again",
-//                    JOptionPane.ERROR_MESSAGE);
-
+        if (brand.isEmpty() || model.isEmpty() || regNumb.isEmpty() || year.isEmpty() ||
+                priceDay.isEmpty() || seats.isEmpty() || transmission.isEmpty() || fuelType.isEmpty() || engineCapacity.isEmpty()) {
+            alertService.newAlert("Eroare", "Completati toate campurile!");
             return;
         }
 
-        try {
-            int verific = Integer.parseInt(addCarYear.getText());
-            verific = Integer.parseInt(addCarPrice.getText());
-            verific = Integer.parseInt(addCarSeats.getText());
-            verific = Integer.parseInt(addCarEngineCapacity.getText());
-        } catch (NumberFormatException exception) {
-
-            //fereastra cu mesaj de eroare
-
-//            JOptionPane.showMessageDialog(addCarPanel,
-//                    "Please enter correct number fields for  YEAR, PRICE, SEATS, ENGINE CAPACITY!",
-//                    "Try again",
-//                    JOptionPane.ERROR_MESSAGE);
+        if (!validationService.brandValidation(brand)) {
+            alertService.newAlert("Eroare", "Brand invalid!\nTrebuie sa contina doar litere");
             return;
         }
+        if (!validationService.modelValidation(model)) {
+            alertService.newAlert("Eroare", "Model invalid!\nPoate sa contina doar litere si cifre");
+            return;
+        }
+        if (!validationService.regNumbValidation(regNumb)) {
+            alertService.newAlert("Eroare", "Numar de inmatriculare invalid!\nTrebuie sa fie de forma: MM111ABC");
+            return;
+        }
+        if (!validationService.yearValidation(year)) {
+            alertService.newAlert("Eroare", "An de fabricatie invalid!\nTrebuie sa fie de forma: 2000");
+            return;
+        }
+        if (!validationService.priceValidation(priceDay)) {
+            alertService.newAlert("Eroare", "Pret invalid!\nTrebuie contina doar cifre");
+            return;
+        }
+        if (!validationService.seatsValidation(seats)) {
+            alertService.newAlert("Eroare", "Numar de locuri invalid!\nTrebuie contina doar cifre");
+            return;
+        }
+        if (!validationService.transmissionValidation(transmission)) {
+            alertService.newAlert("Eroare", "Transmisie invalida!\nTrebuie contina doar litere");
+            return;
+        }
+        if (!validationService.fuelTypeValidation(fuelType)) {
+            alertService.newAlert("Eroare", "Tip combustibil invalid!\nTrebuie contina doar litere");
+            return;
+        }
+        if (!validationService.engineCapacityValidation(engineCapacity)) {
+            alertService.newAlert("Eroare", "Capacitate motorinvalida!\nTrebuie contina doar cifre sub forma:1.9");
+            return;
+        }
+
+
+//        if (addCarBrand.getText().isEmpty() || addCarModel.getText().isEmpty() ||
+//                addCarRegNumb.getText().isEmpty() || addCarYear.getText().isEmpty() ||
+//                addCarPrice.getText().isEmpty() || addCarSeats.getText().isEmpty() ||
+//                addCarTransmission.getText().isEmpty() || addCarFuelType.getText().isEmpty() ||
+//                addCarEngineCapacity.getText().isEmpty()) {
+//
+//            //Fereastra cu mesaj de eroare
+//
+////            JOptionPane.showMessageDialog(addCarPanel,
+////                    "Please enter all fields",
+////                    "Try again",
+////                    JOptionPane.ERROR_MESSAGE);
+//
+//            return;
+//        }
+//
+//        try {
+//            int verific = Integer.parseInt(addCarYear.getText());
+//            verific = Integer.parseInt(addCarPrice.getText());
+//            verific = Integer.parseInt(addCarSeats.getText());
+//            verific = Integer.parseInt(addCarEngineCapacity.getText());
+//        } catch (NumberFormatException exception) {
+//
+//            //fereastra cu mesaj de eroare
+//
+////            JOptionPane.showMessageDialog(addCarPanel,
+////                    "Please enter correct number fields for  YEAR, PRICE, SEATS, ENGINE CAPACITY!",
+////                    "Try again",
+////                    JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
 
         car.setBrand(addCarBrand.getText());
         car.setModel(addCarModel.getText());
@@ -409,9 +467,13 @@ public class DashboardController {
         car.setTransmission(addCarTransmission.getText());
         car.setFuelType(addCarFuelType.getText());
         car.setAvailable(true);
-        car.setEngineCapacity(Integer.valueOf(addCarEngineCapacity.getText()));
+        car.setEngineCapacity(Float.valueOf(addCarEngineCapacity.getText()));
 
-        databaseService.addCarToDatabase(car);
+        if (databaseService.addCarToDatabase(car)) {
+            alertService.newConfirmation("Reusit", "Ati adugat o masina cu succes!");
+        } else {
+            alertService.newAlert("Eroare", "Masina nu am putu fi adaugata!");
+        }
 
     }
 
@@ -419,11 +481,32 @@ public class DashboardController {
     public void actionBtnAddClient(ActionEvent actionEvent) {
         Client client = new Client();
 
+        String name = addClientName.getText();
+        String email = addClientEmail.getText();
+        String phone = addClientPhone.getText();
+
+        if (!validationService.nameValidation(name)) {
+            alertService.newAlert("Eroare", "Nume invalid!\nForma acceptata: Popescu Ion");
+            return;
+        }
+        if (!validationService.emailValidation(email)) {
+            alertService.newAlert("Eroare", "Email invalid!\nForma acceptata: example@gmail.com");
+            return;
+        }
+        if (!validationService.phoneValidation(phone)) {
+            alertService.newAlert("Eroare", "Telefon invalid!\nForma acceptata: 0712312312");
+            return;
+        }
+
         client.setName(addClientName.getText());
         client.setEmail(addClientEmail.getText());
         client.setPhone(Integer.parseInt(addClientPhone.getText()));
 
-        databaseService.addClientToDatabase(client);
+        if (databaseService.addClientToDatabase(client)) {
+            alertService.newConfirmation("Reusit", "Client adaugat cu succes!");
+        } else {
+            alertService.newAlert("Eroare", "Nu s-a putut aduga clientul!");
+        }
 
         addClientName.setText(null);
         addClientEmail.setText(null);

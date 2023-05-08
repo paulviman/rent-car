@@ -12,10 +12,7 @@ public class Car {
     private String transmission;
     private String fuelType;
     private boolean isAvailable;
-
-
-
-    private int engineCapacity;
+    private float engineCapacity;
 
     public Car(int id, String brand, String model, String registrationNumber, int year, int pricePerDay, int seats, String transmission, String fuelType, boolean isAvailable, int engineCapacity) {
         this.id = id;
@@ -115,11 +112,11 @@ public class Car {
     public void setAvailable(boolean available) {
         isAvailable = available;
     }
-    public int getEngineCapacity() {
+    public float getEngineCapacity() {
         return engineCapacity;
     }
 
-    public void setEngineCapacity(int engineCapacity) {
+    public void setEngineCapacity(float engineCapacity) {
         this.engineCapacity = engineCapacity;
     }
 }

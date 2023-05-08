@@ -3,6 +3,7 @@ package com.example.carrental.Services;
 import com.example.carrental.Model.Car;
 import com.example.carrental.Model.Client;
 import com.example.carrental.Model.Rent;
+import com.example.carrental.Model.User;
 
 import javax.swing.*;
 import java.sql.*;
@@ -53,7 +54,7 @@ public class DatabaseService {
         return cars;
     }
 
-    public Boolean addCarToDatabase(Car car) {
+    public boolean addCarToDatabase(Car car) {
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             PreparedStatement statement = connection.prepareStatement("insert into car (brand, model, registration_number, \"year\", price_day, seats, transmission, fuel_type, is_available, \"engine_capacity\")\n" +
@@ -68,7 +69,7 @@ public class DatabaseService {
             statement.setString(7, car.getTransmission());
             statement.setString(8, car.getFuelType());
             statement.setBoolean(9, car.isAvailable());
-            statement.setInt(10, car.getEngineCapacity());
+            statement.setFloat(10, car.getEngineCapacity());
 
             int rowInserted = statement.executeUpdate();
             if (rowInserted > 0) {
@@ -149,7 +150,7 @@ public class DatabaseService {
 
     }
 
-    public void addClientToDatabase(Client client) {
+    public boolean addClientToDatabase(Client client) {
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             PreparedStatement statement = connection.prepareStatement("insert into clients (name, email, phone)\n" +
@@ -162,7 +163,7 @@ public class DatabaseService {
             int rowInserted = statement.executeUpdate();
             if (rowInserted > 0) {
                 System.out.println("Am adaugat cu succes clientul");
-                //  return true;
+                return true;
                 // afiseaza mesaj de succes
 //                JOptionPane.showMessageDialog(addCarPanel, "The car has been added successfully!");
 //                dispose();
@@ -170,7 +171,7 @@ public class DatabaseService {
                 // afiseaza mesaj de eroare
 //                JOptionPane.showMessageDialog(addCarPanel, "Error adding the car to the database !");
                 System.out.println("Nu am putut adauga clientul");
-                //return false;
+                return false;
             }
 
         } catch (SQLException ex) {
@@ -268,5 +269,95 @@ public class DatabaseService {
             throw new RuntimeException(ex);
         }
 
+    }
+
+    public boolean getUserEmail(String email) {
+        User user = new User();
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users where email = ?");
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                user.setEmail(resultSet.getString("email"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (user.getEmail() == null) {
+            return false;
+        } else return user.getEmail().equals(email);
+    }
+
+    public User getAuthenticatedUserFromDB(String email, String password) {
+        User user1 = null;
+
+//        final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
+//        final String USERNAME = "postgres";
+//        final String PASSWORD = "postgres";
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?");
+            statement.setString(1, email);
+            statement.setString(2, password);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                user1 = new User();
+                user1.name = resultSet.getString("name");
+                user1.email = resultSet.getString("email");
+                user1.phone = resultSet.getString("phone");
+                user1.address = resultSet.getString("address");
+            }
+
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user1;
+    }
+
+    public User addUserToDB(String name, String email, String phone, String address, String password) {
+        User user = null;
+//        final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
+//        final String USERNAME = "postgres";
+//        final String PASSWORD = "postgres";
+
+        try {
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Connected to database successfully...
+
+            Statement stmt = conn.createStatement();
+            String sql = "INSERT INTO users (name, email, phone, address, password) " +
+                    "VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, email);
+            preparedStatement.setString(3, phone);
+            preparedStatement.setString(4, address);
+            preparedStatement.setString(5, password);
+
+            //Insert row into the table
+            int addedRows = preparedStatement.executeUpdate();
+            if (addedRows > 0) {
+                user = new User();
+                user.name = name;
+                user.email = email;
+                user.phone = phone;
+                user.address = address;
+                user.password = password;
+            }
+
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return user;
     }
 }
