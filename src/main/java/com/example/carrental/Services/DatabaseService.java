@@ -7,6 +7,7 @@ import com.example.carrental.Model.User;
 
 import javax.swing.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,6 +15,32 @@ public class DatabaseService {
     final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
     final String USERNAME = "postgres";
     final String PASSWORD = "postgres";
+
+    public void updateCarAvailability() {
+        LocalDate currentDate = LocalDate.now();
+
+        ArrayList<Rent> rents = this.getAllRent();
+        for (Rent rent : rents){
+            if(rent.getEndDaterRent().isBefore(currentDate)){
+                int carId = rent.getCarId();
+                this.setCarAvailability(carId,true);
+            }
+        }
+    }
+
+    private void setCarAvailability(int carId, boolean b) {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("UPDATE car SET is_available = ? WHERE id = ?");
+
+            statement.setBoolean(1, b);
+            statement.setInt(2, carId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
     public ArrayList getAllCars() {
         ArrayList cars = new ArrayList<Car>();
@@ -359,5 +386,43 @@ public class DatabaseService {
         }
 
         return user;
+    }
+
+    public ArrayList<Car> getAllCarsAvailable() {
+        ArrayList cars = new ArrayList<Car>();
+
+//        final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
+//        final String USERNAME = "postgres";
+//        final String PASSWORD = "postgres";
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM car where is_available = true order by brand ");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Car car = new Car();
+                car.setId(resultSet.getInt("id"));
+                car.setBrand(resultSet.getString("brand"));
+                car.setModel(resultSet.getString("model"));
+                car.setRegistrationNumber(resultSet.getString("registration_number"));
+                car.setYear(resultSet.getInt("year"));
+                car.setPricePerDay(resultSet.getInt("price_day"));
+                car.setSeats(resultSet.getInt("seats"));
+                car.setTransmission(resultSet.getString("transmission"));
+                car.setFuelType(resultSet.getString("fuel_type"));
+                car.setAvailable(resultSet.getBoolean("is_available"));
+                car.setEngineCapacity((resultSet.getInt("engine_capacity")));
+
+                cars.add(car);
+
+            }
+
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return cars;
     }
 }

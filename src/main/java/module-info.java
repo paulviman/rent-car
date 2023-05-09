@@ -5,6 +5,8 @@ module com.example.carrental {
     requires java.desktop;
     requires java.net.http;
     requires com.gluonhq.charm.glisten;
+    requires quartz;
+    requires org.slf4j;
 
 
     opens com.example.carrental to javafx.fxml;

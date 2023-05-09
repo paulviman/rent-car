@@ -185,16 +185,17 @@ public class DashboardController {
     private Label phoneToSave;
     AlertService alertService = new AlertService();
     private ValidationService validationService = new ValidationService();
-
+    ArrayList<Car> carsAvailable;
 
     @FXML
     public void initialize() {
         panelDashboard.toFront();
 
+        carsAvailable = databaseService.getAllCarsAvailable();
         cars = cardController.populateListCarFromDB();
         clients = clientsController.populateListClientsFromDB();
 
-        carTabelForSelect.setItems(FXCollections.observableArrayList(cars));
+        carTabelForSelect.setItems(FXCollections.observableArrayList(carsAvailable));
         clientTabelForSelect.setItems(FXCollections.observableArrayList(clients));
 
         setTableCarsForRent();
@@ -513,21 +514,10 @@ public class DashboardController {
         addClientPhone.setText(null);
     }
 
-    @Deprecated
-    public void actionBtnSearchClient(ActionEvent actionEvent) {
-        String searchText = searchClient.getText().toLowerCase();
-
-        ArrayList<Client> searchResults = new ArrayList<>();
-
-        for (Client client : clients) {
-            if (client.getName().toLowerCase().contains(searchText) ||
-                    client.getEmail().toLowerCase().contains(searchText)) {
-                searchResults.add(client);
-            }
-        }
-
-        addListClientToCard(searchResults);
-    }
+//    @Deprecated
+//    public void actionBtnSearchClient(ActionEvent actionEvent) {
+//
+//    }
 
     Rent newRent = new Rent();
 
@@ -547,23 +537,28 @@ public class DashboardController {
         if ((pickUpDateLabel.getValue() == null) || (returnDateLabel.getValue() == null)
                 || (pickUpAddressLabel.getText().isEmpty()) || (returnAddressLabel.getText().isEmpty())) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Eroare");
-            alert.setHeaderText("Campuri necompletate");
-            alert.setContentText("Va rog sa completati toate campurile inainte de a continua!");
+            alertService.newAlert("Eroare", "Va rog sa completati toate campurile inainte de a continua!");
+            return;
 
-            alert.showAndWait();
-
-        } else {
-            System.out.println(pickUpDateLabel.getValue());
-            newRent.setStartDateRent(pickUpDateLabel.getValue());
-            newRent.setEndDaterRent(returnDateLabel.getValue());
-            newRent.setPickUpAddress(pickUpAddressLabel.getText());
-            newRent.setReturnAddress(returnAddressLabel.getText());
-
-
-            paneCarRent.toFront();
         }
+        if (!validationService.dateValidation(pickUpDateLabel.getValue(), returnDateLabel.getValue())) {
+            alertService.newAlert("Eroare", "PickUpDate trebuie sa fie mai mare ca ziua curenta\nReturnDate trebuie sa fie mai mare ca PickUpDate");
+            return;
+        }
+        if(!validationService.addressValidation(pickUpAddressLabel.getText()) && !validationService.addressValidation(returnAddressLabel.getText())){
+            alertService.newAlert("Eroare","Adresa de ridicare sau predare invalida!");
+            return;
+        }
+
+        System.out.println(pickUpDateLabel.getValue());
+        newRent.setStartDateRent(pickUpDateLabel.getValue());
+        newRent.setEndDaterRent(returnDateLabel.getValue());
+        newRent.setPickUpAddress(pickUpAddressLabel.getText());
+        newRent.setReturnAddress(returnAddressLabel.getText());
+
+
+        paneCarRent.toFront();
+
 
     }
 
@@ -651,7 +646,7 @@ public class DashboardController {
 
         ArrayList<Car> searchResults = new ArrayList<>();
 
-        for (Car car : cars) {
+        for (Car car : carsAvailable) {
             if (car.getBrand().toLowerCase().contains(searchText) ||
                     car.getRegistrationNumber().toLowerCase().contains(searchText)) {
                 searchResults.add(car);
@@ -741,5 +736,22 @@ public class DashboardController {
     @FXML
     public void actionBtnBackToSelectClient(ActionEvent actionEvent) {
         paneClientRent.toFront();
+    }
+
+    @FXML
+    public void actionBtnSearchClient(ActionEvent actionEvent) {
+        String searchText = searchClient.getText().toLowerCase();
+
+        ArrayList<Client> searchResults = new ArrayList<>();
+
+        for (Client client : clients) {
+            if (client.getName().toLowerCase().contains(searchText) ||
+                    client.getEmail().toLowerCase().contains(searchText)) {
+                searchResults.add(client);
+            }
+        }
+
+        addListClientToCard(searchResults);
+
     }
 }

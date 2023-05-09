@@ -1,5 +1,6 @@
 package com.example.carrental.Services;
 
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,5 +88,16 @@ public class ValidationService {
         Pattern pattern = Pattern.compile("^[0-9]+([.][0-9]+)?$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(engineCapacity);
         return matcher.find();
+    }
+
+    public boolean dateValidation(LocalDate pickUpDate, LocalDate returnDate) {
+        LocalDate currentDate = LocalDate.now();
+        if(pickUpDate.isAfter(currentDate) && returnDate.isAfter(pickUpDate)){
+            System.out.println("date valide");
+            return true;
+        }else {
+            System.out.println("date invalide");
+            return false;
+        }
     }
 }
