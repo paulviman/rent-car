@@ -49,9 +49,9 @@ public class DashboardController {
     private TabPane panelRent;
     @FXML
     private TabPane panelClients;
-    ArrayList<Car> cars = new ArrayList<>();
-    ArrayList<Rent> rents = new ArrayList<>();
-    ArrayList<Client> clients = new ArrayList<>();
+    private static ArrayList<Car> cars = new ArrayList<>();
+    private static ArrayList<Rent> rents = new ArrayList<>();
+    private static ArrayList<Client> clients = new ArrayList<>();
     private CarCardController cardController = new CarCardController();
     private ClientController clientsController = new ClientController();
     private RentController rentController = new RentController();
@@ -99,8 +99,6 @@ public class DashboardController {
     private TextField searchClient;
     @FXML
     private Button btnSearchClient;
-    @FXML
-    private ComboBox filter1;
     @FXML
     private CardPane cardPaneRent;
     @FXML
@@ -186,6 +184,18 @@ public class DashboardController {
     AlertService alertService = new AlertService();
     private ValidationService validationService = new ValidationService();
     ArrayList<Car> carsAvailable;
+    @FXML
+    private TextField textFieldSearchRents;
+    @FXML
+    private Button btnSearchRents;
+    @FXML
+    private ComboBox filterFuelType;
+    @FXML
+    private ComboBox filterTransmission;
+    @FXML
+    private ComboBox filterAvailability;
+
+
 
     @FXML
     public void initialize() {
@@ -194,6 +204,7 @@ public class DashboardController {
         carsAvailable = databaseService.getAllCarsAvailable();
         cars = cardController.populateListCarFromDB();
         clients = clientsController.populateListClientsFromDB();
+        rents = rentController.populateListRentFromDB(cars, clients);
 
         carTabelForSelect.setItems(FXCollections.observableArrayList(carsAvailable));
         clientTabelForSelect.setItems(FXCollections.observableArrayList(clients));
@@ -201,7 +212,10 @@ public class DashboardController {
         setTableCarsForRent();
         setTableClientsForRent();
 
-        filter.getItems().addAll("Price Ascending", "Price Descending", "Transmission manual");
+        filterFuelType.getItems().addAll("Diesel", "Benzina", "Electric");
+        filter.getItems().addAll("Ascending", "Descending");
+        filterTransmission.getItems().addAll("Manual","Automat");
+        filterAvailability.getItems().addAll("Available","Not available");
     }
 
     public void setTableCarsForRent() {
@@ -299,7 +313,7 @@ public class DashboardController {
     @FXML
     public void actionBtnRent(ActionEvent actionEvent) {
 
-        rents = rentController.populateListRentFromDB();
+        rents = rentController.populateListRentFromDB(cars, clients);
         addListRentToCard(rents);
 
         panelRent.toFront();
@@ -347,27 +361,6 @@ public class DashboardController {
 
     }
 
-    @FXML
-    public void actionFilter(ActionEvent actionEvent) {
-        ArrayList carsFiltred = new ArrayList();
-
-        if (filter.getValue().equals("Price Ascending")) {
-            Collections.sort(cars, Comparator.comparing(Car::getPricePerDay));
-        } else if (filter.getValue().equals("Price Descending")) {
-            Collections.sort(cars, Comparator.comparing(Car::getPricePerDay).reversed());
-        } else if (filter.getValue().equals("Transmission manual")) {
-            //cardPane.getChildren().clear(); // sterge cardurile existente
-            for (Car car : cars) {
-                if (car.getTransmission().equals("manual")) {
-                    carsFiltred.add(car);
-//                    CarCardController card = addCa(car);
-//                    cardPane.getChildren().add(card);
-                }
-            }
-            addListCarToCard(carsFiltred);
-        }
-        addListCarToCard(cars);
-    }
 
     @FXML
     public void actionBtnAddCar(ActionEvent actionEvent) {
@@ -470,11 +463,19 @@ public class DashboardController {
         car.setAvailable(true);
         car.setEngineCapacity(Float.valueOf(addCarEngineCapacity.getText()));
 
-        if (databaseService.addCarToDatabase(car)) {
+        try {
+            databaseService.addCarToDatabase(car);
             alertService.newConfirmation("Reusit", "Ati adugat o masina cu succes!");
-        } else {
-            alertService.newAlert("Eroare", "Masina nu am putu fi adaugata!");
+        } catch (Exception e) {
+            //throw new RuntimeException(e);
+            alertService.newAlert("Eroare", "Masina nu am putut fi adaugata!\nNumar de inmatriculare exista deja in db");
         }
+
+//        if (databaseService.addCarToDatabase(car)) {
+//            alertService.newConfirmation("Reusit", "Ati adugat o masina cu succes!");
+//        } else {
+//            alertService.newAlert("Eroare", "Masina nu am putu fi adaugata!");
+//        }
 
     }
 
@@ -545,8 +546,8 @@ public class DashboardController {
             alertService.newAlert("Eroare", "PickUpDate trebuie sa fie mai mare ca ziua curenta\nReturnDate trebuie sa fie mai mare ca PickUpDate");
             return;
         }
-        if(!validationService.addressValidation(pickUpAddressLabel.getText()) && !validationService.addressValidation(returnAddressLabel.getText())){
-            alertService.newAlert("Eroare","Adresa de ridicare sau predare invalida!");
+        if (!validationService.addressValidation(pickUpAddressLabel.getText()) && !validationService.addressValidation(returnAddressLabel.getText())) {
+            alertService.newAlert("Eroare", "Adresa de ridicare sau predare invalida!");
             return;
         }
 
@@ -570,14 +571,17 @@ public class DashboardController {
     @FXML
     public void actionBtnSaveRent(ActionEvent actionEvent) {
 
+
         databaseService.saveRent(newRent);
+        databaseService.setCarAvailability(newRent.getCarId(), false);
+        alertService.newConfirmation("Inchirierea a fost salvata!", "Inchiriere efectuata cu succes");
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Ok");
-        alert.setHeaderText("Inchirierea a fost salvata!");
-        alert.setContentText("Inchiriere efectuata cu succes");
-
-        alert.showAndWait();
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Ok");
+//        alert.setHeaderText("Inchirierea a fost salvata!");
+//        alert.setContentText("Inchiriere efectuata cu succes");
+//
+//        alert.showAndWait();
 
     }
 
@@ -623,13 +627,16 @@ public class DashboardController {
     @FXML
     public void actionBtnNextToSelectClient(ActionEvent actionEvent) {
         if (selectedCar == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Eroare");
-            alert.setHeaderText("Nu ati selectat nicio masina");
-            alert.setContentText("Va rog sa selectati masina dorita inainte de a continua!");
-
-            alert.showAndWait();
+            alertService.newAlert("Nu ati selectat nicio masina", "Va rog sa selectati masina dorita inainte de a continua!");
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Eroare");
+//            alert.setHeaderText("Nu ati selectat nicio masina");
+//            alert.setContentText("Va rog sa selectati masina dorita inainte de a continua!");
+//
+//            alert.showAndWait();
         } else {
+            newRent.setRentCar(selectedCar.get());
+            System.out.println(newRent.getRentCar().getModel());
             System.out.println(selectedCar);
 //            //calculez cate zile este inchiriata masina
 //            long days = ChronoUnit.DAYS.between(newRent.getStartDateRent().toInstant(), newRent.getEndDaterRent().toInstant());
@@ -753,5 +760,106 @@ public class DashboardController {
 
         addListClientToCard(searchResults);
 
+    }
+
+    @FXML
+    public void actionBtnSearchRents(ActionEvent actionEvent) {
+        String searchText = textFieldSearchRents.getText().toLowerCase();
+
+        ArrayList<Rent> searchResults = new ArrayList<>();
+
+        for (Rent rent : rents) {
+            if (rent.getRentClient().getName().toLowerCase().contains(searchText) ||
+                    rent.getRentCar().getRegistrationNumber().toLowerCase().contains(searchText)) {
+                searchResults.add(rent);
+            }
+        }
+        System.out.println(searchResults);
+
+        addListRentToCard(searchResults);
+    }
+
+    @FXML
+    public void actionFilter(ActionEvent actionEvent) {
+        ArrayList carsFiltred = new ArrayList();
+
+        if (filter.getValue().equals("Ascending")) {
+            Collections.sort(cars, Comparator.comparing(Car::getPricePerDay));
+        } else if (filter.getValue().equals("Descending")) {
+            Collections.sort(cars, Comparator.comparing(Car::getPricePerDay).reversed());
+        }
+        addListCarToCard(cars);
+    }
+
+    @FXML
+    public void actionFilterFuelType(ActionEvent actionEvent) {
+        ArrayList carsFiltred = new ArrayList();
+
+        if (filterFuelType.getValue().equals("Diesel")) {
+            for (Car car : cars) {
+                if (car.getFuelType().equals("diesel")) {
+                    carsFiltred.add(car);
+                }
+            }
+
+        } else if (filterFuelType.getValue().equals("Benzina")) {
+            for (Car car : cars) {
+                if (car.getFuelType().equals("benzina")) {
+                    carsFiltred.add(car);
+                }
+            }
+
+        } else if (filterFuelType.getValue().equals("Electric")) {
+            for (Car car : cars) {
+                if (car.getFuelType().equals("electric")) {
+                    carsFiltred.add(car);
+                }
+            }
+        }
+        addListCarToCard(carsFiltred);
+        //filterFuelType.setValue("Fuel Type");
+    }
+
+    @FXML
+    public void actionFilterTransmission(ActionEvent actionEvent) {
+        ArrayList carsFiltred = new ArrayList();
+
+        if (filterTransmission.getValue().equals("Manual")) {
+            for (Car car : cars) {
+                if (car.getTransmission().equals("manual")) {
+                    carsFiltred.add(car);
+                }
+            }
+
+        } else if (filterTransmission.getValue().equals("Automat")) {
+            for (Car car : cars) {
+                if (car.getTransmission().equals("automat")) {
+                    carsFiltred.add(car);
+                }
+            }
+        }
+        addListCarToCard(carsFiltred);
+       // filterTransmission.setValue("Transmission");
+    }
+
+    @FXML
+    public void actionFilterAvailability(ActionEvent actionEvent) {
+        ArrayList carsFiltred = new ArrayList();
+
+        if (filterAvailability.getValue().equals("Available")) {
+            for (Car car : cars) {
+                if (car.isAvailable()) {
+                    carsFiltred.add(car);
+                }
+            }
+
+        } else if (filterAvailability.getValue().equals("Not available")) {
+            for (Car car : cars) {
+                if (!car.isAvailable()) {
+                    carsFiltred.add(car);
+                }
+            }
+        }
+        addListCarToCard(carsFiltred);
     }
 }

@@ -13,6 +13,25 @@ public class Rent {
     private String returnAddress;
     private float totalPrice;
 
+    private Car rentCar;
+    private Client rentClient;
+
+    public Client getRentClient() {
+        return rentClient;
+    }
+
+    public void setRentClient(Client client) {
+        this.rentClient = client;
+    }
+
+    public Car getRentCar() {
+        return rentCar;
+    }
+
+    public void setRentCar(Car car) {
+        this.rentCar = car;
+    }
+
     public int getId() {
         return id;
     }

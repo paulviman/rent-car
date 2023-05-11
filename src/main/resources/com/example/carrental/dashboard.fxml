@@ -109,6 +109,69 @@
             <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <FlowPane fx:id="panelDashboard" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" />
+                  <TabPane fx:id="panelClients" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
+                     <tabs>
+                        <Tab text="Clients">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <CardPane fx:id="cardPaneClients" layoutY="48.0" prefHeight="497.0" prefWidth="738.0" styleClass="card-pane" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                                    <ToolBar layoutX="2.0" layoutY="-5.0" maxHeight="25.0" minHeight="50.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <items>
+                                          <TextField fx:id="searchClient" />
+                                          <Button fx:id="btnSearchClient" mnemonicParsing="false" onAction="#actionBtnSearchClient" text="Search" />
+                                       </items>
+                                    </ToolBar>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Add Client">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox alignment="CENTER" layoutY="-2.0" prefHeight="395.0" prefWidth="738.0" spacing="25.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label text="Name">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="addClientName" alignment="CENTER" maxHeight="25.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="25.0" prefWidth="300.0" />
+                                          <Label text="Email">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="addClientEmail" alignment="CENTER" maxHeight="25.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="25.0" prefWidth="300.0" />
+                                          <Label text="Phone">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="addClientPhone" alignment="CENTER" maxHeight="25.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="25.0" prefWidth="300.0" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="50.0" left="150.0" right="150.0" top="50.0" />
+                                       </padding>
+                                    </VBox>
+                                    <HBox alignment="CENTER" layoutY="392.0" prefHeight="150.0" prefWidth="738.0" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="392.0">
+                                       <children>
+                                          <Button fx:id="btnAddClient" mnemonicParsing="false" onAction="#actionBtnAddClient" styleClass="button2" stylesheets="@css/fullpackstyle.css" text="Add Client">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </TabPane>
                   <TabPane fx:id="panelCars" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="Cars">
@@ -120,7 +183,10 @@
                                        <items>
                                           <TextField fx:id="searchTextFieldCar" />
                                           <Button fx:id="btnCarSearch" mnemonicParsing="false" onAction="#actionBtnCarSearch" text="Search" />
-                                          <ComboBox fx:id="filter" onAction="#actionFilter" prefWidth="150.0" promptText="Filter..." />
+                                          <ComboBox fx:id="filterAvailability" onAction="#actionFilterAvailability" prefWidth="150.0" promptText="Availability" />
+                                          <ComboBox fx:id="filter" onAction="#actionFilter" prefWidth="150.0" promptText="Price" />
+                                          <ComboBox fx:id="filterTransmission" onAction="#actionFilterTransmission" prefWidth="150.0" promptText="Transmission" />
+                                          <ComboBox fx:id="filterFuelType" onAction="#actionFilterFuelType" prefWidth="150.0" promptText="Fuel Type" />
                                        </items>
                                     </ToolBar>
                                  </children></AnchorPane>
@@ -302,7 +368,8 @@
                                     <CardPane fx:id="cardPaneRent" prefHeight="531.0" prefWidth="713.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
                                     <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <items>
-                                        <Button mnemonicParsing="false" text="Button" />
+                                          <TextField fx:id="textFieldSearchRents" />
+                                        <Button fx:id="btnSearchRents" mnemonicParsing="false" onAction="#actionBtnSearchRents" text="Search" />
                                       </items>
                                     </ToolBar>
                                  </children>
@@ -643,70 +710,6 @@
                                           </BorderPane>
                                        </children>
                                     </StackPane>
-                                 </children></AnchorPane>
-                           </content>
-                        </Tab>
-                     </tabs>
-                  </TabPane>
-                  <TabPane fx:id="panelClients" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
-                     <tabs>
-                        <Tab text="Clients">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <CardPane fx:id="cardPaneClients" layoutY="48.0" prefHeight="497.0" prefWidth="738.0" styleClass="card-pane" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-                                    <ToolBar layoutX="2.0" layoutY="-5.0" maxHeight="25.0" minHeight="50.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <items>
-                                          <TextField fx:id="searchClient" />
-                                          <Button fx:id="btnSearchClient" mnemonicParsing="false" onAction="#actionBtnSearchClient" text="Search" />
-                                          <ComboBox fx:id="filter1" onAction="#actionFilter" prefWidth="150.0" promptText="Filter..." />
-                                       </items>
-                                    </ToolBar>
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                        <Tab text="Add Client">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <VBox alignment="CENTER" layoutY="-2.0" prefHeight="395.0" prefWidth="738.0" spacing="25.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <Label text="Name">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="addClientName" alignment="CENTER" maxHeight="25.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="25.0" prefWidth="300.0" />
-                                          <Label text="Email">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="addClientEmail" alignment="CENTER" maxHeight="25.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="25.0" prefWidth="300.0" />
-                                          <Label text="Phone">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="addClientPhone" alignment="CENTER" maxHeight="25.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="25.0" prefWidth="300.0" />
-                                       </children>
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                       <padding>
-                                          <Insets bottom="50.0" left="150.0" right="150.0" top="50.0" />
-                                       </padding>
-                                    </VBox>
-                                    <HBox alignment="CENTER" layoutY="392.0" prefHeight="150.0" prefWidth="738.0" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="392.0">
-                                       <children>
-                                          <Button fx:id="btnAddClient" mnemonicParsing="false" onAction="#actionBtnAddClient" styleClass="button2" stylesheets="@css/fullpackstyle.css" text="Add Client">
-                                             <font>
-                                                <Font size="24.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                    </HBox>
                                  </children></AnchorPane>
                            </content>
                         </Tab>

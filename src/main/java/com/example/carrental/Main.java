@@ -35,7 +35,7 @@ public class Main extends Application {
             while (true) {
                 try {
                     LOGGER.info("Am inceput sa verific daca masinile sunt valide sau nu pt inchiriere");
-                    databaseService.updateCarAvailability(); // metoda care actualizează disponibilitatea mașinilor
+                    databaseService.updateCarAvailabilityDaily(); // metoda care actualizează disponibilitatea mașinilor
                     Thread.sleep(24 * 60 * 60 * 1000); // așteaptă 24 de ore (86400000 milisecunde) înainte de a actualiza din nou, in cazul in care aplicatia nu este inchisa
                     LOGGER.info("Finalizare verificare valabilitate masini");
                 } catch (InterruptedException e) {

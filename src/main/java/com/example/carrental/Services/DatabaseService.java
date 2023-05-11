@@ -1,5 +1,6 @@
 package com.example.carrental.Services;
 
+import com.example.carrental.Controller.DashboardController;
 import com.example.carrental.Model.Car;
 import com.example.carrental.Model.Client;
 import com.example.carrental.Model.Rent;
@@ -11,24 +12,27 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.example.carrental.Controller.DashboardController;
+
 public class DatabaseService {
     final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
     final String USERNAME = "postgres";
     final String PASSWORD = "postgres";
 
-    public void updateCarAvailability() {
+    public void updateCarAvailabilityDaily() {
         LocalDate currentDate = LocalDate.now();
+        System.out.println("Am actualizat tabela de masini");
 
-        ArrayList<Rent> rents = this.getAllRent();
-        for (Rent rent : rents){
-            if(rent.getEndDaterRent().isBefore(currentDate)){
+        ArrayList<Rent> rents = this.getAllRent(null, null);
+        for (Rent rent : rents) {
+            if (rent.getEndDaterRent().isBefore(currentDate)) {
                 int carId = rent.getCarId();
-                this.setCarAvailability(carId,true);
+                this.setCarAvailability(carId, true);
             }
         }
     }
 
-    private void setCarAvailability(int carId, boolean b) {
+    public void setCarAvailability(int carId, boolean b) {
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             PreparedStatement statement = connection.prepareStatement("UPDATE car SET is_available = ? WHERE id = ?");
@@ -36,6 +40,9 @@ public class DatabaseService {
             statement.setBoolean(1, b);
             statement.setInt(2, carId);
             statement.executeUpdate();
+
+            statement.close();
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -145,15 +152,15 @@ public class DatabaseService {
     }
 
 
-    public ArrayList getAllRent() {
+    public ArrayList getAllRent(ArrayList<Car> cars, ArrayList<Client> clients) {
         ArrayList rents = new ArrayList<>();
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM rent");
             ResultSet resultSet = statement.executeQuery();
-
+            Rent rent;
             while (resultSet.next()) {
-                Rent rent = new Rent();
+                rent = new Rent();
                 rent.setId(resultSet.getInt("id"));
                 rent.setClientId(resultSet.getInt("client_id"));
                 rent.setCarId(resultSet.getInt("car_id"));
@@ -162,6 +169,23 @@ public class DatabaseService {
                 rent.setPickUpAddress(resultSet.getString("pick_up_address"));
                 rent.setReturnAddress(resultSet.getString("return_address"));
                 rent.setTotalPrice(resultSet.getInt("total_price"));
+
+                if ((cars != null) && (clients != null)) {
+                    for (Car car : cars) {
+                        if (rent.getCarId() == car.getId()) {
+                            rent.setRentCar(car);
+                            System.out.println(rent.getRentCar().getRegistrationNumber() + car.getId());
+                            break;
+                        }
+                    }
+                    for (Client client : clients) {
+                        if (rent.getClientId() == client.getId()) {
+                            rent.setRentClient(client);
+                            System.out.println(rent.getRentClient().getName() + client.getId());
+                            break;
+                        }
+                    }
+                }
 
                 rents.add(rent);
 
@@ -275,7 +299,7 @@ public class DatabaseService {
             statement.setDate(4, java.sql.Date.valueOf(newRent.getEndDaterRent()));
             statement.setString(5, newRent.getPickUpAddress());
             statement.setString(6, newRent.getReturnAddress());
-            statement.setInt(7, 7);
+            statement.setInt(7, (int) newRent.getTotalPrice());
 
 
             int rowInserted = statement.executeUpdate();
@@ -425,4 +449,6 @@ public class DatabaseService {
         }
         return cars;
     }
+
+
 }

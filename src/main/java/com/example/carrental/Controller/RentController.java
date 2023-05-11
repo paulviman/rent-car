@@ -15,6 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import com.example.carrental.Services.DatabaseService;
+import javafx.scene.layout.Pane;
 
 public class RentController {
 
@@ -30,9 +31,13 @@ public class RentController {
     private Label rentPrice;
 
     DatabaseService databaseService = new DatabaseService();
+    @javafx.fxml.FXML
+    private Pane frontColorPane = new Pane();
+    @javafx.fxml.FXML
+    private Pane backColorPane = new Pane();
 
-    public ArrayList<Rent> populateListRentFromDB() {
-        return databaseService.getAllRent();
+    public ArrayList<Rent> populateListRentFromDB(ArrayList<Car> cars, ArrayList<Client> clients) {
+        return databaseService.getAllRent(cars, clients);
     }
 
 
@@ -40,6 +45,7 @@ public class RentController {
         //obtin datele dspre clinet si car facand un query in db
         Client client = databaseService.getClient(rent.getClientId());
         Car car = databaseService.getCar(rent.getCarId());
+        LocalDate currentDate = LocalDate.now();
         //calculez cate zile este inchiriata masina
         //long days = ChronoUnit.DAYS.between(rent.getStartDateRent().toInstant(), rent.getEndDaterRent().toInstant());
         //calculez pretul total pe zile
@@ -59,6 +65,13 @@ public class RentController {
             controller.rentCar.setText(car.getBrand() + " " + car.getModel());
             //controller.rentPrice.setText(String.valueOf(total_price));
             controller.rentPrice.setText(String.valueOf(rent.getTotalPrice()));
+            if (rent.getEndDaterRent().isBefore(currentDate)) {
+                controller.frontColorPane.setStyle("-fx-background-color: red;");
+                controller.backColorPane.setStyle("-fx-background-color: red;");
+            }
+//            controller.frontColorPane.setStyle("-fx-background-color:  80CBC4;");
+//            controller.backColorPane.setStyle("-fx-background-color:  #80CBC4;");
+
 
             return root;
         } catch (IOException e) {

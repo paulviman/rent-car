@@ -49,7 +49,7 @@ public class ValidationService {
     }
 
     public boolean regNumbValidation(String regNumb) {
-        Pattern pattern = Pattern.compile("^[A-Z]{2}[0-9]{3}[A-Z]{3}$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("^[A-Z]{2}[0-9]{2}[A-Z]{3}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(regNumb);
         return matcher.find();
     }
@@ -79,7 +79,7 @@ public class ValidationService {
     }
 
     public boolean fuelTypeValidation(String fuelType) {
-        Pattern pattern = Pattern.compile("^(disel|benzina|electric)$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("^(diesel|benzina|electric)$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(fuelType);
         return matcher.find();
     }
