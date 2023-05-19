@@ -182,7 +182,7 @@ public class DashboardController {
     @FXML
     private Label phoneToSave;
     AlertService alertService = new AlertService();
-    private ValidationService validationService = new ValidationService();
+    private final ValidationService validationService = new ValidationService();
     ArrayList<Car> carsAvailable;
     @FXML
     private TextField textFieldSearchRents;
@@ -194,7 +194,8 @@ public class DashboardController {
     private ComboBox filterTransmission;
     @FXML
     private ComboBox filterAvailability;
-
+    @FXML
+    private Tab tabRents;
 
 
     @FXML
@@ -214,8 +215,8 @@ public class DashboardController {
 
         filterFuelType.getItems().addAll("Diesel", "Benzina", "Electric");
         filter.getItems().addAll("Ascending", "Descending");
-        filterTransmission.getItems().addAll("Manual","Automat");
-        filterAvailability.getItems().addAll("Available","Not available");
+        filterTransmission.getItems().addAll("Manual", "Automat");
+        filterAvailability.getItems().addAll("Available", "Not available");
     }
 
     public void setTableCarsForRent() {
@@ -304,7 +305,7 @@ public class DashboardController {
 
     @FXML
     public void actionBtnCars(ActionEvent actionEvent) {
-
+        cars = cardController.populateListCarFromDB();
         addListCarToCard(cars);
 
         panelCars.toFront();
@@ -839,7 +840,7 @@ public class DashboardController {
             }
         }
         addListCarToCard(carsFiltred);
-       // filterTransmission.setValue("Transmission");
+        // filterTransmission.setValue("Transmission");
     }
 
     @FXML

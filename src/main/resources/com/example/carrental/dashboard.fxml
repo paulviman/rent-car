@@ -361,7 +361,7 @@
                   </TabPane>
                   <TabPane fx:id="panelRent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
-                        <Tab text="Rents">
+                        <Tab fx:id="tabRents" text="Rents">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

@@ -451,4 +451,68 @@ public class DatabaseService {
     }
 
 
+    public void deleteCar(int carId) {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM car WHERE id=?");
+
+            statement.setInt(1, carId);
+            int rowsDeleted = statement.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("Am sters masina cu id-ul " + carId);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean editCar(Car car) {
+        int rowsAffected;
+
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("UPDATE car SET brand = ?, model = ?, registration_number = ?, year = ?, price_day = ?, seats = ?, transmission = ?, fuel_type = ?, engine_capacity = ?, is_available = ? WHERE id = ?");
+
+            statement.setString(1, car.getBrand());
+            statement.setString(2, car.getModel());
+            statement.setString(3, car.getRegistrationNumber());
+            statement.setInt(4, car.getYear());
+            statement.setInt(5, car.getPricePerDay());
+            statement.setInt(6, car.getSeats());
+            statement.setString(7, car.getTransmission());
+            statement.setString(8, car.getFuelType());
+            statement.setFloat(9, car.getEngineCapacity());
+            statement.setBoolean(10, car.isAvailable());
+            statement.setInt(11, car.getId());
+
+            rowsAffected = statement.executeUpdate();
+
+
+//            if (rowInserted > 0) {
+//                System.out.println("Am adaugat cu succes");
+//
+//                // afiseaza mesaj de succes
+////                JOptionPane.showMessageDialog(addCarPanel, "The car has been added successfully!");
+////                dispose();
+//            } else {
+//                // afiseaza mesaj de eroare
+////                JOptionPane.showMessageDialog(addCarPanel, "Error adding the car to the database !");
+//                System.out.println("Nu am putut adauga masina");
+//
+//            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        if (rowsAffected > 0) {
+            System.out.println("Update realizat cu succes. Numarul de randuri afectate: " + rowsAffected);
+            return true;
+        } else {
+            System.out.println("Update esuat sau nu s-a modificat niciun rand.");
+            return false;
+        }
+    }
 }
