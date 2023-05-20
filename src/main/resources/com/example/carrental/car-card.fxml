@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carrental.Controller.CarCardController">
+<AnchorPane prefHeight="198.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carrental.Controller.CarCardController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="500.0" styleClass="car-card" stylesheets="@css/fullpackstyle.css">
+      <BorderPane prefHeight="200.0" prefWidth="784.0" styleClass="car-card" stylesheets="@css/fullpackstyle.css">
          <top>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="car-card-name" stylesheets="@css/fullpackstyle.css" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="659.0" styleClass="car-card-name" stylesheets="@css/fullpackstyle.css" BorderPane.alignment="CENTER">
                <children>
                   <Label fx:id="carBrand" prefHeight="37.0" prefWidth="77.0">
                      <font>
@@ -35,7 +35,7 @@
             </HBox>
          </top>
          <center>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="779.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>

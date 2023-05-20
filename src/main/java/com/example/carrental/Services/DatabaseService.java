@@ -28,7 +28,24 @@ public class DatabaseService {
             if (rent.getEndDaterRent().isBefore(currentDate)) {
                 int carId = rent.getCarId();
                 this.setCarAvailability(carId, true);
+               // setRentAvailability(rent.getId(),false);
             }
+        }
+    }
+
+    public void setRentAvailability(int id, boolean b) {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("UPDATE rent SET is_available = ? WHERE id = ?");
+
+            statement.setBoolean(1, b);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -169,6 +186,7 @@ public class DatabaseService {
                 rent.setPickUpAddress(resultSet.getString("pick_up_address"));
                 rent.setReturnAddress(resultSet.getString("return_address"));
                 rent.setTotalPrice(resultSet.getInt("total_price"));
+                rent.setAvailable(resultSet.getBoolean("is_available"));
 
                 if ((cars != null) && (clients != null)) {
                     for (Car car : cars) {
@@ -290,8 +308,8 @@ public class DatabaseService {
     public boolean saveRent(Rent newRent) {
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            PreparedStatement statement = connection.prepareStatement("insert into rent (client_id, car_id, start_date_rent, end_date_rent, pick_up_address, return_address, total_price)\n" +
-                    "values (?, ?, ?, ?, ?, ?, ?);");
+            PreparedStatement statement = connection.prepareStatement("insert into rent (client_id, car_id, start_date_rent, end_date_rent, pick_up_address, return_address, total_price,is_available)\n" +
+                    "values (?, ?, ?, ?, ?, ?, ?, ?);");
 
             statement.setInt(1, newRent.getClientId());
             statement.setInt(2, newRent.getCarId());
@@ -300,6 +318,7 @@ public class DatabaseService {
             statement.setString(5, newRent.getPickUpAddress());
             statement.setString(6, newRent.getReturnAddress());
             statement.setInt(7, (int) newRent.getTotalPrice());
+            statement.setBoolean(8,true);
 
 
             int rowInserted = statement.executeUpdate();

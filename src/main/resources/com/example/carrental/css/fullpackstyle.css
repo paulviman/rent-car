@@ -81,3 +81,10 @@
     -fx-pref-tile-width: 200;
     -fx-pref-tile-height: 250;
 }
+
+.rent-border-radius-left{
+    -fx-background-radius: 10 0 0 10;
+}
+.rent-border-radius-right{
+    -fx-background-radius: 0 10 10 0;
+}

@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import com.gluonhq.charm.glisten.control.CardPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
@@ -99,8 +100,6 @@ public class DashboardController {
     private TextField searchClient;
     @FXML
     private Button btnSearchClient;
-    @FXML
-    private CardPane cardPaneRent;
     @FXML
     private BorderPane paneCarRent;
     @FXML
@@ -196,6 +195,8 @@ public class DashboardController {
     private ComboBox filterAvailability;
     @FXML
     private Tab tabRents;
+    @FXML
+    private GridPane cardGridRent;
 
 
     @FXML
@@ -276,12 +277,18 @@ public class DashboardController {
     }
 
     private void addListRentToCard(ArrayList<Rent> rentDisplay) {
-        cardPaneRent.getItems().clear();
+       // cardPaneRent.getItems().clear();
+            cardGridRent.getChildren().clear();
+            int row = 1;
 
         for (Rent rent : rentDisplay) {
             Node cardNode = rentController.createCardNode(rent);
-            cardPaneRent.getItems().add(cardNode);
+            //cardPaneRent.getItems().add(cardNode);
+            cardGridRent.addRow(row, cardNode);
+            cardGridRent.setFillWidth(cardNode,true);
+            row++;
         }
+
     }
 
     private void addListClientToCard(ArrayList<Client> clientsDisplay) {

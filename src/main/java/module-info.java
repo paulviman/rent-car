@@ -7,6 +7,8 @@ module com.example.carrental {
     requires com.gluonhq.charm.glisten;
     requires quartz;
     requires org.slf4j;
+    requires kernel;
+    requires layout;
 
 
     opens com.example.carrental to javafx.fxml;

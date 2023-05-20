@@ -16,6 +16,20 @@ public class Rent {
     private Car rentCar;
     private Client rentClient;
 
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    private boolean isAvailable;
+
     public Client getRentClient() {
         return rentClient;
     }
