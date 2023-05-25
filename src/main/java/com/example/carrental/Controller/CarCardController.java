@@ -149,6 +149,14 @@ public class CarCardController {
         }
 
     }
+
+    @javafx.fxml.FXML
+    public void actionBtnEditCar(ActionEvent actionEvent) {
+    }
+
+    @javafx.fxml.FXML
+    public void actionBtnDeleteCar(ActionEvent actionEvent) {
+    }
 //        ArrayList cars = new ArrayList<Car>();
 //
 //

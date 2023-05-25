@@ -17,6 +17,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -197,6 +200,28 @@ public class DashboardController {
     private Tab tabRents;
     @FXML
     private GridPane cardGridRent;
+    @FXML
+    private PieChart pieChart;
+    int numberOfAvailableCars = 0;
+    int numberOfNotAvailableCars = 0;
+    @FXML
+    private LineChart lineChart;
+
+
+    private LinkedHashMap<String, Float> yearTotalIncome = new LinkedHashMap<>() {{
+        put("January", 0f);
+        put("February", 0f);
+        put("March", 0f);
+        put("April", 0f);
+        put("May", 0f);
+        put("June", 0f);
+        put("July", 0f);
+        put("August", 0f);
+        put("September", 0f);
+        put("October", 0f);
+        put("November", 0f);
+        put("December", 0f);
+    }};
 
 
     @FXML
@@ -207,6 +232,75 @@ public class DashboardController {
         cars = cardController.populateListCarFromDB();
         clients = clientsController.populateListClientsFromDB();
         rents = rentController.populateListRentFromDB(cars, clients);
+
+        for (Car car : cars) {
+            if (car.isAvailable()) {
+                numberOfAvailableCars++;
+            } else numberOfNotAvailableCars++;
+        }
+        ObservableList<PieChart.Data> piChartData = FXCollections.observableArrayList(
+                new PieChart.Data("Available cars", numberOfAvailableCars),
+                new PieChart.Data("Not availabel cars", numberOfNotAvailableCars));
+
+        pieChart.setData(piChartData);
+
+        for (Rent rent : rents) {
+            System.out.println(rent.getEndDaterRent().getMonth());
+            switch (rent.getEndDaterRent().getMonth()) {
+                case JANUARY:
+                    yearTotalIncome.put("January", yearTotalIncome.get("January") + rent.getTotalPrice());
+                    break;
+                case FEBRUARY:
+                    yearTotalIncome.put("February", yearTotalIncome.get("February") + rent.getTotalPrice());
+                    break;
+                case MARCH:
+                    yearTotalIncome.put("March", yearTotalIncome.get("March") + rent.getTotalPrice());
+                    break;
+                case APRIL:
+                    yearTotalIncome.put("April", yearTotalIncome.get("April") + rent.getTotalPrice());
+                    break;
+                case MAY:
+                    yearTotalIncome.put("May", yearTotalIncome.get("May") + rent.getTotalPrice());
+                    break;
+                case JUNE:
+                    yearTotalIncome.put("June", yearTotalIncome.get("June") + rent.getTotalPrice());
+                    break;
+                case JULY:
+                    yearTotalIncome.put("July", yearTotalIncome.get("July") + rent.getTotalPrice());
+                    break;
+                case AUGUST:
+                    yearTotalIncome.put("August", yearTotalIncome.get("August") + rent.getTotalPrice());
+                    break;
+                case SEPTEMBER:
+                    yearTotalIncome.put("September", yearTotalIncome.get("September") + rent.getTotalPrice());
+                    break;
+                case OCTOBER:
+                    yearTotalIncome.put("October", yearTotalIncome.get("October") + rent.getTotalPrice());
+                    break;
+                case NOVEMBER:
+                    yearTotalIncome.put("November", yearTotalIncome.get("November") + rent.getTotalPrice());
+                    break;
+                case DECEMBER:
+                    yearTotalIncome.put("December", yearTotalIncome.get("December") + rent.getTotalPrice());
+                    break;
+                default:
+                    break;
+
+            }
+        }
+        XYChart.Series<String, Float> series = new XYChart.Series<>();
+
+        for (Map.Entry<String, Float> entry : yearTotalIncome.entrySet()) {
+            String month = entry.getKey();
+            Float income = entry.getValue();
+
+            XYChart.Data<String, Float> data = new XYChart.Data<>(month, income);
+            series.getData().add(data);
+        }
+
+        lineChart.getData().add(series);
+
+        System.out.println(yearTotalIncome);
 
         carTabelForSelect.setItems(FXCollections.observableArrayList(carsAvailable));
         clientTabelForSelect.setItems(FXCollections.observableArrayList(clients));
@@ -277,15 +371,15 @@ public class DashboardController {
     }
 
     private void addListRentToCard(ArrayList<Rent> rentDisplay) {
-       // cardPaneRent.getItems().clear();
-            cardGridRent.getChildren().clear();
-            int row = 1;
+        // cardPaneRent.getItems().clear();
+        cardGridRent.getChildren().clear();
+        int row = 1;
 
         for (Rent rent : rentDisplay) {
             Node cardNode = rentController.createCardNode(rent);
             //cardPaneRent.getItems().add(cardNode);
             cardGridRent.addRow(row, cardNode);
-            cardGridRent.setFillWidth(cardNode,true);
+            cardGridRent.setFillWidth(cardNode, true);
             row++;
         }
 
