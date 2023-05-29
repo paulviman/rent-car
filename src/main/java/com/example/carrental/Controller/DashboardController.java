@@ -405,9 +405,11 @@ public class DashboardController {
     }
 
     @FXML
-    public void actionBtnCars(ActionEvent actionEvent) {
+    public void actionBtnCars(ActionEvent actionEvent) throws Exception {
         cars = cardController.populateListCarFromDB();
         addListCarToCard(cars);
+        //EmailService.sendMail();
+       // EmailService.sendEmail();
 
         panelCars.toFront();
     }
@@ -416,6 +418,7 @@ public class DashboardController {
     public void actionBtnRent(ActionEvent actionEvent) {
 
         rents = rentController.populateListRentFromDB(cars, clients);
+        rentController.setUser(user);
         addListRentToCard(rents);
 
         panelRent.toFront();

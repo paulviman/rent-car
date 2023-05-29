@@ -4,6 +4,8 @@ import com.example.carrental.Main;
 import com.example.carrental.Model.Car;
 import com.example.carrental.Model.Client;
 import com.example.carrental.Model.Rent;
+import com.example.carrental.Model.User;
+import com.example.carrental.Services.AlertService;
 import com.example.carrental.Services.PdfService;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.geom.PageSize;
@@ -71,6 +73,11 @@ public class RentController {
     Rent rent;
     Client client;
     Car car;
+    User user;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public ArrayList<Rent> populateListRentFromDB(ArrayList<Car> cars, ArrayList<Client> clients) {
         return databaseService.getAllRent(cars, clients);
@@ -99,6 +106,7 @@ public class RentController {
             controller.rent = rent;
             controller.client = databaseService.getClient(rent.getClientId());
             controller.car = databaseService.getCar(rent.getCarId());
+            controller.user = user;
 
             controller.idRent.setText(String.valueOf(rent.getId()));
 
@@ -141,6 +149,7 @@ public class RentController {
 
     public void actionBtnGenerateInvoicePdf(javafx.event.ActionEvent actionEvent) {
         String path = String.format("invoice%d.pdf", rent.getId());
+
         try {
             PdfWriter pdfWriter = new PdfWriter(path);
             PdfDocument pdfDocument = new PdfDocument(pdfWriter);
@@ -160,9 +169,9 @@ public class RentController {
 
             Table nestedTable = new Table(new float[]{twoCol / 2, twoCol / 2});
             nestedTable.addCell(PdfService.getHeaderTextCell("Invoice No."));
-            nestedTable.addCell(PdfService.getHeaderTextCellValue("12"));
+            nestedTable.addCell(PdfService.getHeaderTextCellValue("RO-" + rent.getId()));
             nestedTable.addCell(PdfService.getHeaderTextCell("Invoice Date"));
-            nestedTable.addCell(PdfService.getHeaderTextCellValue("12.02.2023"));
+            nestedTable.addCell(PdfService.getHeaderTextCellValue(String.valueOf(LocalDate.now())));
 
             table.addCell(new Cell().add(nestedTable).setBorder(Border.NO_BORDER));
 
@@ -190,7 +199,7 @@ public class RentController {
             Table companyClientValuesTable2 = new Table(twoColumnWidth);
             companyClientValuesTable2.addCell(PdfService.getCellDataLeft("Employ Name", true));
             companyClientValuesTable2.addCell(PdfService.getCellDataLeft("Phone", true));
-            companyClientValuesTable2.addCell(PdfService.getCellDataLeft("Angajatul lunii", false));
+            companyClientValuesTable2.addCell(PdfService.getCellDataLeft(user.getName(), false));
             companyClientValuesTable2.addCell(PdfService.getCellDataLeft("0" + client.getPhone(), false));
             document.add(companyClientValuesTable2);
 
@@ -247,6 +256,8 @@ public class RentController {
 
             document.close();
 
+            AlertService.confirmCreatePdfAskSendMail("Pdf creat cu succes!", "Doriti sa trimiteti factura pe mail?", rent.getId(), client.getEmail());
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -259,6 +270,6 @@ public class RentController {
         btnEditRent.setDisable(true);
         this.frontColorPane.setStyle("-fx-background-color: #FFEE58;");
         this.backColorPane.setStyle("-fx-background-color: #FFEE58;");
-        databaseService.setRentAvailability(rent.getId(),false);
+        databaseService.setRentAvailability(rent.getId(), false);
     }
 }
