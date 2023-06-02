@@ -28,7 +28,7 @@
                <children>
                   <Label text="Start Date">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label fx:id="rentDate" text="date">
@@ -38,7 +38,7 @@
                   </Label>
                   <Label text="Return Date">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label fx:id="returnDate" text="Label">
@@ -53,7 +53,7 @@
                <children>
                   <Label text="Pick Up Address">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label fx:id="rentAddress" text="addres">
@@ -63,7 +63,7 @@
                   </Label>
                   <Label text="Return Address">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label fx:id="returnAddress" text="Label">
@@ -108,7 +108,7 @@
                <children>
                   <Label text="Total price">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label fx:id="rentPrice" text="price">
@@ -119,10 +119,10 @@
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox alignment="CENTER" layoutX="80.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0">
+            <VBox alignment="CENTER" layoutX="80.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <Button fx:id="btnGenerateInvoicePdf" mnemonicParsing="false" onAction="#actionBtnGenerateInvoicePdf" text="Generate Invoice" />
-                  <Button fx:id="btnEditRent" mnemonicParsing="false" onAction="#actionBtnEditRent" text="Discard" />
+                  <Button fx:id="btnGenerateInvoicePdf" mnemonicParsing="false" onAction="#actionBtnGenerateInvoicePdf" styleClass="button-edit" stylesheets="@css/fullpackstyle.css" text="Generate Invoice" />
+                  <Button fx:id="btnEditRent" mnemonicParsing="false" onAction="#actionBtnEditRent" styleClass="button-delete" text="Discard" />
                </children>
             </VBox>
             <Pane fx:id="backColorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" style="-fx-background-color: #80CBC4;" styleClass="rent-border-radius-right" />

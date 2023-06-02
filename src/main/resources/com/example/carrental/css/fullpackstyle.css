@@ -88,3 +88,344 @@
 .rent-border-radius-right{
     -fx-background-radius: 0 10 10 0;
 }
+
+.button-edit {
+    -fx-background-color: #546E7A;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 4px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.button-edit:hover {
+    -fx-background-color: #78909C;
+}
+
+.button-edit:pressed {
+    -fx-background-color: #455A64;
+}
+
+.button-delete {
+    -fx-background-color: #E57373;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 4px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.button-delete:hover {
+    -fx-background-color: #EF9A9A;
+}
+
+.button-delete:pressed {
+    -fx-background-color: #D32F2F;
+}
+.button-search {
+    -fx-background-color: #26A69A;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 4px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.button-search:hover {
+    -fx-background-color: #2E7D73;
+}
+
+.button-search:pressed {
+    -fx-background-color: #1B5E52;
+}
+
+/* Alte butoane */
+
+.button-custom {
+    -fx-background-color: #9E9E9E;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 6px 12px;
+    -fx-font-size: 14px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.button-custom:hover {
+    -fx-background-color: #757575;}
+
+.button-custom:pressed {
+    -fx-background-color: #616161;}
+
+.button-sign-in {
+    -fx-background-color: #26A69A;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 4px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.button-sign-in:hover {
+    -fx-background-color: #80CBC4;
+}
+
+.button-sign-in:pressed {
+    -fx-background-color: #B2DFDB;
+}
+
+/*!* Selectorul de date *!*/
+/*.date-picker {*/
+/*    -fx-background-color: #E0E0E0;*/
+/*    -fx-border-color: #BDBDBD;*/
+/*    -fx-border-width: 1px;*/
+/*    -fx-padding: 8px;*/
+/*    -fx-font-size: 14px;*/
+/*    -fx-font-family: "Arial", sans-serif;*/
+/*}*/
+
+/*!* Stilul pentru butonul de deschidere a selectorului *!*/
+/*.date-picker .button {*/
+/*    -fx-background-color: #F44336;*/
+/*    -fx-text-fill: white;*/
+/*    -fx-padding: 6px 12px;*/
+/*    -fx-font-size: 14px;*/
+/*    -fx-font-weight: bold;*/
+/*    -fx-border-color: transparent;*/
+/*    -fx-cursor: hand;*/
+/*}*/
+
+/*.date-picker .button:hover {*/
+/*    -fx-background-color: #E53935;*/
+/*}*/
+
+/*.date-picker .button:pressed {*/
+/*    -fx-background-color: #D32F2F;*/
+/*}*/
+
+/*!* Stilul pentru textul afișat în selector *!*/
+/*.date-picker .text-field {*/
+/*    -fx-background-color: #FFFFFF;*/
+/*    -fx-border-color: #BDBDBD;*/
+/*    -fx-border-width: 1px;*/
+/*    -fx-padding: 6px 12px;*/
+/*    -fx-font-size: 14px;*/
+/*}*/
+
+/*!* Stilul pentru săgeata din butonul de deschidere *!*/
+/*.date-picker .arrow-button {*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-shape: "M 0 0 L 6 6 L 12 0 Z";*/
+/*    -fx-padding: 2px;*/
+/*    -fx-background-insets: 0;*/
+/*    -fx-background-radius: 0;*/
+/*    -fx-border-color: transparent;*/
+/*    -fx-border-width: 0;*/
+/*    -fx-scale-shape: false;*/
+/*    -fx-rotate: 90;*/
+/*    -fx-cursor: hand;*/
+/*}*/
+
+/*.date-picker .arrow-button:hover {*/
+/*    -fx-background-color: #F44336;*/
+/*}*/
+
+/*.date-picker .arrow-button:pressed {*/
+/*    -fx-background-color: #D32F2F;*/
+/*}*/
+
+.date-picker {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-color: #80CBC4;
+    -fx-background-color: #B2DFDB;
+    -fx-text-fill: #26A69A;
+    -fx-prompt-text-fill: #80CBC4;
+}
+
+.date-picker .arrow {
+    -fx-background-color: #26A69A;
+    -fx-shape: "M 0 0 L 5 5 L 0 10 Z";
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #26A69A;
+    -fx-shape: "M 0 0 L 5 5 L 0 10 Z";
+}
+
+.date-picker .arrow-button:pressed {
+    -fx-background-color: #80CBC4;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #26A69A;
+}
+
+.date-picker .text-field {
+    -fx-background-color: #B2DFDB;
+    -fx-text-fill: #26A69A;
+    -fx-prompt-text-fill: #80CBC4;
+}
+
+.date-picker .day-cell {
+    -fx-background-color: #B2DFDB;
+    -fx-text-fill: #26A69A;
+}
+
+.date-picker .day-cell:hover {
+    -fx-background-color: #80CBC4;
+}
+
+.date-picker .day-cell:selected {
+    -fx-background-color: #26A69A;
+    -fx-text-fill: #B2DFDB;
+}
+
+.text-field {
+    -fx-background-color: #ECEFF1;
+    -fx-text-fill: #37474F;
+    -fx-prompt-text-fill: #546E7A;
+    -fx-border-color: #B0BEC5;
+    -fx-border-radius: 4px;
+    -fx-padding: 6px 8px;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused {
+    -fx-background-color: #CFD8DC;
+    -fx-border-color: #90A4AE;
+}
+
+.text-field:hover {
+    -fx-background-color: #E0E0E0;
+}
+
+.text-field:disabled {
+    -fx-opacity: 0.6;
+}
+
+.page-title {
+    -fx-text-fill: #37474F;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+.tab-pane {
+    -fx-background-color: #B2DFDB;
+}
+
+.tab-pane .tab-header-area .tab {
+    -fx-background-color: #80CBC4;
+    -fx-text-fill: white;
+}
+
+.tab-pane .tab-header-area .tab:hover {
+    -fx-background-color: #26A69A;
+}
+
+
+.border-pane {
+    -fx-background-color: #ECEFF1; /* Culoare de fundal */
+}
+
+.border-pane .title-bar {
+    -fx-background-color: #90A4AE; /* Culoare de antet */
+    -fx-padding: 6px; /* Spațierea antetului */
+}
+
+.border-pane .content {
+    -fx-padding: 10px; /* Spațierea conținutului */
+}
+
+.border-pane .footer {
+    -fx-background-color: #90A4AE; /* Culoare de subsol */
+    -fx-padding: 6px; /* Spațierea subsolului */
+}
+
+.border-pane .left,
+.border-pane .right,
+.border-pane .center,
+.border-pane .top,
+.border-pane .bottom {
+    -fx-border-color: #CFD8DC; /* Culoare bordură */
+    -fx-border-width: 1px; /* Grosime bordură */
+    -fx-padding: 10px; /* Spațiere conținut */
+}
+
+.border-pane .left {
+    -fx-border-radius: 0 0 0 4px; /* Forma colțuri (stânga) */
+}
+
+.border-pane .right {
+    -fx-border-radius: 0 0 4px 0; /* Forma colțuri (dreapta) */
+}
+
+.border-pane .top {
+    -fx-border-radius: 4px 4px 0 0; /* Forma colțuri (sus) */
+}
+
+.border-pane .bottom {
+    -fx-border-radius: 0 0 4px 4px; /* Forma colțuri (jos) */
+}
+
+.combo-box {
+    -fx-background-color: #80CBC4; /* Culoarea de fundal */
+    -fx-text-fill: #000000; /* Culoarea textului */
+    -fx-font-size: 14px; /* Dimensiunea fontului */
+    -fx-padding: 6px 8px; /* Spațierea internă */
+    -fx-prompt-text-fill: #B2DFDB; /* Culoarea textului prompt */
+    -fx-border-color: #26A69A; /* Culoarea bordurii */
+    -fx-border-radius: 4px; /* Raza colțurilor bordurii */
+    -fx-cursor: hand; /* Cursorul la interacțiune */
+}
+
+.combo-box:hover {
+    -fx-background-color: #B2DFDB; /* Culoarea de fundal la hover */
+}
+
+.combo-box:pressed, .combo-box:focused {
+    -fx-background-color: #26A69A; /* Culoarea de fundal la apăsare sau focus */
+    -fx-text-fill: #FFFFFF; /* Culoarea textului la apăsare sau focus */
+}
+.tool-bar {
+    /*-fx-background-color: #80CBC4; !* Culoarea de fundal *!*/
+    -fx-padding: 6px; /* Spațierea internă */
+}
+
+/*.tool-bar .button {*/
+/*    -fx-background-color: #546E7A; !* Culoarea de fundal pentru butoane *!*/
+/*    -fx-text-fill: white; !* Culoarea textului pentru butoane *!*/
+/*    -fx-padding: 4px 8px; !* Spațierea internă pentru butoane *!*/
+/*    -fx-font-size: 12px; !* Dimensiunea fontului pentru butoane *!*/
+/*    -fx-font-weight: bold; !* Grosimea fontului pentru butoane *!*/
+/*    -fx-border-color: transparent; !* Culoarea bordurii pentru butoane *!*/
+/*    -fx-cursor: hand; !* Cursorul la interacțiune pentru butoane *!*/
+/*}*/
+
+.tool-bar .combo-box {
+    -fx-background-color: #B2DFDB; /* Culoarea de fundal pentru ComboBox */
+    -fx-text-fill: #000000; /* Culoarea textului pentru ComboBox */
+    -fx-font-size: 12px; /* Dimensiunea fontului pentru ComboBox */
+    -fx-padding: 2px 6px; /* Spațierea internă pentru ComboBox */
+    -fx-prompt-text-fill: #80CBC4; /* Culoarea textului prompt pentru ComboBox */
+    -fx-border-color: #26A69A; /* Culoarea bordurii pentru ComboBox */
+    -fx-border-radius: 4px; /* Raza colțurilor bordurii pentru ComboBox */
+    -fx-cursor: hand; /* Cursorul la interacțiune pentru ComboBox */
+}
+
+.tool-bar .combo-box:hover {
+    -fx-background-color: #80CBC4; /* Culoarea de fundal la hover pentru ComboBox */
+}
+
+.tool-bar .combo-box:pressed, .tool-bar .combo-box:focused {
+    -fx-background-color: #26A69A; /* Culoarea de fundal la apăsare sau focus pentru ComboBox */
+    -fx-text-fill: #FFFFFF; /* Culoarea textului la apăsare sau focus pentru ComboBox */
+}

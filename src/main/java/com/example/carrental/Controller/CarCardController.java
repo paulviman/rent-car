@@ -49,8 +49,34 @@ public class CarCardController {
     @javafx.fxml.FXML
     private Button btnDeleteCar;
 
+    public Button getBtnEditCar() {
+        return btnEditCar;
+    }
+
+    public void setBtnEditCar(Button btnEditCar) {
+        this.btnEditCar = btnEditCar;
+    }
+
+    public Button getBtnDeleteCar() {
+        return btnDeleteCar;
+    }
+
+    public void setBtnDeleteCar(Button btnDeleteCar) {
+        this.btnDeleteCar = btnDeleteCar;
+    }
+
+
+
     AlertService alertService = new AlertService();
     int carIdForDelete;
+    @javafx.fxml.FXML
+    private Label carEngine;
+    @javafx.fxml.FXML
+    private Label carRegNumber;
+    @javafx.fxml.FXML
+    private Label carYear;
+    @javafx.fxml.FXML
+    private Label carFuelType;
 
     @javafx.fxml.FXML
     public void initialize() {
@@ -60,8 +86,7 @@ public class CarCardController {
         car = car1;
     }
 
-
-    public Node createCardNode(Car car) {
+    public Node createCardNode(Car car, Boolean displayButtons) {
         try {
             // încărcarea fișierului FXML pentru cardul de mașină
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("car-card.fxml"));
@@ -78,6 +103,11 @@ public class CarCardController {
             controller.carPrice.setText(String.valueOf(car.getPricePerDay()));
             controller.carTransmission.setText(car.getTransmission());
             controller.carSeats.setText(String.valueOf(car.getSeats()));
+            controller.carEngine.setText(String.valueOf(car.getEngineCapacity()));
+            controller.carRegNumber.setText(car.getRegistrationNumber());
+            controller.carYear.setText(String.valueOf(car.getYear()));
+            controller.carFuelType.setText(car.getFuelType());
+
             if (car.isAvailable()) {
                 controller.availableLabel.setText("Available");
                 controller.availableLabel.setStyle("-fx-text-fill: green");
@@ -85,7 +115,10 @@ public class CarCardController {
                 controller.availableLabel.setText("Not Available");
                 controller.availableLabel.setStyle("-fx-text-fill: red");
             }
-
+            if (!displayButtons){
+                controller.btnEditCar.setVisible(false);
+                controller.btnDeleteCar.setVisible(false);
+            }
 
             // inițializarea elementelor vizuale din card
             // ImageView carImage = car.getCarImage();

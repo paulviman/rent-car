@@ -26,7 +26,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import com.gluonhq.charm.glisten.control.CardPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import com.example.carrental.Controller.EditCarController;
 
 
 import java.io.IOException;
@@ -45,8 +47,6 @@ public class DashboardController {
     private Button btnClients;
     @FXML
     private Button btnSignOut;
-    @FXML
-    private TabPane panelCars;
     @FXML
     private FlowPane panelDashboard;
     @FXML
@@ -206,6 +206,7 @@ public class DashboardController {
     int numberOfNotAvailableCars = 0;
     @FXML
     private LineChart lineChart;
+    private StackPane stackCreateRent;
 
 
     private LinkedHashMap<String, Float> yearTotalIncome = new LinkedHashMap<>() {{
@@ -222,7 +223,18 @@ public class DashboardController {
         put("November", 0f);
         put("December", 0f);
     }};
+    @FXML
+    private TabPane panelCars;
+    @FXML
+    private Button btnRefreshCars;
+    @FXML
+    private Button rentRefresh;
+//    @FXML
+//    private StackPane stackCreateRent;
 
+    public void carRefresh() {
+        cars = cardController.populateListCarFromDB();
+    }
 
     @FXML
     public void initialize() {
@@ -242,7 +254,15 @@ public class DashboardController {
                 new PieChart.Data("Available cars", numberOfAvailableCars),
                 new PieChart.Data("Not availabel cars", numberOfNotAvailableCars));
 
+
         pieChart.setData(piChartData);
+
+        // Setarea etichetelor personalizate pentru fiecare secțiune
+        pieChart.getData().forEach(data -> {
+            double value = data.getPieValue();
+            String label = String.format("%s (%d cars)", data.getName(), (int) value);
+            data.setName(label);
+        });
 
         for (Rent rent : rents) {
             System.out.println(rent.getEndDaterRent().getMonth());
@@ -362,7 +382,7 @@ public class DashboardController {
 
         // VBox cardContainer = new VBox();
         for (Car car : carsDisplay) {
-            Node cardNode = cardController.createCardNode(car);
+            Node cardNode = cardController.createCardNode(car, true);
             //cardContainer.getChildren().add(cardNode);
             //scrolPane.getItems().add(cardNode);
             cardPane.getItems().add(cardNode);
@@ -408,9 +428,6 @@ public class DashboardController {
     public void actionBtnCars(ActionEvent actionEvent) throws Exception {
         cars = cardController.populateListCarFromDB();
         addListCarToCard(cars);
-        //EmailService.sendMail();
-       // EmailService.sendEmail();
-
         panelCars.toFront();
     }
 
@@ -575,6 +592,12 @@ public class DashboardController {
             //throw new RuntimeException(e);
             alertService.newAlert("Eroare", "Masina nu am putut fi adaugata!\nNumar de inmatriculare exista deja in db");
         }
+        carsAvailable = databaseService.getAllCarsAvailable();
+        carTabelForSelect.setItems(FXCollections.observableArrayList(carsAvailable));
+
+        Tab tab = panelCars.getTabs().get(0);
+        panelCars.getSelectionModel().select(tab);
+
 
 //        if (databaseService.addCarToDatabase(car)) {
 //            alertService.newConfirmation("Reusit", "Ati adugat o masina cu succes!");
@@ -662,6 +685,8 @@ public class DashboardController {
         newRent.setPickUpAddress(pickUpAddressLabel.getText());
         newRent.setReturnAddress(returnAddressLabel.getText());
 
+        carsAvailable = databaseService.getAllCarsAvailableForASpecificDate(pickUpDateLabel.getValue(),returnDateLabel.getValue() );
+        carTabelForSelect.setItems(FXCollections.observableArrayList(carsAvailable));
 
         paneCarRent.toFront();
 
@@ -679,7 +704,23 @@ public class DashboardController {
 
         databaseService.saveRent(newRent);
         databaseService.setCarAvailability(newRent.getCarId(), false);
+
+        //eliberez memorie
+        pickUpDateLabel.setValue(null);
+        returnDateLabel.setValue(null);
+        pickUpAddressLabel.setText("");
+        returnAddressLabel.setText("");
+        selectedCar = null;
+        selectedClient = null;
+        newRent = new Rent();
+
+
         alertService.newConfirmation("Inchirierea a fost salvata!", "Inchiriere efectuata cu succes");
+
+        paneDateRent.toFront();
+
+        Tab tab = panelRent.getTabs().get(0);
+        panelRent.getSelectionModel().select(tab);
 
 //        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 //        alert.setTitle("Ok");
@@ -706,8 +747,14 @@ public class DashboardController {
 
             selectedCar = cars.stream().filter(car1 -> car1.getId() == car.getId()).findFirst();
 
+
             paneCardCarSelected.getItems().clear();
-            Node cardNode = cardController.createCardNode(car);
+            Node cardNode = cardController.createCardNode(car, false);
+//            Button editButton = (Button) cardNode.lookup(".edit-button");
+//            Button deleteButton = (Button) cardNode.lookup(".delete-button");
+//            editButton.setVisible(false);
+//            deleteButton.setVisible(false);
+
             paneCardCarSelected.getItems().add(cardNode);
         } else if (node.getId().equals(clientTabelForSelect.getId())) {
 
@@ -796,10 +843,12 @@ public class DashboardController {
 
     @FXML
     public void actionBtnNextToSave(ActionEvent actionEvent) {
-
-        setLabelsToSave();
-
-        paneSaveRent.toFront();
+        if (selectedClient == null) {
+            alertService.newAlert("Eroare", "Nu ati selectat niciun client!");
+        } else {
+            setLabelsToSave();
+            paneSaveRent.toFront();
+        }
     }
 
     private void setLabelsToSave() {
@@ -966,5 +1015,19 @@ public class DashboardController {
             }
         }
         addListCarToCard(carsFiltred);
+    }
+
+    @FXML
+    public void actionBtnRefreshCars(ActionEvent actionEvent) {
+        try {
+            actionBtnCars(actionEvent);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    public void actionBtnRentRefresh(ActionEvent actionEvent) {
+        actionBtnRent(actionEvent);
     }
 }

@@ -125,19 +125,22 @@ public class RentController {
             //controller.rentPrice.setText(String.valueOf(total_price));
             controller.rentPrice.setText(String.valueOf(rent.getTotalPrice()));
             if (!rent.isAvailable()) {
-                controller.frontColorPane.setStyle("-fx-background-color: #FFEE58;");
-                controller.backColorPane.setStyle("-fx-background-color: #FFEE58;");
-                controller.btnGenerateInvoicePdf.setDisable(true);
-                controller.btnEditRent.setDisable(true);
-
-            }
-            if (rent.getEndDaterRent().isBefore(currentDate)) {
                 controller.frontColorPane.setStyle("-fx-background-color: #EF5350;");
                 controller.backColorPane.setStyle("-fx-background-color: #EF5350;");
+
+                //controller.btnGenerateInvoicePdf.setDisable(true);
                 controller.btnEditRent.setDisable(true);
+
+            }else {
+                controller.frontColorPane.setStyle("-fx-background-color:  #80CBC4;");
+                controller.backColorPane.setStyle("-fx-background-color:  #80CBC4;");
             }
-//            controller.frontColorPane.setStyle("-fx-background-color:  80CBC4;");
-//            controller.backColorPane.setStyle("-fx-background-color:  #80CBC4;");
+//            if (rent.getEndDaterRent().isBefore(currentDate)) {
+//                controller.frontColorPane.setStyle("-fx-background-color: #FFEE58;");
+//                controller.backColorPane.setStyle("-fx-background-color: #FFEE58;");
+//                controller.btnEditRent.setDisable(true);
+//            }
+
 
 
             return root;
@@ -270,6 +273,16 @@ public class RentController {
         btnEditRent.setDisable(true);
         this.frontColorPane.setStyle("-fx-background-color: #FFEE58;");
         this.backColorPane.setStyle("-fx-background-color: #FFEE58;");
+        databaseService.setCarAvailability(rent.getCarId(),true);
         databaseService.setRentAvailability(rent.getId(), false);
+        databaseService.setRentPriceTo0ForDiscard(rent.getId());
+    }
+
+    @javafx.fxml.FXML
+    public void actionBtnGenerateInvoicePdf(ActionEvent actionEvent) {
+    }
+
+    @javafx.fxml.FXML
+    public void actionBtnEditRent(ActionEvent actionEvent) {
     }
 }

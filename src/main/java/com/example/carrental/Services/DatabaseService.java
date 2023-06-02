@@ -1,18 +1,13 @@
 package com.example.carrental.Services;
 
-import com.example.carrental.Controller.DashboardController;
 import com.example.carrental.Model.Car;
 import com.example.carrental.Model.Client;
 import com.example.carrental.Model.Rent;
 import com.example.carrental.Model.User;
 
-import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-
-import com.example.carrental.Controller.DashboardController;
 
 public class DatabaseService {
     final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
@@ -25,10 +20,13 @@ public class DatabaseService {
 
         ArrayList<Rent> rents = this.getAllRent(null, null);
         for (Rent rent : rents) {
-            if (rent.getEndDaterRent().isBefore(currentDate)) {
-                int carId = rent.getCarId();
-                this.setCarAvailability(carId, true);
-               // setRentAvailability(rent.getId(),false);
+            if (rent.isAvailable()) {
+                if (rent.getEndDaterRent().isBefore(currentDate)) {
+                    int carId = rent.getCarId();
+                    this.setCarAvailability(carId, true);
+                    this.setRentAvailability(rent.getId(), false);
+                    // setRentAvailability(rent.getId(),false);
+                }
             }
         }
     }
@@ -48,6 +46,7 @@ public class DatabaseService {
             throw new RuntimeException(e);
         }
     }
+
 
     public void setCarAvailability(int carId, boolean b) {
         try {
@@ -318,7 +317,7 @@ public class DatabaseService {
             statement.setString(5, newRent.getPickUpAddress());
             statement.setString(6, newRent.getReturnAddress());
             statement.setInt(7, (int) newRent.getTotalPrice());
-            statement.setBoolean(8,true);
+            statement.setBoolean(8, true);
 
 
             int rowInserted = statement.executeUpdate();
@@ -533,5 +532,71 @@ public class DatabaseService {
             System.out.println("Update esuat sau nu s-a modificat niciun rand.");
             return false;
         }
+    }
+
+    public void setRentPriceTo0ForDiscard(int id) {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("UPDATE rent SET total_price=? WHERE id = ?");
+
+            statement.setInt(1, 0);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<Car> getAllCarsAvailableForASpecificDate(LocalDate start, LocalDate end) {
+        ArrayList cars = new ArrayList<Car>();
+
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+//            PreparedStatement statement = connection.prepareStatement("SELECT *\n" +
+//                    "FROM car\n" +
+//                    "WHERE id NOT IN (\n" +
+//                    "    SELECT car_id\n" +
+//                    "    FROM rent\n" +
+//                    "    WHERE (start_date_rent < ? AND end_date_rent > ?)\n" +
+//                    "       OR (start_date_rent > ? AND end_date_rent < ?)\n" +
+//                    "  )");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM car WHERE id NOT IN (SELECT car_id FROM rent WHERE ? < end_date_rent AND ? > start_date_rent AND is_available = true)");
+
+            statement.setDate(1, Date.valueOf(start));
+            statement.setDate(2, Date.valueOf(end));
+//            statement.setDate(3, Date.valueOf(start));
+//            statement.setDate(4, Date.valueOf(end));
+//            statement.setDate(5, Date.valueOf(start));
+//            statement.setDate(6, Date.valueOf(end));
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Car car = new Car();
+                car.setId(resultSet.getInt("id"));
+                car.setBrand(resultSet.getString("brand"));
+                car.setModel(resultSet.getString("model"));
+                car.setRegistrationNumber(resultSet.getString("registration_number"));
+                car.setYear(resultSet.getInt("year"));
+                car.setPricePerDay(resultSet.getInt("price_day"));
+                car.setSeats(resultSet.getInt("seats"));
+                car.setTransmission(resultSet.getString("transmission"));
+                car.setFuelType(resultSet.getString("fuel_type"));
+                car.setAvailable(resultSet.getBoolean("is_available"));
+                car.setEngineCapacity((resultSet.getInt("engine_capacity")));
+
+                cars.add(car);
+
+            }
+
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return cars;
     }
 }

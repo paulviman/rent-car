@@ -89,11 +89,11 @@ public class EditCarController {
         carToEdit.setAvailable((Boolean) availableComboCox.getValue());
 
         if (databaseService.editCar(carToEdit)) {
-            alertService.newConfirmation("Reusit", "Ati editat cu succes");
+            alertService.editConfirmation(btnEdit);
+            //alertService.newConfirmation("Reusit", "Ati editat cu succes");
         } else {
             alertService.newAlert("Eroare", "Nu s-au putut salva modificariel");
         }
-
 
     }
 

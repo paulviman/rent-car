@@ -64,6 +64,8 @@ public class LoginController extends Component implements Initializable {
     DatabaseService databaseService = new DatabaseService();
 
     private User userLogIn;
+    @FXML
+    private Button btnBackToSignIn;
 
 
     @Override
@@ -244,5 +246,11 @@ public class LoginController extends Component implements Initializable {
 //        }
 
         return databaseService.addUserToDB(name, email, phone, address, password);
+    }
+
+    @FXML
+    public void actionBtnBackToSignIn(ActionEvent actionEvent) {
+
+        panelSignIn.toFront();
     }
 }

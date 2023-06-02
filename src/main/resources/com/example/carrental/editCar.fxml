@@ -10,65 +10,96 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="350.0" prefWidth="450.0" style="-fx-background-color: #F4F4F4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carrental.Controller.EditCarController">
     <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane prefHeight="200.0" prefWidth="200.0" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
               <VBox prefHeight="387.0" prefWidth="275.0" spacing="20.0" BorderPane.alignment="CENTER">
-                  <Label style="-fx-text-fill: #485C49;" text="Edit Car">
+                  <Label style="-fx-text-fill: #485C49;" styleClass="page-title" text="Edit Car">
                       <VBox.margin>
                           <Insets bottom="10.0" />
                       </VBox.margin>
                   </Label>
                   <HBox spacing="20.0">
-                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Brand" />
+                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Brand">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                       <TextField fx:id="brandTextField" prefWidth="200.0" />
                   </HBox>
                   <HBox spacing="20.0">
-                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Model" />
+                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Model">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                       <TextField fx:id="modelTextField" prefWidth="200.0" />
                   </HBox>
                <HBox layoutX="30.0" layoutY="102.0" spacing="20.0">
                   <children>
-                     <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Reg. number" />
+                     <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Reg. number">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font></Label>
                      <TextField fx:id="regNumbTextField" prefWidth="200.0" />
                   </children>
                </HBox>
                <HBox layoutX="30.0" layoutY="147.0" spacing="20.0">
                   <children>
-                     <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Year" />
+                     <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Year">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font></Label>
                      <TextField fx:id="yearTextField" prefWidth="200.0" />
                   </children>
                </HBox>
                   <HBox spacing="20.0">
-                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Price Per Day" />
+                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Price Per Day">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                       <TextField fx:id="pricePerDayTextField" prefWidth="200.0" />
                   </HBox>
                   <HBox spacing="20.0">
-                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Seats" />
+                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Seats">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                       <TextField fx:id="seatsTextField" prefWidth="200.0" />
                   </HBox>
                   <HBox spacing="20.0">
-                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Engine Capacity" />
+                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Engine Capacity">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                       <TextField fx:id="engineCapacityTextField" prefWidth="200.0" />
                   </HBox>
                   <HBox spacing="20.0">
-                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Fuel Type" />
+                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Fuel Type">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                       <TextField fx:id="fuelTypeTextField" prefWidth="200.0" />
                   </HBox>
                   <HBox spacing="20.0">
-                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Transmission" />
+                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Transmission">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                       <TextField fx:id="transmissionTextField" prefWidth="200.0" />
                   </HBox>
                   <HBox spacing="20.0">
-                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Availability" />
+                      <Label prefWidth="100.0" style="-fx-text-fill: #485C49;" text="Availability">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                   <ComboBox fx:id="availableComboCox" prefWidth="150.0" />
                   </HBox>
                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                   <children>
-                     <Button fx:id="btnCancelEdit" mnemonicParsing="false" onAction="#actionBtnCancelEdit" text="Cancel" />
-                     <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#actionBtnEdit" text="Edit" />
+                     <Button fx:id="btnCancelEdit" mnemonicParsing="false" onAction="#actionBtnCancelEdit" styleClass="button-edit" text="Cancel" />
+                     <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#actionBtnEdit" styleClass="button-sign-in" text="Edit" />
                   </children>
                </HBox>
                <BorderPane.margin>
@@ -80,7 +111,7 @@
               </VBox>
          </center>
          <left>
-            <Pane prefHeight="427.0" prefWidth="114.0" BorderPane.alignment="CENTER" />
+            <Pane prefHeight="427.0" prefWidth="114.0" styleClass="linear-grad" stylesheets="@css/fullpackstyle.css" BorderPane.alignment="CENTER" />
          </left>
       </BorderPane>
     </children>

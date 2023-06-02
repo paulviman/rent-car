@@ -1,12 +1,12 @@
 package com.example.carrental.Services;
 
-import com.example.carrental.Model.Rent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
-import com.example.carrental.Services.DatabaseService;
+import javafx.stage.Stage;
 
 
 public class AlertService {
@@ -55,5 +55,29 @@ public class AlertService {
         alert.setHeaderText(null);
         alert.setContentText(s);
         alert.showAndWait();
+    }
+
+    public void editConfirmation(Button btnEdit) {
+        // Crează un obiect de tip Alert cu tipul Confirmation
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmare editare");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Sigur doriți să salvați modificările?");
+
+        // Obține butonul "OK" din fereastra de dialog de confirmare
+        ButtonType okButton = ButtonType.OK;
+
+        // Adaugă butonul "OK" la fereastra de dialog
+        confirmationAlert.getButtonTypes().setAll(okButton);
+
+        // Așteaptă până când utilizatorul apasă butonul "OK"
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+        // Verifică dacă utilizatorul a apăsat butonul "OK"
+        if (result.isPresent() && result.get() == okButton) {
+            // Închide fereastra de editare
+            Stage stage = (Stage) btnEdit.getScene().getWindow();
+            stage.close();
+        }
     }
 }

@@ -89,7 +89,7 @@ public class MailService {
         MimeMessage email = new MimeMessage(session);
         email.setFrom(new InternetAddress(TEST_EMAIL));
         email.addRecipient(TO, new InternetAddress(clientMail));
-//        email.setSubject(subject);
+        email.setSubject("CarRent Invoice");
 //        email.setText(message);
         email.setContent(multipart);
 
