@@ -144,7 +144,7 @@ public class DatabaseService {
         ArrayList clients = new ArrayList<Client>();
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM clients");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM clients ORDER BY name");
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -172,7 +172,7 @@ public class DatabaseService {
         ArrayList rents = new ArrayList<>();
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM rent");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM rent order by id desc ");
             ResultSet resultSet = statement.executeQuery();
             Rent rent;
             while (resultSet.next()) {
@@ -486,6 +486,23 @@ public class DatabaseService {
             throw new RuntimeException(e);
         }
     }
+    public void deleteClient(int clientId) {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM client WHERE id=?");
+
+            statement.setInt(1, clientId);
+            int rowsDeleted = statement.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("Am sters clientul cu id-ul " + clientId);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public boolean editCar(Car car) {
         int rowsAffected;
@@ -598,5 +615,32 @@ public class DatabaseService {
             throw new RuntimeException(e);
         }
         return cars;
+    }
+
+    public boolean editClient(Client clientToEdit) {
+        int rowsAffected;
+
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("UPDATE clients SET name = ?, email = ?, phone = ? WHERE id = ?");
+
+            statement.setString(1, clientToEdit.getName());
+            statement.setString(2, clientToEdit.getEmail());
+            statement.setInt(3, clientToEdit.getPhone());
+            statement.setInt(4, clientToEdit.getId());
+
+            rowsAffected = statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            throw new RuntimeException(ex);
+        }
+        if (rowsAffected > 0) {
+            System.out.println("Update realizat cu succes. Numarul de randuri afectate: " + rowsAffected);
+            return true;
+        } else {
+            System.out.println("Update esuat sau nu s-a modificat niciun rand.");
+            return false;
+        }
     }
 }

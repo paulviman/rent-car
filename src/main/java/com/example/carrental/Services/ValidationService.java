@@ -6,13 +6,18 @@ import java.util.regex.Pattern;
 
 public class ValidationService {
 
-    public static boolean emailValidation(String email) {
-        Pattern pattern = Pattern.compile("^[A-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[A-Z0-9_!#$%&'*+/=?`{|}~^-]+↵\n" +
-                ")*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*$", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.find();
-    }
-
+//    public static boolean emailValidation(String email) {
+//        Pattern pattern = Pattern.compile("^[A-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[A-Z0-9_!#$%&'*+/=?`{|}~^-]+↵\n" +
+//                ")*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*$", Pattern.CASE_INSENSITIVE);
+//        Matcher matcher = pattern.matcher(email);
+//        return matcher.find();
+//    }
+public static boolean emailValidation(String email) {
+    Pattern pattern = Pattern.compile("^[A-Z0-9_.!#$%&'*+/=?`{|}~^-]+(?:\\.[A-Z0-9_.!#$%&'*+/=?`{|}~^-]+)*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*$"
+            , Pattern.CASE_INSENSITIVE);
+    Matcher matcher = pattern.matcher(email);
+    return matcher.find();
+}
     public boolean nameValidation(String name) {
         Pattern pattern = Pattern.compile("^[a-zA-Z\\s]*$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(name);

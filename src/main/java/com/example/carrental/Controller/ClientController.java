@@ -7,24 +7,39 @@ import com.example.carrental.Services.DatabaseService;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Optional;
+
+import com.example.carrental.Controller.EditClientController;
 
 public class ClientController {
     @javafx.fxml.FXML
     private Label clientName;
     @javafx.fxml.FXML
-    private Label carModel;
-    @javafx.fxml.FXML
     private Label clientEmail;
     @javafx.fxml.FXML
     private Label clientPhone;
-    @javafx.fxml.FXML
-    private Label carSeats;
     DatabaseService databaseService = new DatabaseService();
+    @javafx.fxml.FXML
+    private Button btnEditClient;
+    @javafx.fxml.FXML
+    private Button bntDeleteClient;
+
+    Client client;
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public ArrayList<Client> populateListClientsFromDB() {
         return databaseService.getAllClients();
@@ -68,9 +83,11 @@ public class ClientController {
             // obținerea controllerului pentru fișierul FXML
             ClientController controller = loader.getController();
 
+            controller.setClient(client);
+
             controller.clientName.setText(client.getName());
             controller.clientEmail.setText(client.getEmail());
-            controller.clientPhone.setText(String.valueOf(client.getPhone()));
+            controller.clientPhone.setText("0" + client.getPhone());
 
             // inițializarea elementelor vizuale din card
             // ImageView carImage = car.getCarImage();
@@ -92,5 +109,49 @@ public class ClientController {
             return null;
 
         }
+    }
+
+    public void actionBtnEditClient(javafx.event.ActionEvent actionEvent) {
+        try {
+            // Crează un obiect FXMLLoader pentru fișierul FXML de editare a mașinilor
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("editClient.fxml"));
+            Parent root = loader.load();
+
+            // Obține controller-ul pentru fereastra de editare a mașinilor
+            EditClientController controller = loader.getController();
+            controller.setClient(client);
+
+            // Obține mașina corespunzătoare acestei cărți
+            //Car car = (Car) btnEdit.getUserData();
+
+            // Inițializează formularul de editare cu informațiile despre mașină
+            //controller.initialize(car);
+
+            // Creează o nouă scenă pentru fereastra de editare a mașinilor și o afișează
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actionBtnDeleteClient(javafx.event.ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmare ștergere");
+        alert.setContentText("Sigur doriți să ștergeți acest client?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            databaseService.deleteClient(client.getId());
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void actionBtnEditClient(ActionEvent actionEvent) {
+    }
+
+    @javafx.fxml.FXML
+    public void actionBtnDeleteClient(ActionEvent actionEvent) {
     }
 }

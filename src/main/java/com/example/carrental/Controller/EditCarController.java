@@ -3,6 +3,7 @@ package com.example.carrental.Controller;
 import com.example.carrental.Model.Car;
 import com.example.carrental.Services.AlertService;
 import com.example.carrental.Services.DatabaseService;
+import com.example.carrental.Services.ValidationService;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +38,7 @@ public class EditCarController {
 
     DatabaseService databaseService = new DatabaseService();
     AlertService alertService = new AlertService();
+    ValidationService validationService = new ValidationService();
     @javafx.fxml.FXML
     private TextField regNumbTextField;
     @FXML
@@ -76,6 +78,58 @@ public class EditCarController {
     public void actionBtnEdit(ActionEvent actionEvent) {
         Car carToEdit = new Car();
 
+        String brand = brandTextField.getText();
+        String model = modelTextField.getText();
+        String regNumb = regNumbTextField.getText();
+        String year = yearTextField.getText();
+        String priceDay = pricePerDayTextField.getText();
+        String seats = seatsTextField.getText();
+        String transmission = transmissionTextField.getText();
+        String fuelType = fuelTypeTextField.getText();
+        String engineCapacity = engineCapacityTextField.getText();
+
+        if (brand.isEmpty() || model.isEmpty() || regNumb.isEmpty() || year.isEmpty() ||
+                priceDay.isEmpty() || seats.isEmpty() || transmission.isEmpty() || fuelType.isEmpty() || engineCapacity.isEmpty()) {
+            alertService.newAlert("Eroare", "Completati toate campurile!");
+            return;
+        }
+
+        if (!validationService.brandValidation(brand)) {
+            alertService.newAlert("Eroare", "Brand invalid!\nTrebuie sa contina doar litere");
+            return;
+        }
+        if (!validationService.modelValidation(model)) {
+            alertService.newAlert("Eroare", "Model invalid!\nPoate sa contina doar litere si cifre");
+            return;
+        }
+        if (!validationService.regNumbValidation(regNumb)) {
+            alertService.newAlert("Eroare", "Numar de inmatriculare invalid!\nTrebuie sa fie de forma: MM111ABC");
+            return;
+        }
+        if (!validationService.yearValidation(year)) {
+            alertService.newAlert("Eroare", "An de fabricatie invalid!\nTrebuie sa fie de forma: 2000");
+            return;
+        }
+        if (!validationService.priceValidation(priceDay)) {
+            alertService.newAlert("Eroare", "Pret invalid!\nTrebuie contina doar cifre");
+            return;
+        }
+        if (!validationService.seatsValidation(seats)) {
+            alertService.newAlert("Eroare", "Numar de locuri invalid!\nTrebuie contina doar cifre");
+            return;
+        }
+        if (!validationService.transmissionValidation(transmission)) {
+            alertService.newAlert("Eroare", "Transmisie invalida!\nTrebuie contina doar litere");
+            return;
+        }
+        if (!validationService.fuelTypeValidation(fuelType)) {
+            alertService.newAlert("Eroare", "Tip combustibil invalid!\nTrebuie contina doar litere");
+            return;
+        }
+        if (!validationService.engineCapacityValidation(engineCapacity)) {
+            alertService.newAlert("Eroare", "Capacitate motorinvalida!\nTrebuie contina doar cifre sub forma:1.9");
+            return;
+        }
         carToEdit.setId(this.car.getId());
         carToEdit.setBrand(brandTextField.getText());
         carToEdit.setModel(modelTextField.getText());

@@ -206,7 +206,6 @@ public class DashboardController {
     int numberOfNotAvailableCars = 0;
     @FXML
     private LineChart lineChart;
-    private StackPane stackCreateRent;
 
 
     private LinkedHashMap<String, Float> yearTotalIncome = new LinkedHashMap<>() {{
@@ -229,6 +228,12 @@ public class DashboardController {
     private Button btnRefreshCars;
     @FXML
     private Button rentRefresh;
+//    @FXML
+//    private StackPane stackCreateRent;
+    @FXML
+    private Button btnRefreshClient;
+    @FXML
+    private StackPane stackCreateRent;
 //    @FXML
 //    private StackPane stackCreateRent;
 
@@ -444,6 +449,7 @@ public class DashboardController {
 
     @FXML
     public void actionBtnClients(ActionEvent actionEvent) {
+        clients = clientsController.populateListClientsFromDB();
 
         addListClientToCard(clients);
 
@@ -588,6 +594,18 @@ public class DashboardController {
         try {
             databaseService.addCarToDatabase(car);
             alertService.newConfirmation("Reusit", "Ati adugat o masina cu succes!");
+
+            addCarBrand.setText("");
+            addCarModel.setText("");
+            addCarRegNumb.setText("");
+            addCarYear.setText("");
+            addCarPrice.setText("");
+            addCarSeats.setText("");
+            addCarTransmission.setText("");
+            addCarFuelType.setText("");
+            addCarEngineCapacity.setText("");
+
+            actionBtnRefreshCars(actionEvent);
         } catch (Exception e) {
             //throw new RuntimeException(e);
             alertService.newAlert("Eroare", "Masina nu am putut fi adaugata!\nNumar de inmatriculare exista deja in db");
@@ -634,6 +652,9 @@ public class DashboardController {
 
         if (databaseService.addClientToDatabase(client)) {
             alertService.newConfirmation("Reusit", "Client adaugat cu succes!");
+            actionBtnRefreshClient(actionEvent);
+            Tab tab = panelClients.getTabs().get(0);
+            panelClients.getSelectionModel().select(tab);
         } else {
             alertService.newAlert("Eroare", "Nu s-a putut aduga clientul!");
         }
@@ -1029,5 +1050,10 @@ public class DashboardController {
     @FXML
     public void actionBtnRentRefresh(ActionEvent actionEvent) {
         actionBtnRent(actionEvent);
+    }
+
+    @FXML
+    public void actionBtnRefreshClient(ActionEvent actionEvent) {
+        actionBtnClients(actionEvent);
     }
 }
