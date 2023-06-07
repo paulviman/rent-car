@@ -18,6 +18,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -58,7 +60,6 @@ public class LoginController extends Component implements Initializable {
     private PasswordField tfSignUpPassword;
     @FXML
     private PasswordField tfSignUpConfirmPassword;
-    DashboardController dashboardController;
     ValidationService validationService = new ValidationService();
     AlertService alertService = new AlertService();
     DatabaseService databaseService = new DatabaseService();
@@ -74,6 +75,13 @@ public class LoginController extends Component implements Initializable {
 
     }
 
+    //    private boolean isEnterKeyPressed(ActionEvent event) {
+//        if (event.equals(KeyCode.ENTER)) {
+//            KeyEvent keyEvent = (KeyEvent) event;
+//            return keyEvent.getCode() == KeyCode.ENTER;
+//        }
+//        return false;
+//    }
     @FXML
     private void handleButtonEvent(ActionEvent event) {
         if (event.getSource().equals(btnSignInToSignUp)) {
@@ -90,7 +98,7 @@ public class LoginController extends Component implements Initializable {
             userLogIn = getAuthenticatedUser(email, password);
 
             if (userLogIn != null) {
-                System.out.println(userLogIn.getName());
+                System.out.println(userLogIn.getName() + userLogIn.getRole());
 
                 System.out.println(userLogIn);
                 try {
@@ -100,8 +108,8 @@ public class LoginController extends Component implements Initializable {
 
                     FXMLLoader loader = new FXMLLoader(Main.class.getResource("dashboard.fxml"));
                     Parent root = loader.load();
-                    dashboardController = loader.getController();
-                    dashboardController.user = userLogIn;
+                    DashboardController dashboardController = loader.getController();
+                    dashboardController.setUser(userLogIn);
                     Scene scene = new Scene(root);
                     Stage dashboardStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     dashboardStage.setScene(scene);

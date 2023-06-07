@@ -23,19 +23,19 @@ import java.util.Optional;
 import com.example.carrental.Controller.EditClientController;
 
 public class ClientController {
+    DatabaseService databaseService = new DatabaseService();
+
+    Client client;
     @javafx.fxml.FXML
     private Label clientName;
     @javafx.fxml.FXML
     private Label clientEmail;
     @javafx.fxml.FXML
     private Label clientPhone;
-    DatabaseService databaseService = new DatabaseService();
     @javafx.fxml.FXML
     private Button btnEditClient;
     @javafx.fxml.FXML
     private Button bntDeleteClient;
-
-    Client client;
 
     public void setClient(Client client) {
         this.client = client;
@@ -74,7 +74,7 @@ public class ClientController {
 //        return clients;
     }
 
-    public Node createCardClientNode(Client client) {
+    public Node createCardClientNode(Client client, Boolean displayButtons) {
         try {
             // încărcarea fișierului FXML pentru cardul de mașină
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("client-card.fxml"));
@@ -88,6 +88,11 @@ public class ClientController {
             controller.clientName.setText(client.getName());
             controller.clientEmail.setText(client.getEmail());
             controller.clientPhone.setText("0" + client.getPhone());
+
+            if (!displayButtons){
+                controller.btnEditClient.setVisible(false);
+                controller.bntDeleteClient.setVisible(false);
+            }
 
             // inițializarea elementelor vizuale din card
             // ImageView carImage = car.getCarImage();
@@ -147,11 +152,15 @@ public class ClientController {
         }
     }
 
-    @javafx.fxml.FXML
-    public void actionBtnEditClient(ActionEvent actionEvent) {
-    }
-
-    @javafx.fxml.FXML
-    public void actionBtnDeleteClient(ActionEvent actionEvent) {
-    }
+//    @Deprecated
+//    public void actionBtnEditClient(ActionEvent actionEvent) {
+//    }
+//
+//    @javafx.fxml.FXML
+//    public void actionBtnDeleteClient(ActionEvent actionEvent) {
+//    }
+//
+//    @javafx.fxml.FXML
+//    public void actionBtnEditClient(ActionEvent actionEvent) {
+//    }
 }

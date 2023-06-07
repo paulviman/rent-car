@@ -375,10 +375,12 @@ public class DatabaseService {
 
             if (resultSet.next()) {
                 user1 = new User();
+                user1.id = resultSet.getInt("id");
                 user1.name = resultSet.getString("name");
                 user1.email = resultSet.getString("email");
                 user1.phone = resultSet.getString("phone");
                 user1.address = resultSet.getString("address");
+                user1.role = resultSet.getInt("role");
             }
 
             statement.close();
@@ -402,13 +404,14 @@ public class DatabaseService {
 
             Statement stmt = conn.createStatement();
             String sql = "INSERT INTO users (name, email, phone, address, password) " +
-                    "VALUES (?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?,)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, phone);
             preparedStatement.setString(4, address);
             preparedStatement.setString(5, password);
+            //preparedStatement.setString(5, role);
 
             //Insert row into the table
             int addedRows = preparedStatement.executeUpdate();
@@ -486,6 +489,7 @@ public class DatabaseService {
             throw new RuntimeException(e);
         }
     }
+
     public void deleteClient(int clientId) {
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -496,6 +500,24 @@ public class DatabaseService {
 
             if (rowsDeleted > 0) {
                 System.out.println("Am sters clientul cu id-ul " + clientId);
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteUser(int clientId) {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE id=?");
+
+            statement.setInt(1, clientId);
+            int rowsDeleted = statement.executeUpdate();
+
+            if (rowsDeleted > 0) {
+                System.out.println("Am sters userul cu id-ul " + clientId);
             }
 
 
@@ -628,6 +650,99 @@ public class DatabaseService {
             statement.setString(2, clientToEdit.getEmail());
             statement.setInt(3, clientToEdit.getPhone());
             statement.setInt(4, clientToEdit.getId());
+
+            rowsAffected = statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            throw new RuntimeException(ex);
+        }
+        if (rowsAffected > 0) {
+            System.out.println("Update realizat cu succes. Numarul de randuri afectate: " + rowsAffected);
+            return true;
+        } else {
+            System.out.println("Update esuat sau nu s-a modificat niciun rand.");
+            return false;
+        }
+    }
+
+    public ArrayList<User> getAllUsers() {
+        ArrayList users = new ArrayList<User>();
+
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users order by name ");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPhone(String.valueOf(resultSet.getInt("phone")));
+                user.setAddress(resultSet.getString("address"));
+                user.setRole(resultSet.getInt("role"));
+                user.setPassword(resultSet.getString("password"));
+
+                users.add(user);
+
+            }
+
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return users;
+    }
+
+    public boolean addEmployeeToDatabase(User user1) {
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO users (name, email, phone, address, password, role) VALUES (?, ?, ?, ?, ?, ?)");
+
+            statement.setString(1, user1.getName());
+            statement.setString(2, user1.getEmail());
+            statement.setInt(3, Integer.parseInt(user1.getPhone()));
+            statement.setString(4, user1.getAddress());
+            statement.setString(5, user1.getPassword());
+            statement.setInt(6, user1.getRole());
+
+            int rowInserted = statement.executeUpdate();
+            if (rowInserted > 0) {
+                System.out.println("Am adaugat cu succes user");
+                return true;
+                // afiseaza mesaj de succes
+//                JOptionPane.showMessageDialog(addCarPanel, "The car has been added successfully!");
+//                dispose();
+            } else {
+                // afiseaza mesaj de eroare
+//                JOptionPane.showMessageDialog(addCarPanel, "Error adding the car to the database !");
+                System.out.println("Nu am putut adauga userul");
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public boolean editUser(User user1) {
+        int rowsAffected;
+
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("UPDATE users SET name = ?, email = ?, phone = ?, address = ?, role = ?, password = ? WHERE id = ?");
+
+            statement.setString(1, user1.getName());
+            statement.setString(2, user1.getEmail());
+            statement.setInt(3, Integer.parseInt(user1.getPhone()));
+            statement.setString(4, user1.getAddress());
+            statement.setInt(5, user1.getRole());
+            statement.setString(6, user1.getPassword());
+            statement.setInt(7, user1.getId());
+            System.out.println(user1.getId() + "userrr idddddddddddddddddddddd");
 
             rowsAffected = statement.executeUpdate();
 

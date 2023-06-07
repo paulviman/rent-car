@@ -8,6 +8,8 @@ import com.example.carrental.Model.User;
 import com.example.carrental.Services.AlertService;
 import com.example.carrental.Services.DatabaseService;
 import com.example.carrental.Services.ValidationService;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,7 +38,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class DashboardController {
-    User user = new User();
+    private User user;
     @FXML
     private Button btnDashboard;
     @FXML
@@ -56,9 +58,11 @@ public class DashboardController {
     private static ArrayList<Car> cars = new ArrayList<>();
     private static ArrayList<Rent> rents = new ArrayList<>();
     private static ArrayList<Client> clients = new ArrayList<>();
+    private static ArrayList<User> employe = new ArrayList<>();
     private CarCardController cardController = new CarCardController();
     private ClientController clientsController = new ClientController();
     private RentController rentController = new RentController();
+    private EmployeeController employeController = new EmployeeController();
     @FXML
     private CardPane cardPane;
     @FXML
@@ -228,12 +232,38 @@ public class DashboardController {
     private Button btnRefreshCars;
     @FXML
     private Button rentRefresh;
-//    @FXML
+    //    @FXML
 //    private StackPane stackCreateRent;
     @FXML
     private Button btnRefreshClient;
     @FXML
     private StackPane stackCreateRent;
+    @FXML
+    private Button btnEmployee;
+    @FXML
+    private TabPane paneEmployee;
+    @FXML
+    private TextField searchEmplye;
+    @FXML
+    private Button btnSearchEmploye;
+    @FXML
+    private Button btnRefreshEmploye;
+    @FXML
+    private TextField addEmplyeName;
+    @FXML
+    private TextField addEmplyeEmail;
+    @FXML
+    private TextField addEmplyePhone;
+    @FXML
+    private TextField addEmplyeAddress;
+    @FXML
+    private ComboBox comboboxRole;
+    @FXML
+    private PasswordField addEmplyePassword;
+    @FXML
+    private CardPane cardPaneUsers;
+    @FXML
+    private Button btnAddUser;
 //    @FXML
 //    private StackPane stackCreateRent;
 
@@ -241,14 +271,46 @@ public class DashboardController {
         cars = cardController.populateListCarFromDB();
     }
 
+    //    public void setUser(User user1) {
+//        this.user = user1;
+//    }
+    private ObjectProperty<User> userProperty = new SimpleObjectProperty<>();
+
+    public ObjectProperty<User> userProperty() {
+        return userProperty;
+    }
+
+    public final User getUser() {
+        return userProperty.get();
+    }
+
+    public final void setUser(User user) {
+        userProperty.set(user);
+    }
+
     @FXML
     public void initialize() {
+
         panelDashboard.toFront();
+
+        userProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                int userRole = newValue.getRole();
+                if (userRole == 2) {
+                    // Ascundeți butoanele destinate rolului 1
+                    btnEmployee.setVisible(false);
+                } else if (userRole == 1) {
+                    // Afișați toate butoanele pentru rolul 2
+                    btnEmployee.setVisible(true);
+                }
+            }
+        });
 
         carsAvailable = databaseService.getAllCarsAvailable();
         cars = cardController.populateListCarFromDB();
         clients = clientsController.populateListClientsFromDB();
         rents = rentController.populateListRentFromDB(cars, clients);
+        employe = employeController.populateListEmployeFromDB();
 
         for (Car car : cars) {
             if (car.isAvailable()) {
@@ -337,9 +399,11 @@ public class DashboardController {
         filter.getItems().addAll("Ascending", "Descending");
         filterTransmission.getItems().addAll("Manual", "Automat");
         filterAvailability.getItems().addAll("Available", "Not available");
+        comboboxRole.getItems().addAll("admin", "user");
     }
 
     public void setTableCarsForRent() {
+
         TableColumn<Car, String> brandCol = new TableColumn<>("Brand");
         brandCol.setCellValueFactory(new PropertyValueFactory<>("brand"));
 
@@ -415,7 +479,7 @@ public class DashboardController {
 
         // VBox cardContainer = new VBox();
         for (Client client : clientsDisplay) {
-            Node cardNode = clientsController.createCardClientNode(client);
+            Node cardNode = clientsController.createCardClientNode(client, true);
             //cardContainer.getChildren().add(cardNode);
             //scrolPane.getItems().add(cardNode);
             cardPaneClients.getItems().add(cardNode);
@@ -426,6 +490,7 @@ public class DashboardController {
 
     @FXML
     public void actionBtnDashboard(ActionEvent actionEvent) {
+
         panelDashboard.toFront();
     }
 
@@ -706,7 +771,7 @@ public class DashboardController {
         newRent.setPickUpAddress(pickUpAddressLabel.getText());
         newRent.setReturnAddress(returnAddressLabel.getText());
 
-        carsAvailable = databaseService.getAllCarsAvailableForASpecificDate(pickUpDateLabel.getValue(),returnDateLabel.getValue() );
+        carsAvailable = databaseService.getAllCarsAvailableForASpecificDate(pickUpDateLabel.getValue(), returnDateLabel.getValue());
         carTabelForSelect.setItems(FXCollections.observableArrayList(carsAvailable));
 
         paneCarRent.toFront();
@@ -786,7 +851,7 @@ public class DashboardController {
             selectedClient = clients.stream().filter(client1 -> client1.getId() == client.getId()).findFirst();
 
             paneCardClientSelected.getItems().clear();
-            Node cardNode = clientsController.createCardClientNode(client);
+            Node cardNode = clientsController.createCardClientNode(client, false);
             paneCardClientSelected.getItems().add(cardNode);
         }
     }
@@ -1055,5 +1120,109 @@ public class DashboardController {
     @FXML
     public void actionBtnRefreshClient(ActionEvent actionEvent) {
         actionBtnClients(actionEvent);
+    }
+
+    @FXML
+    public void actionBtnEmployee(ActionEvent actionEvent) {
+        employe = employeController.populateListEmployeFromDB();
+        addListEmployeToCard(employe);
+
+        paneEmployee.toFront();
+    }
+
+    private void addListEmployeToCard(ArrayList<User> employe) {
+        cardPaneUsers.getItems().clear();
+
+        // VBox cardContainer = new VBox();
+        for (User user1 : employe) {
+            Node cardNode = employeController.createCardEmployeNode(user1);
+            //cardContainer.getChildren().add(cardNode);
+            //scrolPane.getItems().add(cardNode);
+            cardPaneUsers.getItems().add(cardNode);
+        }
+    }
+
+    @FXML
+    public void actionBtnSearchEmploye(ActionEvent actionEvent) {
+
+        String searchText = searchEmplye.getText().toLowerCase();
+        System.out.println("caut useriiiiiiiiiiiii" + searchText);
+        ArrayList<User> searchResults = new ArrayList<>();
+
+        for (User user : employe) {
+            if (user.getName().toLowerCase().contains(searchText)) {
+                searchResults.add(user);
+            }
+        }
+
+        addListEmployeToCard(searchResults);
+
+    }
+
+    @FXML
+    public void actionBtnRefreshEmploye(ActionEvent actionEvent) {
+        actionBtnEmployee(actionEvent);
+    }
+
+    @FXML
+    public void actionBtnAddUser(ActionEvent actionEvent) {
+        User user1 = new User();
+
+        String name = addEmplyeName.getText();
+        String email = addEmplyeEmail.getText();
+        String phone = addEmplyePhone.getText();
+        String password = addEmplyePassword.getText();
+        String address = addEmplyeAddress.getText();
+        int role;
+        if (comboboxRole.getItems().toString().equals("admin")) {
+            role = 1;
+        } else {
+            role = 2;
+        }
+
+
+        if (!validationService.nameValidation(name)) {
+            alertService.newAlert("Eroare", "Nume invalid!\nForma acceptata: Popescu Ion");
+            return;
+        }
+        if (!validationService.emailValidation(email)) {
+            alertService.newAlert("Eroare", "Email invalid!\nForma acceptata: example@gmail.com");
+            return;
+        }
+        if (!validationService.phoneValidation(phone)) {
+            alertService.newAlert("Eroare", "Telefon invalid!\nForma acceptata: 0712312312");
+            return;
+        }
+        if (!validationService.addressValidation(address)) {
+            alertService.newAlert("Eroare", "Adresa invalida!");
+            return;
+        }
+        if (!validationService.passwordValidation(password)) {
+            alertService.newAlert("Eroare", "Parola invalida!");
+            return;
+        }
+
+        user1.setName(addEmplyeName.getText());
+        user1.setEmail(addEmplyeEmail.getText());
+        user1.setPhone(addEmplyePhone.getText());
+        user1.setRole(role);
+        user1.setAddress(address);
+        user1.setPassword(password);
+
+        if (databaseService.addEmployeeToDatabase(user1)) {
+            alertService.newConfirmation("Reusit", "Employee adaugat cu succes!");
+            actionBtnEmployee(actionEvent);
+            Tab tab = paneEmployee.getTabs().get(0);
+            paneEmployee.getSelectionModel().select(tab);
+        } else {
+            alertService.newAlert("Eroare", "Nu s-a putut aduga userul!");
+        }
+
+        addEmplyeEmail.setText(null);
+        addEmplyeName.setText(null);
+        addEmplyePhone.setText(null);
+        addEmplyeAddress.setText(null);
+        addEmplyePassword.setText(null);
+        comboboxRole.setValue("role");
     }
 }

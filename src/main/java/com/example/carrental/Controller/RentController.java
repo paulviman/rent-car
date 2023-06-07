@@ -131,6 +131,9 @@ public class RentController {
                 //controller.btnGenerateInvoicePdf.setDisable(true);
                 controller.btnEditRent.setDisable(true);
 
+            } else if ((currentDate.isAfter(rent.getStartDateRent())) && (currentDate.isBefore(rent.getEndDaterRent()))) {
+                controller.frontColorPane.setStyle("-fx-background-color:  #FFEE58;");
+                controller.backColorPane.setStyle("-fx-background-color:  #FFEE58;");
             } else {
                 controller.frontColorPane.setStyle("-fx-background-color:  #80CBC4;");
                 controller.backColorPane.setStyle("-fx-background-color:  #80CBC4;");
@@ -150,7 +153,7 @@ public class RentController {
     }
 
     public void actionBtnGenerateInvoicePdf(javafx.event.ActionEvent actionEvent) {
-        PdfService.generateInvoice(rent,car,client,user);
+        PdfService.generateInvoice(rent, car, client, user);
 //        String path = String.format("invoice%d.pdf", rent.getId());
 //
 //        try {
