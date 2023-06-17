@@ -109,7 +109,8 @@ public class LoginController extends Component implements Initializable {
                     FXMLLoader loader = new FXMLLoader(Main.class.getResource("dashboard.fxml"));
                     Parent root = loader.load();
                     DashboardController dashboardController = loader.getController();
-                    dashboardController.setUser(userLogIn);
+                    //dashboardController.setUser(userLogIn);
+                    dashboardController.initialize(userLogIn);
                     Scene scene = new Scene(root);
                     Stage dashboardStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     dashboardStage.setScene(scene);

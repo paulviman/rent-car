@@ -1,4 +1,5 @@
 package com.example.carrental.Model;
+
 public class User {
     public int id;
     public String name;
@@ -6,7 +7,24 @@ public class User {
     public String phone;
     public String address;
     public String password;
+    public int no_rents;
     public int role;
+
+    public boolean isAdmin() {
+        if (this.role == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getNo_rents() {
+        return no_rents;
+    }
+
+    public void setNo_rents(int no_rents) {
+        this.no_rents = no_rents;
+    }
 
     public int getRole() {
         return role;

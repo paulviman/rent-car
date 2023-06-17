@@ -74,7 +74,7 @@ public class EditClientController {
 
         nameField.setText(client.getName());
         emailField.setText(client.getEmail());
-        phoneField.setText(String.valueOf(client.getPhone()));
+        phoneField.setText("0" + client.getPhone());
     }
 
     @javafx.fxml.FXML

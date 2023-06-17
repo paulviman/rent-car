@@ -5,7 +5,7 @@ module com.example.carrental {
     requires java.desktop;
     requires java.net.http;
     requires com.gluonhq.charm.glisten;
-    requires quartz;
+    //requires quartz;
     requires org.slf4j;
     requires kernel;
     requires layout;

@@ -20,19 +20,6 @@
             <center>
                 <StackPane prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Pane fx:id="panelSignIn" prefHeight="585.0" prefWidth="569.0" style="-fx-background-color: #ffff;">
-                            <children>
-                                <Label layoutX="61.0" layoutY="51.0" prefHeight="55.0" prefWidth="119.0" styleClass="page-title" stylesheets="@css/fullpackstyle.css" text="Sign In">
-                                    <font>
-                                        <Font name="System Bold" size="20.0" />
-                                    </font>
-                                </Label>
-                                <TextField fx:id="tfSignInEmail" layoutX="180.0" layoutY="221.0" prefHeight="35.0" prefWidth="285.0" promptText="Email" styleClass="text-field" stylesheets="@css/fullpackstyle.css" />
-                                <PasswordField fx:id="tfSignInPassword" layoutX="180.0" layoutY="290.0" prefHeight="35.0" prefWidth="285.0" promptText="Password" styleClass="text-field" stylesheets="@css/fullpackstyle.css" />
-                                <Button fx:id="btnSignIn" layoutX="263.0" layoutY="445.0" mnemonicParsing="false" onAction="#handleButtonEvent" prefHeight="35.0" prefWidth="120.0" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Sign in" />
-                                <Button fx:id="btnSignInToSignUp" layoutX="199.0" layoutY="520.0" mnemonicParsing="false" onAction="#handleButtonEvent" prefHeight="38.0" prefWidth="248.0" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Don't have an acount? Sign up!" />
-                            </children>
-                        </Pane>
                         <Pane fx:id="panelSignUp" prefHeight="625.0" style="-fx-background-color: #ffffff;">
                             <children>
                                 <Label layoutX="55.0" layoutY="46.0" prefHeight="55.0" prefWidth="118.0" styleClass="page-title" stylesheets="@css/fullpackstyle.css" text="Sign Up">
@@ -52,6 +39,19 @@
                                     </children>
                                 </VBox>
                         <Button fx:id="btnBackToSignIn" layoutX="290.0" layoutY="585.0" mnemonicParsing="false" onAction="#actionBtnBackToSignIn" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Back" />
+                            </children>
+                        </Pane>
+                        <Pane fx:id="panelSignIn" prefHeight="585.0" prefWidth="569.0" style="-fx-background-color: #ffff;">
+                            <children>
+                                <Label layoutX="61.0" layoutY="51.0" prefHeight="55.0" prefWidth="119.0" styleClass="page-title" stylesheets="@css/fullpackstyle.css" text="Sign In">
+                                    <font>
+                                        <Font name="System Bold" size="20.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="tfSignInEmail" layoutX="180.0" layoutY="221.0" prefHeight="35.0" prefWidth="285.0" promptText="Email" styleClass="text-field" stylesheets="@css/fullpackstyle.css" />
+                                <PasswordField fx:id="tfSignInPassword" layoutX="180.0" layoutY="290.0" prefHeight="35.0" prefWidth="285.0" promptText="Password" styleClass="text-field" stylesheets="@css/fullpackstyle.css" />
+                                <Button fx:id="btnSignIn" layoutX="263.0" layoutY="445.0" mnemonicParsing="false" onAction="#handleButtonEvent" onKeyPressed="#handleButtonEvent" onMouseClicked="#handleButtonEvent" prefHeight="35.0" prefWidth="120.0" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Sign in" />
+                                <Button fx:id="btnSignInToSignUp" layoutX="199.0" layoutY="520.0" mnemonicParsing="false" onAction="#handleButtonEvent" prefHeight="38.0" prefWidth="248.0" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Don't have an acount? Sign up!" />
                             </children>
                         </Pane>
                     </children>

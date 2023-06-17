@@ -24,7 +24,7 @@ public class DatabaseService {
                 if (rent.getEndDaterRent().isBefore(currentDate)) {
                     int carId = rent.getCarId();
                     this.setCarAvailability(carId, true);
-                    this.setRentAvailability(rent.getId(), false);
+                    //this.setRentAvailability(rent.getId(), false);
                     // setRentAvailability(rent.getId(),false);
                 }
             }
@@ -683,6 +683,7 @@ public class DatabaseService {
                 user.setAddress(resultSet.getString("address"));
                 user.setRole(resultSet.getInt("role"));
                 user.setPassword(resultSet.getString("password"));
+                user.setNo_rents(resultSet.getInt("no_rents"));
 
                 users.add(user);
 
@@ -756,6 +757,28 @@ public class DatabaseService {
         } else {
             System.out.println("Update esuat sau nu s-a modificat niciun rand.");
             return false;
+        }
+    }
+
+    public void addUserNoRents(User user) {
+        int rowsAffected;
+
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("UPDATE users SET no_rents = ? WHERE id = ?");
+
+            statement.setInt(1, user.getNo_rents());
+            statement.setInt(2, user.getId());
+            rowsAffected = statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            throw new RuntimeException(ex);
+        }
+        if (rowsAffected > 0) {
+            System.out.println("Update realizat cu succes. Numarul de randuri afectate: " + rowsAffected);
+        } else {
+            System.out.println("Update esuat sau nu s-a modificat niciun rand.");
         }
     }
 }

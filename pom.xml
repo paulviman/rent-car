@@ -73,11 +73,11 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.32</version>
         </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.5.0-rc1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.quartz-scheduler</groupId>-->
+<!--            <artifactId>quartz</artifactId>-->
+<!--            <version>2.5.0-rc1</version>-->
+<!--        </dependency>-->
 
         <!--        <dependency>-->
         <!--            <groupId>com.gluonhq</groupId>-->
@@ -101,16 +101,16 @@
             <artifactId>util</artifactId>
             <version>4.0.8</version>
         </dependency>
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>kernel</artifactId>
-            <version>7.0.4</version>
-        </dependency>
 <!--        <dependency>-->
-<!--            <groupId>com.sun.net.httpserver</groupId>-->
-<!--            <artifactId>http</artifactId>-->
-<!--            <version>20070405</version>-->
+<!--            <groupId>com.itextpdf</groupId>-->
+<!--            <artifactId>kernel</artifactId>-->
+<!--            <version>7.0.4</version>-->
 <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.sun.net.httpserver</groupId>-->
+        <!--            <artifactId>http</artifactId>-->
+        <!--            <version>20070405</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>
@@ -149,15 +149,15 @@
         </dependency>
 
         <!--        <dependency>-->
-<!--            <groupId>com.google.http-client</groupId>-->
-<!--            <artifactId>google-http-client</artifactId>-->
-<!--            <version>1.42.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.google.http-client</groupId>-->
-<!--            <artifactId>google-http-client</artifactId>-->
-<!--            <version>1.42.0</version>-->
-<!--        </dependency>-->
+        <!--            <groupId>com.google.http-client</groupId>-->
+        <!--            <artifactId>google-http-client</artifactId>-->
+        <!--            <version>1.42.0</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.google.http-client</groupId>-->
+        <!--            <artifactId>google-http-client</artifactId>-->
+        <!--            <version>1.42.0</version>-->
+        <!--        </dependency>-->
 
 
     </dependencies>

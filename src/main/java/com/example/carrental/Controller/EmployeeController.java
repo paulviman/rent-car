@@ -59,7 +59,7 @@ public class EmployeeController {
 
             // Obține controller-ul pentru fereastra de editare a mașinilor
             EditUser controller = loader.getController();
-           // System.out.println(user.getPassword());
+            // System.out.println(user.getPassword());
             controller.setUser(user);
 
             // Obține mașina corespunzătoare acestei cărți
@@ -109,6 +109,7 @@ public class EmployeeController {
             controller.employeEmail.setText(user.getEmail());
             controller.employePhone.setText("0" + user.getPhone());
             controller.employeAddress.setText(user.getAddress());
+            controller.employeNoRents.setText(String.valueOf(user.getNo_rents()));
             if (user.getRole() == 1) {
                 controller.employeRole.setText("Administartor");
             } else if (user.getRole() == 2) {

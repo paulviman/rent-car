@@ -125,16 +125,18 @@ public class RentController {
             //controller.rentPrice.setText(String.valueOf(total_price));
             controller.rentPrice.setText(String.valueOf(rent.getTotalPrice()));
             if (!rent.isAvailable()) {
+                controller.frontColorPane.setStyle("-fx-background-color: #9403fc;");
+                controller.backColorPane.setStyle("-fx-background-color: #9403fc;");
+
+                controller.btnGenerateInvoicePdf.setDisable(true);
+                controller.btnEditRent.setDisable(true);
+            } else if ((currentDate.isAfter(rent.getEndDaterRent()))) {
                 controller.frontColorPane.setStyle("-fx-background-color: #EF5350;");
                 controller.backColorPane.setStyle("-fx-background-color: #EF5350;");
-
-                //controller.btnGenerateInvoicePdf.setDisable(true);
-                controller.btnEditRent.setDisable(true);
-
             } else if ((currentDate.isAfter(rent.getStartDateRent())) && (currentDate.isBefore(rent.getEndDaterRent()))) {
                 controller.frontColorPane.setStyle("-fx-background-color:  #FFEE58;");
                 controller.backColorPane.setStyle("-fx-background-color:  #FFEE58;");
-            } else {
+            } else if (currentDate.isBefore(rent.getStartDateRent())) {
                 controller.frontColorPane.setStyle("-fx-background-color:  #80CBC4;");
                 controller.backColorPane.setStyle("-fx-background-color:  #80CBC4;");
             }

@@ -19,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
@@ -30,10 +31,10 @@ import com.gluonhq.charm.glisten.control.CardPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import com.example.carrental.Controller.EditCarController;
 
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -226,6 +227,8 @@ public class DashboardController {
         put("November", 0f);
         put("December", 0f);
     }};
+
+    private LinkedHashMap<String, Integer> numberOfRentsPerUser = new LinkedHashMap<>();
     @FXML
     private TabPane panelCars;
     @FXML
@@ -264,6 +267,10 @@ public class DashboardController {
     private CardPane cardPaneUsers;
     @FXML
     private Button btnAddUser;
+    @FXML
+    private ComboBox comboboxRentStatus;
+    @FXML
+    private BarChart barChart;
 //    @FXML
 //    private StackPane stackCreateRent;
 
@@ -271,9 +278,10 @@ public class DashboardController {
         cars = cardController.populateListCarFromDB();
     }
 
-    //    public void setUser(User user1) {
-//        this.user = user1;
-//    }
+    public void setUser(User user1) {
+        this.user = user1;
+    }
+
     private ObjectProperty<User> userProperty = new SimpleObjectProperty<>();
 
     public ObjectProperty<User> userProperty() {
@@ -284,14 +292,15 @@ public class DashboardController {
         return userProperty.get();
     }
 
-    public final void setUser(User user) {
-        userProperty.set(user);
-    }
+//    public final void setUser(User user) {
+//        userProperty.set(user);
+//    }
 
-    @FXML
-    public void initialize() {
+    @Deprecated
+    public void initialize(User userLogIn) {
 
         panelDashboard.toFront();
+        this.user = userLogIn;
 
         userProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -323,6 +332,7 @@ public class DashboardController {
 
 
         pieChart.setData(piChartData);
+
 
         // Setarea etichetelor personalizate pentru fiecare secțiune
         pieChart.getData().forEach(data -> {
@@ -375,17 +385,39 @@ public class DashboardController {
 
             }
         }
-        XYChart.Series<String, Float> series = new XYChart.Series<>();
+        XYChart.Series<String, Float> seriesLineChart = new XYChart.Series<>();
 
         for (Map.Entry<String, Float> entry : yearTotalIncome.entrySet()) {
             String month = entry.getKey();
             Float income = entry.getValue();
 
             XYChart.Data<String, Float> data = new XYChart.Data<>(month, income);
-            series.getData().add(data);
+            seriesLineChart.getData().add(data);
         }
 
-        lineChart.getData().add(series);
+        lineChart.getData().add(seriesLineChart);
+
+        for (User user : employe) {
+            numberOfRentsPerUser.put(user.getName(), user.getNo_rents());
+        }
+        System.out.println("listaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + numberOfRentsPerUser);
+        XYChart.Series<String, Integer> seriesBarChart = new XYChart.Series<>();
+
+        for (Map.Entry<String, Integer> entryBar : numberOfRentsPerUser.entrySet()) {
+            String name = entryBar.getKey();
+            Integer rents = entryBar.getValue();
+
+            XYChart.Data<String, Integer> dataBarChar = new XYChart.Data<>(name, rents);
+            seriesBarChart.getData().add(dataBarChar);
+        }
+
+        barChart.getData().add(seriesBarChart);
+        if (user.isAdmin()) {
+            barChart.setVisible(true);
+        }else {
+            barChart.setVisible(false);
+        }
+
 
         System.out.println(yearTotalIncome);
 
@@ -400,6 +432,7 @@ public class DashboardController {
         filterTransmission.getItems().addAll("Manual", "Automat");
         filterAvailability.getItems().addAll("Available", "Not available");
         comboboxRole.getItems().addAll("admin", "user");
+        comboboxRentStatus.getItems().addAll("Completed", "Ongoing", "Waiting", "Discarded");
     }
 
     public void setTableCarsForRent() {
@@ -505,6 +538,7 @@ public class DashboardController {
     public void actionBtnRent(ActionEvent actionEvent) {
 
         rents = rentController.populateListRentFromDB(cars, clients);
+        System.out.println("userul este ::::::::::::::::" + user.getName());
         rentController.setUser(user);
         addListRentToCard(rents);
 
@@ -799,6 +833,8 @@ public class DashboardController {
         selectedCar = null;
         selectedClient = null;
         newRent = new Rent();
+        user.setNo_rents(user.getNo_rents() + 1);
+        databaseService.addUserNoRents(user);
 
 
         alertService.newConfirmation("Inchirierea a fost salvata!", "Inchiriere efectuata cu succes");
@@ -1224,5 +1260,39 @@ public class DashboardController {
         addEmplyeAddress.setText(null);
         addEmplyePassword.setText(null);
         comboboxRole.setValue("role");
+    }
+
+    @FXML
+    public void actionComboboxRentStatus(ActionEvent actionEvent) {
+
+        ArrayList rentFiltred = new ArrayList();
+        LocalDate now = LocalDate.now();
+
+        if (comboboxRentStatus.getValue().equals("Completed")) {
+            for (Rent rent : rents) {
+                if (rent.getEndDaterRent().isBefore(now) && rent.isAvailable()) {
+                    rentFiltred.add(rent);
+                }
+            }
+        } else if (comboboxRentStatus.getValue().equals("Ongoing")) {
+            for (Rent rent : rents) {
+                if (rent.getEndDaterRent().isAfter(now) && rent.getStartDateRent().isBefore(now) && rent.isAvailable()) {
+                    rentFiltred.add(rent);
+                }
+            }
+        } else if (comboboxRentStatus.getValue().equals("Waiting")) {
+            for (Rent rent : rents) {
+                if (rent.getStartDateRent().isAfter(now) && rent.isAvailable()) {
+                    rentFiltred.add(rent);
+                }
+            }
+        } else if (comboboxRentStatus.getValue().equals("Discarded")) {
+            for (Rent rent : rents) {
+                if (!rent.isAvailable()) {
+                    rentFiltred.add(rent);
+                }
+            }
+        }
+        addListRentToCard(rentFiltred);
     }
 }
