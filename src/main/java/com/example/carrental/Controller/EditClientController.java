@@ -36,15 +36,18 @@ public class EditClientController {
         String phone = phoneField.getText();
 
         if (!validationService.nameValidation(name)) {
-            alertService.newAlert("Eroare", "Nume invalid!\nForma acceptata: Popescu Ion");
+            alertService.newAlert("Error", "Invalid name!\n" +
+                    "Accepted form: Popescu Ion");
             return;
         }
         if (!validationService.emailValidation(email)) {
-            alertService.newAlert("Eroare", "Email invalid!\nForma acceptata: example@gmail.com");
+            alertService.newAlert("Error", "Invalid email!\n" +
+                    "Accepted form: example@gmail.com");
             return;
         }
         if (!validationService.phoneValidation(phone)) {
-            alertService.newAlert("Eroare", "Telefon invalid!\nForma acceptata: 0712312312");
+            alertService.newAlert("Error", "Invalid phone!\n" +
+                    "Accepted form: 0712312312");
             return;
         }
 
@@ -57,7 +60,7 @@ public class EditClientController {
             alertService.editConfirmation(btnSaveEditClient);
             //alertService.newConfirmation("Reusit", "Ati editat cu succes");
         } else {
-            alertService.newAlert("Eroare", "Nu s-au putut salva modificariel");
+            alertService.newAlert("Error", "Changes could not be saved!");
         }
     }
 

@@ -17,8 +17,8 @@ public class AlertService {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(text);
-        ButtonType sendButton = new ButtonType("Trimite email");
-        ButtonType cancelButton = new ButtonType("Anulează");
+        ButtonType sendButton = new ButtonType("Send email");
+        ButtonType cancelButton = new ButtonType("Cancel");
 
         alert.getButtonTypes().setAll(sendButton, cancelButton);
 
@@ -32,10 +32,10 @@ public class AlertService {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("Trimite emailul cu factura");
+                //System.out.println("Trimite emailul cu factura");
             } else if (response == cancelButton) {
                 // Codul pentru anularea trimiterea emailului
-                System.out.println("Trimiterea emailului a fost anulată");
+                System.out.println("The sending of the email has been cancelled");
             }
         });
     }
@@ -60,9 +60,9 @@ public class AlertService {
     public void editConfirmation(Button btnEdit) {
         // Crează un obiect de tip Alert cu tipul Confirmation
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle("Confirmare editare");
+        confirmationAlert.setTitle("Confirm edit");
         confirmationAlert.setHeaderText(null);
-        confirmationAlert.setContentText("Sigur doriți să salvați modificările?");
+        confirmationAlert.setContentText("Are you sure you want to save your changes?");
 
         // Obține butonul "OK" din fereastra de dialog de confirmare
         ButtonType okButton = ButtonType.OK;

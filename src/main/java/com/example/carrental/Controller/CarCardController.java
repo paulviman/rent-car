@@ -172,8 +172,8 @@ public class CarCardController {
 
     public void actionBtnDeleteCar(javafx.event.ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmare ștergere");
-        alert.setContentText("Sigur doriți să ștergeți această mașină?");
+        alert.setTitle("Confirm");
+        alert.setContentText("Are you sure you want to delete this car?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // Apelare metoda de ștergere a mașinii din baza de date

@@ -4,6 +4,7 @@ import com.example.carrental.Model.Car;
 import com.example.carrental.Model.Client;
 import com.example.carrental.Model.Rent;
 import com.example.carrental.Model.User;
+import com.example.carrental.Services.Encrypt;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -13,6 +14,8 @@ public class DatabaseService {
     final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
     final String USERNAME = "postgres";
     final String PASSWORD = "postgres";
+
+    Encrypt encrypt = new Encrypt();
 
     public void updateCarAvailabilityDaily() {
         LocalDate currentDate = LocalDate.now();
@@ -369,7 +372,8 @@ public class DatabaseService {
             Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?");
             statement.setString(1, email);
-            statement.setString(2, password);
+            statement.setString(2, encrypt.encrypt(password));
+            //statement.setString(2, password);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -403,8 +407,8 @@ public class DatabaseService {
             // Connected to database successfully...
 
             Statement stmt = conn.createStatement();
-            String sql = "INSERT INTO users (name, email, phone, address, password) " +
-                    "VALUES (?, ?, ?, ?, ?,)";
+            String sql = "INSERT INTO users (name, email, phone, address, password)" +
+                    "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
@@ -417,11 +421,16 @@ public class DatabaseService {
             int addedRows = preparedStatement.executeUpdate();
             if (addedRows > 0) {
                 user = new User();
-                user.name = name;
-                user.email = email;
-                user.phone = phone;
-                user.address = address;
-                user.password = password;
+                user.setName(name);
+                user.setEmail(email);
+                user.setPhone(phone);
+                user.setPassword(password);
+
+//                user.name = name;
+//                user.email = email;
+//                user.phone = phone;
+//                user.address = address;
+//                user.password = password;
             }
 
             stmt.close();

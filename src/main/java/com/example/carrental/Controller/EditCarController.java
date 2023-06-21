@@ -90,44 +90,53 @@ public class EditCarController {
 
         if (brand.isEmpty() || model.isEmpty() || regNumb.isEmpty() || year.isEmpty() ||
                 priceDay.isEmpty() || seats.isEmpty() || transmission.isEmpty() || fuelType.isEmpty() || engineCapacity.isEmpty()) {
-            alertService.newAlert("Eroare", "Completati toate campurile!");
+            alertService.newAlert("Error", "Fill in all the fields!");
             return;
         }
 
         if (!validationService.brandValidation(brand)) {
-            alertService.newAlert("Eroare", "Brand invalid!\nTrebuie sa contina doar litere");
+            alertService.newAlert("Error", "Invalid brand!\n" +
+                    "It must contain only letters");
             return;
         }
         if (!validationService.modelValidation(model)) {
-            alertService.newAlert("Eroare", "Model invalid!\nPoate sa contina doar litere si cifre");
+            alertService.newAlert("Error", "Invalid model!\n" +
+                    "It can only contain letters and numbers");
             return;
         }
         if (!validationService.regNumbValidation(regNumb)) {
-            alertService.newAlert("Eroare", "Numar de inmatriculare invalid!\nTrebuie sa fie de forma: MM111ABC");
+            alertService.newAlert("Error", "Invalid registration number!\n" +
+                    "It must be of the form: MM111ABC");
             return;
         }
         if (!validationService.yearValidation(year)) {
-            alertService.newAlert("Eroare", "An de fabricatie invalid!\nTrebuie sa fie de forma: 2000");
+            alertService.newAlert("Error", "Invalid manufacturing year!\n" +
+                    "It must be of the form: 2000");
             return;
         }
         if (!validationService.priceValidation(priceDay)) {
-            alertService.newAlert("Eroare", "Pret invalid!\nTrebuie contina doar cifre");
+            alertService.newAlert("Error", "Invalid price!\n" +
+                    "It must contain only numbers");
             return;
         }
         if (!validationService.seatsValidation(seats)) {
-            alertService.newAlert("Eroare", "Numar de locuri invalid!\nTrebuie contina doar cifre");
+            alertService.newAlert("Error", "Invalid number of seats!\n" +
+                    "It must contain only numbers");
             return;
         }
         if (!validationService.transmissionValidation(transmission)) {
-            alertService.newAlert("Eroare", "Transmisie invalida!\nTrebuie contina doar litere");
+            alertService.newAlert("Error", "Invalid transmission!\n" +
+                    "It must contain only letters");
             return;
         }
         if (!validationService.fuelTypeValidation(fuelType)) {
-            alertService.newAlert("Eroare", "Tip combustibil invalid!\nTrebuie contina doar litere");
+            alertService.newAlert("Error", "Invalid fuel type!\n" +
+                    "It must contain only letters");
             return;
         }
         if (!validationService.engineCapacityValidation(engineCapacity)) {
-            alertService.newAlert("Eroare", "Capacitate motorinvalida!\nTrebuie contina doar cifre sub forma:1.9");
+            alertService.newAlert("Error", "Invalid motor capacity!\n" +
+                    "It must contain only numbers in the form:1.9");
             return;
         }
         carToEdit.setId(this.car.getId());
@@ -146,7 +155,7 @@ public class EditCarController {
             alertService.editConfirmation(btnEdit);
             //alertService.newConfirmation("Reusit", "Ati editat cu succes");
         } else {
-            alertService.newAlert("Eroare", "Nu s-au putut salva modificariel");
+            alertService.newAlert("Error", "Changes could not be saved!");
         }
 
     }

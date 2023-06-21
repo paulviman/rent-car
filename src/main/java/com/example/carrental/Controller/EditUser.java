@@ -75,23 +75,26 @@ public class EditUser implements Initializable {
 
 
         if (!validationService.nameValidation(name)) {
-            alertService.newAlert("Eroare", "Nume invalid!\nForma acceptata: Popescu Ion");
+            alertService.newAlert("Error", "Invalid name!\n" +
+                    "Accepted form: Popescu Ion");
             return;
         }
         if (!validationService.emailValidation(email)) {
-            alertService.newAlert("Eroare", "Email invalid!\nForma acceptata: example@gmail.com");
+            alertService.newAlert("Error", "Invalid email!\n" +
+                    "Accepted form: example@gmail.com");
             return;
         }
         if (!validationService.phoneValidation(phone)) {
-            alertService.newAlert("Eroare", "Telefon invalid!\nForma acceptata: 0712312312");
+            alertService.newAlert("Error", "Invalid phone!\n" +
+                    "Accepted form: 0712312312");
             return;
         }
         if (!validationService.addressValidation(address)) {
-            alertService.newAlert("Eroare", "Adresa invalida!");
+            alertService.newAlert("Error", "Invalid address!");
             return;
         }
         if (!validationService.passwordValidation(password)) {
-            alertService.newAlert("Eroare", "Parola invalida!");
+            alertService.newAlert("Error", "Invalid password!");
             return;
         }
 
@@ -110,7 +113,7 @@ public class EditUser implements Initializable {
 //            Tab tab = paneEmployee.getTabs().get(0);
 //            paneEmployee.getSelectionModel().select(tab);
         } else {
-            alertService.newAlert("Eroare", "Nu s-a putut aduga userul!");
+            alertService.newAlert("Error", "The user could not be added!");
         }
 
 //        addEmplyeEmail.setText(null);

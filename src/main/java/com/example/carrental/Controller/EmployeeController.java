@@ -81,8 +81,8 @@ public class EmployeeController {
     @javafx.fxml.FXML
     public void actionBtnDeleteEmploye(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmare ștergere");
-        alert.setContentText("Sigur doriți să ștergeți acest user?");
+        alert.setTitle("Confirm");
+        alert.setContentText("Are you sure you want to delete this user?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             databaseService.deleteUser(user.getId());

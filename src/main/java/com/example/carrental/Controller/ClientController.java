@@ -144,8 +144,8 @@ public class ClientController {
 
     public void actionBtnDeleteClient(javafx.event.ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmare ștergere");
-        alert.setContentText("Sigur doriți să ștergeți acest client?");
+        alert.setTitle("Confirm");
+        alert.setContentText("Are you sure you want to delete this client?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             databaseService.deleteClient(client.getId());

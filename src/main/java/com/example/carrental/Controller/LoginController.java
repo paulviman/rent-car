@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+import com.example.carrental.Services.Encrypt;
 
 public class LoginController extends Component implements Initializable {
 
@@ -63,6 +64,7 @@ public class LoginController extends Component implements Initializable {
     ValidationService validationService = new ValidationService();
     AlertService alertService = new AlertService();
     DatabaseService databaseService = new DatabaseService();
+    Encrypt encrypt = new Encrypt();
 
     private User userLogIn;
     @FXML
@@ -120,7 +122,7 @@ public class LoginController extends Component implements Initializable {
                 }
                 //deschide dashboard
             } else {
-                alertService.newAlert("Eroare", "Cont inexistent!");
+                alertService.newAlert("Error", "Incorrect credentials");
             }
         }
         if (event.getSource().equals(btnSignUp)) {
@@ -131,34 +133,6 @@ public class LoginController extends Component implements Initializable {
     }
 
     private User getAuthenticatedUser(String email, String password) {
-
-//        User user1 = null;
-//
-//        final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
-//        final String USERNAME = "postgres";
-//        final String PASSWORD = "postgres";
-//        try {
-//            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-//            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?");
-//            statement.setString(1, email);
-//            statement.setString(2, password);
-//
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                user1 = new User();
-//                user1.name = resultSet.getString("name");
-//                user1.email = resultSet.getString("email");
-//                user1.phone = resultSet.getString("phone");
-//                user1.address = resultSet.getString("address");
-//            }
-//
-//            statement.close();
-//            connection.close();
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
         return databaseService.getAuthenticatedUserFromDB(email, password);
     }
 
@@ -171,90 +145,54 @@ public class LoginController extends Component implements Initializable {
         String confirmPassword = tfSignUpConfirmPassword.getText();
 
         if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty() || password.isEmpty()) {
-            alertService.newAlert("Eroare", "Completati toate campurile!");
+            alertService.newAlert("Error", "Fill in all the fields!");
             return false;
         }
 
         if (!validationService.emailValidation(email)) {
-            alertService.newAlert("Eroare", "Email invalid!\nForma acceptata: example@gmail.com");
+            alertService.newAlert("Error", "Invalid email!\nAccepted form: example@gmail.com");
             return false;
         }
         if (databaseService.getUserEmail(email)) {
-            alertService.newAlert("Eroare", "Email este deja utilizat!");
+            alertService.newAlert("Error", "Email is already in use!");
             return false;
         }
         if (!validationService.nameValidation(name)) {
-            alertService.newAlert("Eroare", "Nume invalid!\nForma acceptata: Popescu Ion");
+            alertService.newAlert("Error", "Invalid Name!\nAccepted form: Popescu Ion");
             return false;
         }
         if (!validationService.phoneValidation(phone)) {
-            alertService.newAlert("Eroare", "Telefon invalid!\nForma acceptata: 0712312312");
+            alertService.newAlert("Error", "Invalid phone!\nAccepted form: 0712312312");
             return false;
         }
         if (!validationService.addressValidation(address)) {
-            alertService.newAlert("Eroare", "Adresa invalida!\nForma acceptata: Romania, Bucuresti str. Oituz nr. 7 etc.");
+            alertService.newAlert("Error", "Invalid address!\nAccepted form: Romania, Bucuresti str. Oituz nr. 7 etc.");
             return false;
         }
         if (!validationService.passwordValidation(password)) {
-            alertService.newAlert("Eroare", "Parola invalida!\nParola trebuie sa contina minim un caracter mic, un caracter mare, o cifra, un caracter special\nMinim 8 caracter");
+            alertService.newAlert("Error", "Invalid password!\nThe password must contain at least one lowercase character, one uppercase character, one digit, one special character\nMinimum 8 characters");
             return false;
         }
 
         if (!password.equals(confirmPassword)) {
-            alertService.newAlert("Eroare", "Parola nu corespunde!");
+            alertService.newAlert("Error", "The password does not match!");
             return false;
         }
 
         userLogIn = addUser(name, email, phone, address, password);
         if (userLogIn != null) {
-            alertService.newConfirmation("Reusit", "V-ati inregistrat cu succes!");
+            alertService.newConfirmation("Successful", "You have successfully registered!");
             //close();
             return true;
         } else {
-            alertService.newAlert("Eroare", "Inregistrare esuata");
+            alertService.newAlert("Error", "Registration failed!");
             return false;
         }
         //return succes;
     }
 
     private User addUser(String name, String email, String phone, String address, String password) {
-//        User user = null;
-//        final String DB_URL = "jdbc:postgresql://localhost:5432/rent-car";
-//        final String USERNAME = "postgres";
-//        final String PASSWORD = "postgres";
-//
-//        try {
-//            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-//            // Connected to database successfully...
-//
-//            Statement stmt = conn.createStatement();
-//            String sql = "INSERT INTO users (name, email, phone, address, password) " +
-//                    "VALUES (?, ?, ?, ?, ?)";
-//            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-//            preparedStatement.setString(1, name);
-//            preparedStatement.setString(2, email);
-//            preparedStatement.setString(3, phone);
-//            preparedStatement.setString(4, address);
-//            preparedStatement.setString(5, password);
-//
-//            //Insert row into the table
-//            int addedRows = preparedStatement.executeUpdate();
-//            if (addedRows > 0) {
-//                user = new User();
-//                user.name = name;
-//                user.email = email;
-//                user.phone = phone;
-//                user.address = address;
-//                user.password = password;
-//            }
-//
-//            stmt.close();
-//            conn.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        return databaseService.addUserToDB(name, email, phone, address, password);
+        return databaseService.addUserToDB(name, email, phone, address, encrypt.encrypt(password));
     }
 
     @FXML

@@ -302,18 +302,18 @@ public class DashboardController {
         panelDashboard.toFront();
         this.user = userLogIn;
 
-        userProperty.addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                int userRole = newValue.getRole();
-                if (userRole == 2) {
-                    // Ascundeți butoanele destinate rolului 1
-                    btnEmployee.setVisible(false);
-                } else if (userRole == 1) {
-                    // Afișați toate butoanele pentru rolul 2
-                    btnEmployee.setVisible(true);
-                }
-            }
-        });
+//        userProperty.addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+//                int userRole = newValue.getRole();
+//                if (userRole == 2) {
+//                    // Ascundeți butoanele destinate rolului 1
+//                    btnEmployee.setVisible(false);
+//                } else if (userRole == 1) {
+//                    // Afișați toate butoanele pentru rolul 2
+//                    btnEmployee.setVisible(true);
+//                }
+//            }
+//        });
 
         carsAvailable = databaseService.getAllCarsAvailable();
         cars = cardController.populateListCarFromDB();
@@ -414,8 +414,10 @@ public class DashboardController {
         barChart.getData().add(seriesBarChart);
         if (user.isAdmin()) {
             barChart.setVisible(true);
+            btnEmployee.setVisible(true);
         }else {
             barChart.setVisible(false);
+            btnEmployee.setVisible(false);
         }
 
 
@@ -605,44 +607,44 @@ public class DashboardController {
 
         if (brand.isEmpty() || model.isEmpty() || regNumb.isEmpty() || year.isEmpty() ||
                 priceDay.isEmpty() || seats.isEmpty() || transmission.isEmpty() || fuelType.isEmpty() || engineCapacity.isEmpty()) {
-            alertService.newAlert("Eroare", "Completati toate campurile!");
+            alertService.newAlert("Error", "Completati toate campurile!");
             return;
         }
 
         if (!validationService.brandValidation(brand)) {
-            alertService.newAlert("Eroare", "Brand invalid!\nTrebuie sa contina doar litere");
+            alertService.newAlert("Error", "Invalid Brand!\nIt must contain only letters");
             return;
         }
         if (!validationService.modelValidation(model)) {
-            alertService.newAlert("Eroare", "Model invalid!\nPoate sa contina doar litere si cifre");
+            alertService.newAlert("Error", "Invalid Model!\nIt can only contain letters and numbers");
             return;
         }
         if (!validationService.regNumbValidation(regNumb)) {
-            alertService.newAlert("Eroare", "Numar de inmatriculare invalid!\nTrebuie sa fie de forma: MM111ABC");
+            alertService.newAlert("Error", "Invalid registration number!\nIt must be of the form: MM11ABC");
             return;
         }
         if (!validationService.yearValidation(year)) {
-            alertService.newAlert("Eroare", "An de fabricatie invalid!\nTrebuie sa fie de forma: 2000");
+            alertService.newAlert("Error", "Invalid manufacturing year!\nIt must be of the form: 2000");
             return;
         }
         if (!validationService.priceValidation(priceDay)) {
-            alertService.newAlert("Eroare", "Pret invalid!\nTrebuie contina doar cifre");
+            alertService.newAlert("Error", "Invalid price!\nIt must contain only numbers");
             return;
         }
         if (!validationService.seatsValidation(seats)) {
-            alertService.newAlert("Eroare", "Numar de locuri invalid!\nTrebuie contina doar cifre");
+            alertService.newAlert("Error", "Invalid number of seats!\nIt must contain only numbers");
             return;
         }
         if (!validationService.transmissionValidation(transmission)) {
-            alertService.newAlert("Eroare", "Transmisie invalida!\nTrebuie contina doar litere");
+            alertService.newAlert("Error", "Invalid transmission!\nIt must contain only letters");
             return;
         }
         if (!validationService.fuelTypeValidation(fuelType)) {
-            alertService.newAlert("Eroare", "Tip combustibil invalid!\nTrebuie contina doar litere");
+            alertService.newAlert("Error", "Invalid fuel type!\nIt must contain only letters");
             return;
         }
         if (!validationService.engineCapacityValidation(engineCapacity)) {
-            alertService.newAlert("Eroare", "Capacitate motorinvalida!\nTrebuie contina doar cifre sub forma:1.9");
+            alertService.newAlert("Error", "Invalid engine capacity!\nTit must contain only numbers in the form:1.9");
             return;
         }
 
@@ -692,7 +694,7 @@ public class DashboardController {
 
         try {
             databaseService.addCarToDatabase(car);
-            alertService.newConfirmation("Reusit", "Ati adugat o masina cu succes!");
+            alertService.newConfirmation("Successful", "You have successfully added a car!");
 
             addCarBrand.setText("");
             addCarModel.setText("");
@@ -707,7 +709,7 @@ public class DashboardController {
             actionBtnRefreshCars(actionEvent);
         } catch (Exception e) {
             //throw new RuntimeException(e);
-            alertService.newAlert("Eroare", "Masina nu am putut fi adaugata!\nNumar de inmatriculare exista deja in db");
+            alertService.newAlert("Error", "The car could not be added!\nRegistration number already exists in db");
         }
         carsAvailable = databaseService.getAllCarsAvailable();
         carTabelForSelect.setItems(FXCollections.observableArrayList(carsAvailable));
@@ -733,15 +735,18 @@ public class DashboardController {
         String phone = addClientPhone.getText();
 
         if (!validationService.nameValidation(name)) {
-            alertService.newAlert("Eroare", "Nume invalid!\nForma acceptata: Popescu Ion");
+            alertService.newAlert("Error", "Invalid name!\n" +
+                    "Accepted form: Popescu Ion");
             return;
         }
         if (!validationService.emailValidation(email)) {
-            alertService.newAlert("Eroare", "Email invalid!\nForma acceptata: example@gmail.com");
+            alertService.newAlert("Error", "Invalid email!\n" +
+                    "Accepted form: example@gmail.com");
             return;
         }
         if (!validationService.phoneValidation(phone)) {
-            alertService.newAlert("Eroare", "Telefon invalid!\nForma acceptata: 0712312312");
+            alertService.newAlert("Error", "Invalid phone!\n" +
+                    "Accepted form: 0712312312");
             return;
         }
 
@@ -750,12 +755,12 @@ public class DashboardController {
         client.setPhone(Integer.parseInt(addClientPhone.getText()));
 
         if (databaseService.addClientToDatabase(client)) {
-            alertService.newConfirmation("Reusit", "Client adaugat cu succes!");
+            alertService.newConfirmation("Successful", "Client successfully added!");
             actionBtnRefreshClient(actionEvent);
             Tab tab = panelClients.getTabs().get(0);
             panelClients.getSelectionModel().select(tab);
         } else {
-            alertService.newAlert("Eroare", "Nu s-a putut aduga clientul!");
+            alertService.newAlert("Error", "The client could not be added!");
         }
 
         addClientName.setText(null);
@@ -786,16 +791,17 @@ public class DashboardController {
         if ((pickUpDateLabel.getValue() == null) || (returnDateLabel.getValue() == null)
                 || (pickUpAddressLabel.getText().isEmpty()) || (returnAddressLabel.getText().isEmpty())) {
 
-            alertService.newAlert("Eroare", "Va rog sa completati toate campurile inainte de a continua!");
+            alertService.newAlert("Error", "Please fill in all the fields before continuing!");
             return;
 
         }
         if (!validationService.dateValidation(pickUpDateLabel.getValue(), returnDateLabel.getValue())) {
-            alertService.newAlert("Eroare", "PickUpDate trebuie sa fie mai mare ca ziua curenta\nReturnDate trebuie sa fie mai mare ca PickUpDate");
+            alertService.newAlert("Error", "PickUpDate must be greater than the current day\n" +
+                    "ReturnDate must be greater than PickUpDate");
             return;
         }
         if (!validationService.addressValidation(pickUpAddressLabel.getText()) && !validationService.addressValidation(returnAddressLabel.getText())) {
-            alertService.newAlert("Eroare", "Adresa de ridicare sau predare invalida!");
+            alertService.newAlert("Error", "Invalid pickup or delivery address!");
             return;
         }
 
@@ -837,7 +843,7 @@ public class DashboardController {
         databaseService.addUserNoRents(user);
 
 
-        alertService.newConfirmation("Inchirierea a fost salvata!", "Inchiriere efectuata cu succes");
+        alertService.newConfirmation("Successful", "Successful rental!");
 
         paneDateRent.toFront();
 
@@ -901,7 +907,7 @@ public class DashboardController {
     @FXML
     public void actionBtnNextToSelectClient(ActionEvent actionEvent) {
         if (selectedCar == null) {
-            alertService.newAlert("Nu ati selectat nicio masina", "Va rog sa selectati masina dorita inainte de a continua!");
+            alertService.newAlert("You have not selected any car!", "Please select the desired car before continuing!");
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
 //            alert.setTitle("Eroare");
 //            alert.setHeaderText("Nu ati selectat nicio masina");
@@ -966,7 +972,7 @@ public class DashboardController {
     @FXML
     public void actionBtnNextToSave(ActionEvent actionEvent) {
         if (selectedClient == null) {
-            alertService.newAlert("Eroare", "Nu ati selectat niciun client!");
+            alertService.newAlert("Error", "You have not selected any client!");
         } else {
             setLabelsToSave();
             paneSaveRent.toFront();
@@ -1218,23 +1224,26 @@ public class DashboardController {
 
 
         if (!validationService.nameValidation(name)) {
-            alertService.newAlert("Eroare", "Nume invalid!\nForma acceptata: Popescu Ion");
+            alertService.newAlert("Error", "Invalid name!\n" +
+                    "Accepted form: Popescu Ion");
             return;
         }
         if (!validationService.emailValidation(email)) {
-            alertService.newAlert("Eroare", "Email invalid!\nForma acceptata: example@gmail.com");
+            alertService.newAlert("Error", "Invalid email!\n" +
+                    "Accepted form: example@gmail.com");
             return;
         }
         if (!validationService.phoneValidation(phone)) {
-            alertService.newAlert("Eroare", "Telefon invalid!\nForma acceptata: 0712312312");
+            alertService.newAlert("Error", "Invalid phone!\n" +
+                    "Accepted form: 0712312312");
             return;
         }
         if (!validationService.addressValidation(address)) {
-            alertService.newAlert("Eroare", "Adresa invalida!");
+            alertService.newAlert("Error", "Invalid address!");
             return;
         }
         if (!validationService.passwordValidation(password)) {
-            alertService.newAlert("Eroare", "Parola invalida!");
+            alertService.newAlert("Error", "Invalid password!");
             return;
         }
 
@@ -1246,12 +1255,12 @@ public class DashboardController {
         user1.setPassword(password);
 
         if (databaseService.addEmployeeToDatabase(user1)) {
-            alertService.newConfirmation("Reusit", "Employee adaugat cu succes!");
+            alertService.newConfirmation("Successful", "User successfully added!");
             actionBtnEmployee(actionEvent);
             Tab tab = paneEmployee.getTabs().get(0);
             paneEmployee.getSelectionModel().select(tab);
         } else {
-            alertService.newAlert("Eroare", "Nu s-a putut aduga userul!");
+            alertService.newAlert("Error", "The user could not be added!");
         }
 
         addEmplyeEmail.setText(null);
