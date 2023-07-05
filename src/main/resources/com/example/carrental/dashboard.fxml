@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.CardPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carrental.Controller.DashboardController">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="265.0" styleClass="linear-grad" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="265.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btnDashboard" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#actionBtnDashboard" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: transparent;" styleClass="button1" stylesheets="@css/fullpackstyle.css" text="Dashboard" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="26.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnCars" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#actionBtnCars" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: transparent;" styleClass="button1" stylesheets="@css/fullpackstyle.css" text="Cars" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="26.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/car1.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnRent" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#actionBtnRent" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: transparent;" styleClass="button1" stylesheets="@css/fullpackstyle.css" text="Rent" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="26.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/lease.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnClients" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#actionBtnClients" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: transparent;" styleClass="button1" stylesheets="@css/fullpackstyle.css" text="Clients" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="26.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/client.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnEmployee" alignment="CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="420.0" mnemonicParsing="false" onAction="#actionBtnEmployee" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: transparent;" styleClass="button1" stylesheets="@css/fullpackstyle.css" text="Employee" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="26.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/client.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnSignOut" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#actionBtnSignOut" prefHeight="60.0" prefWidth="265.0" style="-fx-background-color: transparent;" styleClass="button1" stylesheets="@css/fullpackstyle.css" text="Sign Out" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="27.0" fitWidth="26.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/logout.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="100.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <BorderPane layoutX="263.0" layoutY="1.0" prefHeight="600.0" prefWidth="738.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="1.0">
+         <center>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TabPane fx:id="panelCars" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
+                     <tabs>
+                        <Tab text="Cars">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="272.0" prefWidth="332.0">
+                                 <children>
+                                    <CardPane fx:id="cardPane" layoutY="48.0" prefHeight="495.0" prefWidth="738.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                                    <ToolBar prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <items>
+                                          <TextField fx:id="searchTextFieldCar" promptText="Search..." />
+                                          <Button fx:id="btnCarSearch" mnemonicParsing="false" onAction="#actionBtnCarSearch" styleClass="button-search" text="Search" />
+                                          <Label text="Availability" />
+                                          <ComboBox fx:id="filterAvailability" onAction="#actionFilterAvailability" prefWidth="150.0" promptText="Availability" />
+                                          <Label text="Price" />
+                                          <ComboBox fx:id="filter" onAction="#actionFilter" prefWidth="150.0" promptText="Price" />
+                                          <Label text="Transmission" />
+                                          <ComboBox fx:id="filterTransmission" onAction="#actionFilterTransmission" prefWidth="150.0" promptText="Transmission" />
+                                          <Label text="Fuel Type" />
+                                          <ComboBox fx:id="filterFuelType" onAction="#actionFilterFuelType" prefWidth="150.0" promptText="Fuel Type" />
+                                          <Button fx:id="btnRefreshCars" mnemonicParsing="false" onAction="#actionBtnRefreshCars" styleClass="button-edit" text="Refresh" />
+                                       </items>
+                                    </ToolBar>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Add Car">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                       <center>
+                                          <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="738.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                                                   <children>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Brand">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarBrand" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Model">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarModel" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Registration number">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarRegNumb" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" top="10.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="110.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                                                   <children>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Year">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarYear" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Price/day">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarPrice" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Seats">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarSeats" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="410.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="461.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                                                   <children>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Transmission">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarTransmission" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Fuel type">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarFuelType" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="55.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Label text="Engine capacity">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextField fx:id="addCarEngineCapacity" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox alignment="CENTER" layoutX="30.0" layoutY="491.0" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                   <children>
+                                                      <Button fx:id="addCar" mnemonicParsing="false" onAction="#actionBtnAddCar" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Add Car">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
+                                                      </Button>
+                                                   </children>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
+                                                   <VBox.margin>
+                                                      <Insets bottom="20.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </center>
+                                    </BorderPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </TabPane>
+                  <TabPane fx:id="panelClients" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
+                     <tabs>
+                        <Tab text="Clients">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <CardPane fx:id="cardPaneClients" layoutY="48.0" prefHeight="497.0" prefWidth="738.0" styleClass="card-pane" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                                    <ToolBar layoutX="2.0" layoutY="-5.0" maxHeight="25.0" minHeight="50.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <items>
+                                          <TextField fx:id="searchClient" />
+                                          <Button fx:id="btnSearchClient" mnemonicParsing="false" onAction="#actionBtnSearchClient" prefHeight="35.0" prefWidth="80.0" styleClass="button-search" stylesheets="@css/fullpackstyle.css" text="Search" />
+                                          <Button fx:id="btnRefreshClient" mnemonicParsing="false" onAction="#actionBtnRefreshClient" prefHeight="35.0" prefWidth="88.0" styleClass="button-edit" text="Refresh" />
+                                       </items>
+                                    </ToolBar>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Add Client">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox alignment="CENTER" layoutY="-2.0" prefHeight="395.0" prefWidth="738.0" spacing="25.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label text="Name">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="addClientName" alignment="CENTER" maxHeight="35.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="35.0" prefWidth="300.0" />
+                                          <Label text="Email">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="addClientEmail" alignment="CENTER" maxHeight="33.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="33.0" prefWidth="300.0" />
+                                          <Label text="Phone">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="addClientPhone" alignment="CENTER" maxHeight="35.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="35.0" prefWidth="300.0" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <padding>
+                                          <Insets bottom="50.0" left="150.0" right="150.0" top="50.0" />
+                                       </padding>
+                                    </VBox>
+                                    <HBox alignment="CENTER" layoutY="500.0" prefHeight="150.0" prefWidth="739.0" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="500.0">
+                                       <children>
+                                          <Button fx:id="btnAddClient" mnemonicParsing="false" onAction="#actionBtnAddClient" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Add Client">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </TabPane>
+                  <TabPane fx:id="paneEmployee" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
+                     <tabs>
+                        <Tab text="Employee">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <CardPane fx:id="cardPaneUsers" layoutY="48.0" prefHeight="497.0" prefWidth="738.0" styleClass="card-pane" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                                    <ToolBar layoutX="2.0" layoutY="-5.0" maxHeight="25.0" minHeight="50.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <items>
+                                          <TextField fx:id="searchEmplye" />
+                                          <Button fx:id="btnSearchEmploye" mnemonicParsing="false" onAction="#actionBtnSearchEmploye" prefHeight="35.0" prefWidth="80.0" styleClass="button-search" stylesheets="@css/fullpackstyle.css" text="Search" />
+                                          <Button fx:id="btnRefreshEmploye" mnemonicParsing="false" onAction="#actionBtnRefreshEmploye" prefHeight="35.0" prefWidth="88.0" styleClass="button-edit" text="Refresh" />
+                                       </items>
+                                    </ToolBar>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Add Employee">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="498.0" prefWidth="525.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="361.0" spacing="25.0">
+                                             <children>
+                                                <Label text="Name">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="addEmplyeName" alignment="CENTER" maxHeight="35.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="35.0" prefWidth="300.0" />
+                                                <Label text="Email">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="addEmplyeEmail" alignment="CENTER" maxHeight="33.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="33.0" prefWidth="300.0" />
+                                                <Label text="Phone">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="addEmplyePhone" alignment="CENTER" maxHeight="35.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="35.0" prefWidth="300.0" />
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets bottom="50.0" left="150.0" right="150.0" top="50.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="361.0" spacing="25.0">
+                                             <children>
+                                                <Label minWidth="-Infinity" prefHeight="27.0" prefWidth="87.0" text="Address">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="addEmplyeAddress" alignment="CENTER" maxHeight="35.0" maxWidth="300.0" minHeight="25.0" minWidth="300.0" prefHeight="35.0" prefWidth="300.0" />
+                                                <Label text="Role">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <ComboBox fx:id="comboboxRole" minWidth="-Infinity" prefHeight="42.0" prefWidth="151.0" promptText="Role" />
+                                                <Label minWidth="-Infinity" text="Password">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <PasswordField fx:id="addEmplyePassword" minWidth="-Infinity" prefHeight="26.0" prefWidth="302.0" styleClass="text-field" />
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets bottom="50.0" left="150.0" right="150.0" top="50.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" layoutY="500.0" prefHeight="150.0" prefWidth="739.0" stylesheets="@css/fullpackstyle.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="500.0">
+                                       <children>
+                                          <Button fx:id="btnAddUser" mnemonicParsing="false" onAction="#actionBtnAddUser" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Add Employee">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </TabPane>
+                  <TabPane fx:id="panelRent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" styleClass="tab-content-area" stylesheets="@css/fullpackstyle.css" tabClosingPolicy="UNAVAILABLE">
+                     <tabs>
+                        <Tab fx:id="tabRents" text="Rents">
+                           <content>
+                              <AnchorPane>
+                                 <children>
+                                    <ToolBar prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                          <TextField fx:id="textFieldSearchRents" promptText="Search..." />
+                                        <Button fx:id="btnSearchRents" mnemonicParsing="false" onAction="#actionBtnSearchRents" styleClass="button-search" stylesheets="@css/fullpackstyle.css" text="Search" />
+                                          <ComboBox fx:id="comboboxRentStatus" onAction="#actionComboboxRentStatus" prefWidth="150.0" promptText="Status" />
+                                          <Button fx:id="rentRefresh" mnemonicParsing="false" onAction="#actionBtnRentRefresh" styleClass="button-edit" text="Refresh" />
+                                      </items>
+                                    </ToolBar>
+                                    <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+                                      <content>
+                                        <AnchorPane>
+                                             <children>
+                                                <GridPane fx:id="cardGridRent" alignment="CENTER" hgap="5.0" layoutX="6.0" layoutY="6.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
+                                                  <rowConstraints>
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                </GridPane>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                       <padding>
+                                          <Insets left="10.0" right="20.0" />
+                                       </padding>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Create new rent">
+                           <content>
+                              <AnchorPane minHeight="540.0" minWidth="600.0" prefHeight="540.0" prefWidth="738.0">
+                                 <children>
+                                    <StackPane fx:id="stackCreateRent" layoutX="215.0" layoutY="152.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <BorderPane fx:id="paneDateRent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;" styleClass="border-pane" stylesheets="@css/fullpackstyle.css">
+                                             <top>
+                                                <Label styleClass="page-title" text="Rent Detaile" BorderPane.alignment="CENTER" />
+                                             </top>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                             <bottom>
+                                                <Button fx:id="btnNextToSelectCar" mnemonicParsing="false" onAction="#actionBtnNextToSelectCar" styleClass="button-sign-in" text="Next" BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets bottom="20.0" />
+                                                   </BorderPane.margin>
+                                                </Button>
+                                             </bottom>
+                                             <center>
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Label text="Pick up date">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font></Label>
+                                                      <DatePicker fx:id="pickUpDateLabel" styleClass="date-picker" stylesheets="@css/fullpackstyle.css">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </DatePicker>
+                                                      <Label text="Return date">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font></Label>
+                                                      <DatePicker fx:id="returnDateLabel" styleClass="date-picker" stylesheets="@css/fullpackstyle.css">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </DatePicker>
+                                                      <Label text="Pick up address">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font></Label>
+                                                      <TextField fx:id="pickUpAddressLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="300.0" stylesheets="@css/fullpackstyle.css">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </TextField>
+                                                      <Label text="Return addres">
+                                                         <font>
+                                                            <Font name="System Bold" size="14.0" />
+                                                         </font></Label>
+                                                      <TextField fx:id="returnAddressLabel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="300.0">
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                         </VBox.margin>
+                                                      </TextField>
+                                                   </children>
+                                                   <BorderPane.margin>
+                                                      <Insets />
+                                                   </BorderPane.margin>
+                                                   <padding>
+                                                      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                   </padding>
+                                                </VBox>
+                                             </center>
+                                          </BorderPane>
+                                          <BorderPane fx:id="paneClientRent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;">
+                                             <bottom>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Button fx:id="btnBackToSelectCar" mnemonicParsing="false" onAction="#actionBtnBackToSelectCar" styleClass="button-sign-in" text="Back" />
+                                                      <Button fx:id="btnNextToSave" mnemonicParsing="false" onAction="#actionBtnNextToSave" styleClass="button-sign-in" text="Next" />
+                                                   </children>
+                                                </HBox>
+                                             </bottom>
+                                             <center>
+                                                <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                  <items>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                         <children>
+                                                            <ToolBar prefHeight="50.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <items>
+                                                                  <TextField fx:id="searchTextFieldClientForRent" promptText="Search..." />
+                                                                  <Button fx:id="btnClientSearchForRent" mnemonicParsing="false" onAction="#actionBtnClientSearchForRent" styleClass="button-search" stylesheets="@css/fullpackstyle.css" text="Search" />
+                                                               </items>
+                                                            </ToolBar>
+                                                            <TableView fx:id="clientTabelForSelect" onMouseClicked="#onMouseClickedTabel" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                         <children>
+                                                            <CardPane fx:id="paneCardClientSelected" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </items>
+                                                </SplitPane>
+                                             </center>
+                                             <top>
+                                                <Label styleClass="page-title" text="Client" BorderPane.alignment="CENTER" />
+                                             </top>
+                                          </BorderPane>
+                                          <BorderPane fx:id="paneCarRent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;">
+                                             <top>
+                                                <Label styleClass="page-title" text="Car" BorderPane.alignment="CENTER" />
+                                             </top>
+                                             <center>
+                                                <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                  <items>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="452.0" prefWidth="293.0">
+                                                         <children>
+                                                            <ToolBar maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <items>
+                                                                  <TextField fx:id="searchTextFieldCarForRent" promptText="Search..." />
+                                                                  <Button fx:id="btnCarSearchForRent" mnemonicParsing="false" onAction="#actionBtnCarSearchForRent" styleClass="button-search" text="Search" />
+                                                               </items>
+                                                            </ToolBar>
+                                                            <TableView fx:id="carTabelForSelect" layoutX="8.0" layoutY="222.0" onMouseClicked="#onMouseClickedTabel" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="422.0" prefWidth="336.0">
+                                                         <children>
+                                                            <CardPane fx:id="paneCardCarSelected" layoutX="-6.0" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </items>
+                                                </SplitPane>
+                                             </center>
+                                             <bottom>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Button fx:id="btnBackToDetaileRent" mnemonicParsing="false" onAction="#actionBtnBackToDetaileRent" styleClass="button-sign-in" text="Back" />
+                                                      <Button fx:id="btnNextToSelectClient" mnemonicParsing="false" onAction="#actionBtnNextToSelectClient" styleClass="button-sign-in" text="Next" />
+                                                   </children>
+                                                </HBox>
+                                             </bottom>
+                                          </BorderPane>
+                                          <BorderPane fx:id="paneSaveRent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;">
+                                             <bottom>
+                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Button fx:id="btnBackToSelectClient" mnemonicParsing="false" onAction="#actionBtnBackToSelectClient" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Back" />
+                                                      <Button fx:id="btnSaveRent" mnemonicParsing="false" onAction="#actionBtnSaveRent" styleClass="button-sign-in" stylesheets="@css/fullpackstyle.css" text="Save Rent" />
+                                                   </children>
+                                                </HBox>
+                                             </bottom>
+                                             <center>
+                                                <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="5.0">
+                                                         <children>
+                                                            <Label text="Detali">
+                                                               <font>
+                                                                  <Font name="System Bold" size="20.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label style="-fx-font-weight: bold;" text="Start Date">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="startDateToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Return Date">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="returnDateToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Pick up Address">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="pickUpAddressToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Return Address">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="returnAddressToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Total Price">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="totalPriceToSave" text="Label" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="5.0">
+                                                         <children>
+                                                            <Label text="Car">
+                                                               <font>
+                                                                  <Font name="System Bold" size="20.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label text="Brand">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font name="System Bold" size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="brandToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Model">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="modelToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Registration number">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="regNumbToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Year">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="yearToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Seats">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="seatsToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Transmission">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="transmissionToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Fuel type">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="fuelTypeToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Engine capacity">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="engineCapacityToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Price/day">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="pricePerDayToSave" text="Label" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="5.0">
+                                                         <children>
+                                                            <Label text="Client">
+                                                               <font>
+                                                                  <Font name="System Bold" size="20.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label text="Name">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font name="System Bold" size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="nameToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Email">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="emailToSave" text="Label" />
+                                                            <Label style="-fx-font-weight: bold;" text="Phone">
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="phoneToSave" text="Label" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </center>
+                                          </BorderPane>
+                                       </children>
+                                    </StackPane>
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </TabPane>
+                  <FlowPane fx:id="panelDashboard" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffff;">
+                     <children>
+                        <LineChart fx:id="lineChart" prefHeight="329.0" prefWidth="700.0" title="Incoming on months">
+                          <xAxis>
+                            <CategoryAxis label="Month" side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis label="Money" side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                        <PieChart fx:id="pieChart" clockwise="false" prefHeight="358.0" prefWidth="471.0" title="Number of available cars" />
+                        <BarChart fx:id="barChart" title="Number of rents per employee">
+                          <xAxis>
+                            <CategoryAxis label="Employee" side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis label="Rents" minorTickLength="1.0" side="LEFT" tickUnit="1.0" />
+                          </yAxis>
+                        </BarChart>
+                     </children></FlowPane>
+               </children>
+            </StackPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
